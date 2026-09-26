@@ -169,6 +169,11 @@ export interface BuyerFunding {
   untraced: number;
   /** Most analysed buyers one funding wallet paid for (1 = nobody funded two). */
   mostFromOneWallet: number;
+  /**
+   * Traced buyers whose funder paid for no other analysed buyer: the film's UNIQUE FUNDERS. Not the same
+   * as `independent`: a pair funded from Bitget counts as two independent sources but shares a funder.
+   */
+  unique: number;
 }
 
 /**
@@ -182,7 +187,22 @@ export function buyerFunding(b: BuyersFinding): BuyerFunding {
   const independent = Math.max(0, Math.min(traced, Math.round(b.sources)));
   const groups = b.clusters.filter((c) => c.kind === "wallet").map((c) => c.wallets);
   const most = groups.length ? Math.max(...groups) : Math.max(1, Math.round(b.biggestSourceWallets || 1));
-  return { buyers, independent, shared: traced - independent, untraced: buyers - traced, mostFromOneWallet: Math.max(1, most) };
+  const unique = b.clusters.filter((c) => c.kind !== "untraced" && c.wallets === 1).length;
+  return { buyers, independent, shared: traced - independent, untraced: buyers - traced, mostFromOneWallet: Math.max(1, most), unique };
+}
+
+/**
+ * Film strip 01, under the grid of buyers whose funder paid for no other top buyer (BuyerFunding.unique).
+ * The headline's "FUNDED INDEPENDENTLY" counts sources instead, so the two words never meet.
+ */
+export const UNIQUE_FUNDERS = "UNIQUE FUNDERS";
+
+/**
+ * Film strip 01: the one label shared by the small funder groups too tight to name one by one (their
+ * wallets are the numeral above it), longest first.
+ */
+export function smallGroupsLabels(funders: number): string[] {
+  return [`SMALL GROUPS · ${count(funders)} FUNDERS`, `${count(funders)} SMALL GROUPS`, "SMALL GROUPS"];
 }
 
 /* ================= 01 · REAL BUYERS ================= */
@@ -540,7 +560,7 @@ export function pulseNet(f: FlowFinding | null | undefined): { text: string; ton
 
 /* ================= dispatch ================= */
 
-/** Film marker tag ("23 SOURCES", "PULSE −3.1%", "SELL WALL +22%", "SM ENTRY $0.030", "YOU"). "" while pending. */
+/** Film marker tag ("23/80 INDEPENDENT", "PULSE −3.1%", "SELL WALL +22%", "SM ENTRY $0.030", "YOU"). "" while pending. */
 export function tagFor(n: 1, f: BuyersFinding | null | undefined): string;
 export function tagFor(n: 2, f: FlowFinding | null | undefined): string;
 export function tagFor(n: 3, f: WallsFinding | null | undefined): string;

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   allocationNote,
+  buyerFunding,
   chainLabel,
   confidenceLine,
   evidenceLine,
@@ -18,9 +19,11 @@ import {
   reportDate,
   reportLines,
   scanNoLabel,
+  smallGroupsLabels,
   stageMessage,
   stampLines,
   tagFor,
+  UNIQUE_FUNDERS,
   youLine,
 } from "@/lib/xray/copy";
 import { makeSyntheticScan, makeSyntheticWalletCheck } from "@/lib/xray/fixtures";
@@ -141,6 +144,20 @@ describe("01 · buyers variants", () => {
     expect(seen(lineFor(1, b({ sources: 0, clusters: [{ ...B.clusters[B.clusters.length - 1] }] })))).toBe(
       "None of the top 80 buyers could be traced to a funder.",
     );
+  });
+
+  it("independent sources and unique funders are two different counts, with two different words", () => {
+    // Independent: one per source, every exchange- or bridge-funded buyer its own (the headline, tag, lab).
+    // Unique funders: buyers whose funder paid for no other top buyer (the film's grid): the Binance and
+    // Coinbase buyers share their exchange, so they are not in it.
+    const f = buyerFunding(B);
+    expect(f.independent).toBe(23);
+    expect(f.unique).toBe(B.clusters.filter((c) => c.kind !== "untraced" && c.wallets === 1).length);
+    expect(f.unique).toBe(5);
+    expect(UNIQUE_FUNDERS).toBe("UNIQUE FUNDERS");
+    expect(tagFor(1, B)).not.toMatch(/UNIQUE/);
+    expect(smallGroupsLabels(3)).toEqual(["SMALL GROUPS · 3 FUNDERS", "3 SMALL GROUPS", "SMALL GROUPS"]);
+    for (const s of [UNIQUE_FUNDERS, ...smallGroupsLabels(3)]) seen(s);
   });
 
   it("unavailable and pending", () => {

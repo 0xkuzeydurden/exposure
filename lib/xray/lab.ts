@@ -909,7 +909,7 @@ export interface TreeLeaf {
   kind: TileKind;
   /** Share of the analysed buy volume (0..1); for untraced scans a share of all buying. */
   share: number;
-  /** "Binance", "0x5eed…1599", "Untraced", "9 independent" */
+  /** "Binance", "0x5eed…1599", "Untraced", "9 other funders" */
   label: string;
   wallets: number;
   /** The funder's full address (biggest source) or the buyer's (untraced scans). */
@@ -918,7 +918,7 @@ export interface TreeLeaf {
 }
 
 export interface TreeTile extends TreeLeaf {
-  /** Independent sources inside their group tile. */
+  /** The other funding wallets inside their group tile. */
   children?: TreeLeaf[];
 }
 
@@ -985,7 +985,7 @@ export function buyersChart(b: BuyersFinding | null | undefined): BuyersChart | 
         id: "independent",
         kind: "independent",
         share: sum(children.map((c) => c.share)),
-        label: `${count(own.length)} independent`,
+        label: `${count(own.length)} other ${plural(own.length, "funder", "funders")}`,
         wallets: sum(own.map((c) => c.wallets)),
         usd: sum(own.map((c) => c.boughtUsd)),
         children,
@@ -1008,7 +1008,7 @@ export function buyersChart(b: BuyersFinding | null | undefined): BuyersChart | 
     const legend: BuyersChart["legend"] = [];
     if (big) legend.push({ kind: "biggest", label: big.wallets > 1 ? `one wallet funded ${count(big.wallets)} buyers` : "biggest single source" });
     if (tiles.some((t) => t.kind === "exchange")) legend.push({ kind: "exchange", label: "exchange or bridge" });
-    if (own.length) legend.push({ kind: "independent", label: "independent" });
+    if (own.length) legend.push({ kind: "independent", label: "other funders" });
     if (untraced.length) legend.push({ kind: "untraced", label: "untraced" });
     return {
       traced: true,

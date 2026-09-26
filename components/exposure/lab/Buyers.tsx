@@ -261,7 +261,7 @@ function Treemap({ chart, chain, w, h, hatch }: { chart: BuyersChart; chain: str
               </g>
             );
           default: {
-            // Independent sources (or everyone else): pale tiles, one per source, with an overlay.
+            // The other funding wallets (or everyone else): pale tiles, one per funder, with an overlay.
             const kids = t.children?.length ? squarify(t.children, r) : [{ ...r, item: t as TreeLeaf }];
             return (
               <g key={t.id}>

@@ -12,8 +12,10 @@ import {
   plateLine,
   priceTick,
   pulseNet,
+  smallGroupsLabels,
   sourceName,
   tagFor,
+  UNIQUE_FUNDERS,
   untracedReason,
   type FilmGuideItem,
 } from "@/lib/xray/copy";
@@ -192,7 +194,7 @@ export interface WallsGeo {
   offAbove: number;
   offBelow: number;
   ladder: LadderBarGeo[];
-  /** The headline wall's share of supply, beside its ladder bar. */
+  /** Beside the ladder bar holding the headline wall: that price bin's share of supply (the bar's length). */
   wallLabel: { x: number; y: number; text: string } | null;
   /** Sorted by price, for the crosshair's "supply entered at this price". */
   bins: LadderBin[];
@@ -217,7 +219,11 @@ export interface SourcesClusterGeo {
   short: boolean;
   r: number;
   groups: DotGroup[];
-  /** Under each clump: its wallet count (big numeral) and the funder's name. */
+  /**
+   * Under each clump: its wallet count (big numeral) and the funder's name; one shared label under the
+   * small clumps too tight to name ("SMALL GROUPS · 3 FUNDERS"), and "UNIQUE FUNDERS" under the grid of
+   * buyers whose funder paid for no other top buyer.
+   */
   labels: { x: number; count: string; name: string }[];
   partial: boolean;
 }
@@ -736,12 +742,13 @@ function buildWalls(walls: WallsFinding, y: LogScale, priceNow: number | null, p
         wall: isWall,
       };
       ladder.push(bar);
-      if (isWall && isNum(primary!.supplyShare) && primary!.supplyShare > 0) {
-        const share = primary!.supplyShare;
+      // The bar is the whole price bin, so its label is the bin's share (what the crosshair reads there);
+      // the wall's own numbers stay in marker 3's tag and the lab results.
+      if (isWall && b.supplyShare > 0) {
         wallLabel = {
           x: Math.round((V.LX + bar.w + 7) * 100) / 100,
           y: Math.round((mid + FS.wallPct * 0.35) * 100) / 100,
-          text: formatPct(share, share < 0.095 ? 1 : 0),
+          text: formatPct(b.supplyShare),
         };
       }
     }
@@ -777,11 +784,17 @@ export function binAt(bins: readonly LadderBin[], price: number): LadderBin | nu
 
 /* ---------------------------------------------------------------- 01 funding sources */
 
-/** Clear space between two cluster labels (so "OKX" and "INDEPENDENT" never read as one name). */
+/** Clear space between two cluster labels (so "OKX" and "UNIQUE FUNDERS" never read as one name). */
 const LABEL_GAP = 24;
 
 /** Longest cluster label on the film (characters); longer names end in "…". */
 const CLUSTER_LABEL_MAX = 12;
+
+/** Space between the clumps of one small-groups run at full dot size (they share one label). */
+const RUN_GAP = 12;
+
+/** How far the dots may shrink (share of their full spacing) to keep one more clump named. */
+const NAMED_MIN_SCALE = 0.65;
 
 /**
  * A cluster's name under its dots: the funder's short address ("0x5eed…9f3c", hex stays lower-case;
@@ -862,86 +875,117 @@ function buildSources(b: BuyersFinding, tag: string): { geo: SourcesGeo; anchor:
     mode: c.kind === "untraced" ? "stroke" : "fill",
   }));
 
-  // A clump reads "one funder, several buyers". Buyers funded from an exchange or bridge each count as
-  // their own source, so a pair from Bitget is not a story: it joins the grid of independent buyers
-  // (a big exchange clump such as BINANCE · 34 WALLETS stays, it says where the buyers came from).
-  const service = (c: SourceCluster) => c.kind === "exchange" || c.kind === "bridge";
-  const clump = (it: Item) => it.n >= 2 && (it.c === hi || !service(it.c) || it.c.wallets >= 3);
-  let multi = items.filter(clump);
-  let singles = items.filter((it) => !clump(it));
-  if (!multi.length) {
-    multi = [items[0]];
-    singles = items.slice(1);
-  }
+  // A clump is one funder behind two or more of the buyers: a wallet, or an exchange or bridge (a pair
+  // from Bitget shares Bitget, although the headline counts each of them as its own source). Every buyer
+  // whose funder paid for no other top buyer joins the UNIQUE FUNDERS grid (an untraced one is drawn
+  // there hollow), so the grid's count is exactly buyerFunding().unique.
+  const multi = items.filter((it) => it.c.wallets >= 2);
+  const singles = items.filter((it) => it.c.wallets < 2);
+  const clumpsT = multi.filter((it) => it.c.kind !== "untraced");
+  const clumpU = multi.find((it) => it.c.kind === "untraced") ?? null;
+  const gridTraced = singles.filter((it) => it.c.kind !== "untraced").length;
+  const gridUntraced = singles.filter((it) => it.c.kind === "untraced").reduce((acc, it) => acc + it.c.wallets, 0);
 
   const nameW = (s: string) => textWidth(s, FS.name, 1);
-  const numW = (n: number) => textWidth(String(n), FS.num, 0);
-  const labelWidth = (c: SourceCluster) => Math.max(nameW(KIND_LABEL(c)), numW(c.wallets));
+  const numW = (s: string) => textWidth(s, FS.num, 0);
   const avail = V.SRC_X1 - V.SRC_X0 - 14;
-  const maxN = Math.max(...multi.map((m) => m.n));
-  let s = Math.min(8, 53 / Math.sqrt(Math.max(1, maxN - 1)));
 
-  // The grid's own name, as labelled below ("SMALL SOURCES" once a demoted clump joins it).
-  const gridName = (sg: Item[]) => {
-    const traced = sg.filter((it) => it.c.kind !== "untraced");
-    if (!traced.length) return "UNTRACED";
-    return traced.every((it) => it.c.wallets === 1 || service(it.c)) ? "INDEPENDENT" : "SMALL SOURCES";
-  };
-
-  // `subs`: reserve room for the wallet count of unnamed clumps too (only while it costs no dot size).
-  let subs = true;
-  const measure = (sp: number, ms: Item[], sg: Item[]) => {
-    const r = clamp(4.4 * (sp / 8), 2, 4.4);
-    const R = ms.map((m) => sp * Math.sqrt(m.n - 1) + r);
-    const cell = Math.max(2 * r + 2.5, 21 * (sp / 8));
-    const sgN = sg.reduce((acc, it) => acc + it.n, 0);
-    const rows = sgN ? clamp(Math.round(Math.sqrt(sgN / 1.8)), 1, 5) : 0;
-    const cols = rows ? Math.ceil(sgN / rows) : 0;
-    const gridW = cols ? (cols - 1) * cell + 2 * r : 0;
-    // Named: the highlighted source, then the next two or any big one, if it funded 3+ buyers (a pair is
-    // counted with the other small clumps rather than crowding the row with another address).
-    const labeled = ms.map((m, i) => i === 0 || ((i < 3 || m.c.wallets >= total * 0.06) && m.c.wallets >= 3));
-    const halfW = ms.map((_, i) => R[i]);
-    // An unnamed clump still gets its wallet count, so it reserves that much room too.
-    const labelW = ms.map((m, i) => (labeled[i] ? labelWidth(m.c) : subs ? numW(m.c.wallets) : 0));
-    const gaps: number[] = [];
-    let width = 0;
-    for (let i = 0; i < ms.length; i++) {
-      width += 2 * halfW[i];
-      if (i < ms.length - 1 || gridW) {
-        const nextHalf = i < ms.length - 1 ? halfW[i + 1] : gridW / 2;
-        const nextLabel = i < ms.length - 1 ? labelW[i + 1] : nameW(gridName(sg));
-        let g = 22;
-        if (labelW[i] && nextLabel) g = Math.max(g, labelW[i] / 2 + nextLabel / 2 + LABEL_GAP + 4 - halfW[i] - nextHalf);
-        if (i === 0) g = Math.max(g, 72);
-        gaps.push(g);
-        width += g;
-      }
+  /**
+   * One labelled stretch of the strip: a named clump, the run of small clumps that share one label, the
+   * untraced clump, or the grid. `names` in order of preference; room is made for the last one.
+   */
+  type Slot = { items: Item[]; grid: boolean; count: string; names: string[]; pri: number };
+  const walletsOf = (xs: Item[]) => xs.reduce((acc, it) => acc + it.c.wallets, 0);
+  const slotsFor = (named: number): Slot[] => {
+    const out: Slot[] = clumpsT.slice(0, named).map((it, i) => ({
+      items: [it],
+      grid: false,
+      count: String(it.c.wallets),
+      names: [KIND_LABEL(it.c)],
+      pri: i === 0 ? 0 : 1,
+    }));
+    // The clumps after the first `named` share one label (never a run of one: that clump is just named).
+    if (named < clumpsT.length) {
+      const run = clumpsT.slice(named);
+      out.push({ items: run, grid: false, count: String(walletsOf(run)), names: smallGroupsLabels(run.length), pri: 1.5 });
     }
-    width += gridW;
-    return { r, R, cell, rows, cols, gridW, labeled, gaps, width };
+    if (clumpU) out.push({ items: [clumpU], grid: false, count: String(clumpU.c.wallets), names: [KIND_LABEL(clumpU.c)], pri: 1 });
+    if (singles.length) {
+      // The hollow dots are named too when there is room: "UNIQUE FUNDERS · 1 UNTRACED".
+      const names = !gridTraced
+        ? ["UNTRACED"]
+        : gridUntraced
+          ? [`${UNIQUE_FUNDERS} · ${gridUntraced} UNTRACED`, UNIQUE_FUNDERS]
+          : [UNIQUE_FUNDERS];
+      out.push({ items: singles, grid: true, count: String(gridTraced || gridUntraced), names, pri: 2 });
+    }
+    return out;
   };
 
-  let m = measure(s, multi, singles);
-  if (m.width > avail) {
-    subs = false;
-    m = measure(s, multi, singles);
+  const measure = (sp: number, slots: Slot[]) => {
+    const r = clamp(4.4 * (sp / 8), 2, 4.4);
+    const R = (it: Item) => sp * Math.sqrt(it.n - 1) + r;
+    const cell = Math.max(2 * r + 2.5, 21 * (sp / 8));
+    const runGap = Math.max(6, RUN_GAP * (sp / 8));
+    const gridN = singles.reduce((acc, it) => acc + it.n, 0);
+    const rows = gridN ? clamp(Math.round(Math.sqrt(gridN / 1.8)), 1, 5) : 0;
+    const cols = rows ? Math.ceil(gridN / rows) : 0;
+    const gridW = cols ? (cols - 1) * cell + 2 * r : 0;
+    const half = slots.map(
+      (sl) => (sl.grid ? gridW : sl.items.reduce((acc, it) => acc + 2 * R(it), 0) + (sl.items.length - 1) * runGap) / 2,
+    );
+    const labelW = slots.map((sl) => Math.max(nameW(sl.names[sl.names.length - 1]), numW(sl.count)));
+    const gaps: number[] = [];
+    for (let i = 0; i + 1 < slots.length; i++) {
+      let g = Math.max(22, labelW[i] / 2 + labelW[i + 1] / 2 + LABEL_GAP + 4 - half[i] - half[i + 1]);
+      if (i === 0) g = Math.max(g, 72);
+      gaps.push(g);
+    }
+    // A label wider than its dots may hang past the row's ends (to x 20 on the left, to the pulse strip's
+    // clearance on the right); beyond that the row starts later, or needs the room.
+    const last = slots.length - 1;
+    const lead = last >= 0 ? Math.max(0, labelW[0] / 2 - half[0] - (V.SRC_X0 + 14 - 20)) : 0;
+    const tail = last >= 0 ? Math.max(0, labelW[last] / 2 - half[last] - (V.EX0 - LABEL_GAP - V.SRC_X1)) : 0;
+    const width = lead + 2 * half.reduce((a, h) => a + h, 0) + gaps.reduce((a, g) => a + g, 0) + tail;
+    return { r, R, cell, runGap, rows, cols, gridW, half, gaps, lead, tail, width };
+  };
+
+  // Every clump is named where the names fit; otherwise the smallest ones (the end of the row) share one
+  // label ("SMALL GROUPS · 3 FUNDERS" under their wallets), so no clump is left as a bare number.
+  const maxN = multi.length ? Math.max(...multi.map((it) => it.n)) : 1;
+  const s0 = Math.min(8, 53 / Math.sqrt(Math.max(1, maxN - 1)));
+  const fits = (mm: { width: number }) => mm.width <= avail + 0.5;
+  /** `slots` at the largest dot spacing between `floor` and full size that fits, else at `floor`. */
+  const shrinkToFit = (slots: Slot[], floor: number) => {
+    const full = measure(s0, slots);
+    if (fits(full)) return { sp: s0, mm: full };
+    let lo = Math.min(floor, s0);
+    let mm = measure(lo, slots);
+    if (!fits(mm)) return { sp: lo, mm };
+    let hi = s0;
+    for (let i = 0; i < 12; i++) {
+      const mid = (lo + hi) / 2;
+      const mMid = measure(mid, slots);
+      if (fits(mMid)) {
+        lo = mid;
+        mm = mMid;
+      } else hi = mid;
+    }
+    return { sp: lo, mm };
+  };
+  // How many clumps to name one by one, most first (the highlighted source always is; a run of one
+  // small clump is never left over). A name is worth somewhat smaller dots; only the last resort (the
+  // fewest names) shrinks them further.
+  const counts: number[] = [];
+  for (let k = clumpsT.length; k >= Math.min(1, clumpsT.length); k--) if (clumpsT.length - k !== 1) counts.push(k);
+  let slots: Slot[] = [];
+  let fitted = { sp: s0, mm: measure(s0, slots) };
+  for (const [i, k] of counts.entries()) {
+    slots = slotsFor(k);
+    fitted = shrinkToFit(slots, i === counts.length - 1 ? 2.6 : s0 * NAMED_MIN_SCALE);
+    if (fits(fitted.mm)) break;
   }
-  for (let pass = 0; pass < 3 && m.width > avail; pass++) {
-    const gapSum = m.gaps.reduce((a, g) => a + g, 0);
-    const f = Math.max(0.2, (avail - gapSum) / Math.max(1, m.width - gapSum));
-    s = Math.max(2.6, s * f);
-    m = measure(s, multi, singles);
-  }
-  while (m.width > avail && multi.length > 3) {
-    // The smallest traced clump joins the grid; the untraced clump (hollow dots) keeps its own label.
-    let at = multi.length - 1;
-    while (at > 1 && multi[at].c.kind === "untraced") at--;
-    const smallest = multi[at];
-    multi = multi.filter((_, i) => i !== at);
-    singles = [...singles, smallest];
-    m = measure(s, multi, singles);
-  }
+  const { sp: s, mm: m } = fitted;
 
   // Spread over the free width: first let the gap after the highlighted source clear marker 1's tag,
   // then share what is left between the other gaps.
@@ -957,81 +1001,60 @@ function buildSources(b: BuyersFinding, tag: string): { geo: SourcesGeo; anchor:
   // Not enough room beside the first clump for marker 1's tag: it is lifted above the clumps' tops.
   const liftTag = m.gaps.length > 0 && m.gaps[0] < 63 + tagWidth(tag);
 
-  // Merged targets.
+  // Merged targets, and one label per slot, centred under it.
   const targets: { item: Item; tx: number; ty: number }[] = [];
-  // Label candidates, placed by priority (a named cluster, then the grid's label, then a bare wallet
-  // count) so a small clump's count never pushes out the INDEPENDENT label of the grid.
-  // `at`: the clump's centre (the label may slide up to `shift` off it to clear a neighbour).
+  // `at`: the slot's centre (the label may slide up to `shift` off it to clear a neighbour).
   // `hn` / `ht`: half widths of the numeral and of the name (they sit on two rows).
-  type LabelCand = SourcesClusterGeo["labels"][number] & { at: number; hn: number; ht: number; pri: number; shift: number };
-  const cand = (x: number, count: string, name: string, pri: number, shift: number): LabelCand => ({
+  type LabelCand = SourcesClusterGeo["labels"][number] & { at: number; hn: number; ht: number; shift: number };
+  const cand = (x: number, count: string, name: string, shift: number): LabelCand => ({
     x,
     at: x,
     count,
     name,
-    pri,
     shift,
     hn: textWidth(count, FS.num) / 2,
     ht: name ? nameW(name) / 2 : 0,
   });
-  const cands: LabelCand[] = [];
-  const clumps: { x: number; wallets: number }[] = [];
-  let cursor = V.SRC_X0 + 14;
+  // Per slot, its names longest first (the last one is the one room was made for) and its bare count.
+  const cands: { pri: number; names: LabelCand[]; bare: LabelCand }[] = [];
+  let cursor = V.SRC_X0 + 14 + m.lead;
   let anchor: BuyersAnchor = { x: 0, y: 0, right: true };
-  multi.forEach((it, i) => {
-    const cx = cursor + m.R[i];
-    for (let j = 0; j < it.n; j++) {
-      const a = j * 2.39996;
-      const rr = s * Math.sqrt(j);
-      // Rounded: Math.cos/sin can differ in the last bits between Node (SSR) and the browser.
-      targets.push({ item: it, tx: Math.round((cx + Math.cos(a) * rr) * 100) / 100, ty: Math.round((V.SRC_CY + Math.sin(a) * rr * 0.9) * 100) / 100 });
-    }
-    {
-      // Named when it is one of the first three or a big one; otherwise (or when the name does not fit)
-      // at least its wallet count, so no clump of dots is left unexplained.
-      const count = String(it.c.wallets);
-      const shift = m.R[i] * 0.8;
-      if (m.labeled[i]) cands.push(cand(cx, count, KIND_LABEL(it.c), i === 0 ? 0 : 1, shift));
-      cands.push(cand(cx, count, "", 3, shift));
-      clumps.push({ x: cx, wallets: it.c.wallets });
-    }
-    if (i === 0) anchor = { x: cx + m.R[0] + 19, y: V.SRC_CY - 30, right: true, lift: liftTag };
-    cursor = cx + m.R[i] + (m.gaps[i] ?? 0);
-  });
-  if (m.rows) {
-    const x0 = cursor + m.r;
-    const gy0 = V.SRC_CY - ((m.rows - 1) * m.cell) / 2;
-    let k = 0;
-    for (const it of singles) {
-      for (let j = 0; j < it.n; j++, k++) {
-        const col = Math.floor(k / m.rows);
-        const row = k % m.rows;
-        targets.push({ item: it, tx: x0 + col * m.cell, ty: gy0 + row * m.cell });
+  slots.forEach((sl, i) => {
+    const left = cursor;
+    if (sl.grid) {
+      const x0 = left + m.r;
+      const gy0 = V.SRC_CY - ((m.rows - 1) * m.cell) / 2;
+      let k = 0;
+      for (const it of sl.items) {
+        for (let j = 0; j < it.n; j++, k++) {
+          const col = Math.floor(k / m.rows);
+          const row = k % m.rows;
+          targets.push({ item: it, tx: x0 + col * m.cell, ty: gy0 + row * m.cell });
+        }
+      }
+    } else {
+      let x = left;
+      for (const it of sl.items) {
+        const R = m.R(it);
+        const cx = x + R;
+        for (let j = 0; j < it.n; j++) {
+          const a = j * 2.39996;
+          const rr = s * Math.sqrt(j);
+          // Rounded: Math.cos/sin can differ in the last bits between Node (SSR) and the browser.
+          targets.push({ item: it, tx: Math.round((cx + Math.cos(a) * rr) * 100) / 100, ty: Math.round((V.SRC_CY + Math.sin(a) * rr * 0.9) * 100) / 100 });
+        }
+        x = cx + R + m.runGap;
       }
     }
-    // One wallet per source reads INDEPENDENT; the untraced ones among them (hollow dots) are counted
-    // apart instead of turning the whole grid into "small sources".
-    const traced = singles.filter((it) => it.c.kind !== "untraced");
-    const untracedN = singles.filter((it) => it.c.kind === "untraced").reduce((acc, it) => acc + it.c.wallets, 0);
-    const wallets = traced.reduce((acc, it) => acc + it.c.wallets, 0);
-    const name = gridName(singles);
-    const count = String(traced.length ? wallets : untracedN);
-    const gx = x0 + (m.gridW - 2 * m.r) / 2;
-    // The hollow dots are named too when there is room: "INDEPENDENT · 1 UNTRACED".
-    const shift = Math.max(0, m.gridW / 2 - 10);
-    if (traced.length && untracedN) {
-      const full = `${name} · ${untracedN} UNTRACED`;
-      cands.push(cand(gx, count, full, 2, shift));
-    }
-    cands.push(cand(gx, count, name, 2.5, shift));
-    if (traced.length) cands.push(cand(gx, count, "OTHERS", 2.6, shift));
-    // Squeezed: at least the grid's count.
-    cands.push(cand(gx, count, "", 2.7, shift));
-  }
-  let labels: LabelCand[] = [];
+    const mid = left + m.half[i];
+    const shift = sl.grid ? Math.max(0, m.gridW / 2 - 10) : m.half[i] * 0.8;
+    cands.push({ pri: sl.pri, names: sl.names.map((name) => cand(mid, sl.count, name, shift)), bare: cand(mid, sl.count, "", shift) });
+    if (i === 0) anchor = { x: left + 2 * m.half[0] + 19, y: V.SRC_CY - 30, right: true, lift: liftTag };
+    cursor = left + 2 * m.half[i] + (m.gaps[i] ?? 0);
+  });
   /**
-   * The candidate at the nearest x (within `shift` of its clump) where it overlaps no placed label and
-   * stays on the strip; null when there is none. One label per clump (`at`).
+   * The candidate at the nearest x (within `shift` of its slot) where it overlaps no placed label and
+   * stays on the strip; null when there is none. One label per slot (`at`).
    */
   const fit = (list: LabelCand[], c: LabelCand): LabelCand | null => {
     if (list.some((l) => Math.abs(l.at - c.at) < 0.5)) return null;
@@ -1040,8 +1063,8 @@ function buildSources(b: BuyersFinding, tag: string): { geo: SourcesGeo; anchor:
     // Clear of the pulse strip's first date ("SAT 19 SEP" at EX0) on the same rows.
     let hi = V.EX0 - LABEL_GAP - half;
     for (const l of list) {
-      // Numerals need a little air; two names need more, or "OKX" and "INDEPENDENT" read as one; and a
-      // bare count must not sit over a neighbour's name, or the name reads as its own.
+      // Numerals need a little air; two names need more, or "OKX" and "UNIQUE FUNDERS" read as one; and
+      // a bare count must not sit over a neighbour's name, or the name reads as its own.
       const gap = Math.max(
         l.hn + 12 + c.hn,
         l.ht && c.ht ? l.ht + LABEL_GAP + c.ht : 0,
@@ -1055,48 +1078,29 @@ function buildSources(b: BuyersFinding, tag: string): { geo: SourcesGeo; anchor:
     const x = clamp(c.x, lo, hi);
     return Math.abs(x - c.x) <= c.shift ? { ...c, x: Math.round(x * 100) / 100 } : null;
   };
-  for (const c of cands.filter((k) => k.pri < 3).sort((a, b) => a.pri - b.pri)) {
-    const f = fit(labels, c);
-    if (f) labels.push(f);
-  }
-  // The remaining small clumps: each its own count when all of them fit; otherwise the clumps between
-  // two named ones share one label ("7" over "3 SOURCES") so none is left unexplained.
-  const bare = clumps.filter((k) => !labels.some((l) => Math.abs(l.at - k.x) < 0.5));
-  const own = [...labels];
-  let all = true;
-  for (const k of bare) {
-    const f = fit(own, cands.find((x) => x.pri === 3 && Math.abs(x.at - k.x) < 0.5)!);
-    if (f) own.push(f);
-    else all = false;
-  }
-  if (all) labels = own;
-  else {
-    const runs: (typeof bare)[] = [];
-    for (const k of bare) {
-      const run = runs[runs.length - 1];
-      const between = run && labels.some((l) => l.at > run[run.length - 1].x && l.at < k.x);
-      if (run && !between) run.push(k);
-      else runs.push([k]);
+  // By priority (the highlighted source, the named clumps, the small groups, the grid), each slot with
+  // one of its names: the longest ones ("SMALL GROUPS · 3 FUNDERS", "UNIQUE FUNDERS · 1 UNTRACED") where
+  // every slot still gets a name, else the shortest, which the layout above made room for (the bare
+  // count is only a last resort).
+  cands.sort((a, b) => a.pri - b.pri);
+  const place = (pick: number[], bareOk: boolean): LabelCand[] | null => {
+    const out: LabelCand[] = [];
+    for (const [i, c] of cands.entries()) {
+      const f = fit(out, c.names[pick[i]]) ?? (bareOk ? fit(out, c.bare) : null);
+      if (f) out.push(f);
+      else if (!bareOk) return null;
     }
-    for (const run of runs) {
-      const x = run.reduce((a, k) => a + k.x, 0) / run.length;
-      const wallets = run.reduce((a, k) => a + k.wallets, 0);
-      const name = run.length > 1 ? `${run.length} SOURCES` : "";
-      const span = run.length > 1 ? (run[run.length - 1].x - run[0].x) / 2 : 0;
-      const f = fit(labels, cand(x, String(wallets), name, 4, span)) ?? (name ? fit(labels, cand(x, String(wallets), "", 4, span)) : null);
-      if (f) labels.push(f);
-      else {
-        // No room for the shared label either: as many single counts as fit.
-        for (const k of run) {
-          const one = fit(labels, cands.find((x2) => x2.pri === 3 && Math.abs(x2.at - k.x) < 0.5)!);
-          if (one) labels.push(one);
-        }
-      }
-    }
-  }
+    return out;
+  };
+  // Name choices, most preferred first: the first slot's longest name before the next slot's.
+  let picks: number[][] = [[]];
+  for (const c of cands) picks = picks.flatMap((p) => c.names.map((_, q) => [...p, q]));
+  let labels: LabelCand[] | null = null;
+  for (const pick of picks) if ((labels = place(pick, false))) break;
+  labels ??= place(cands.map((c) => c.names.length - 1), true)!;
   labels.sort((a, b) => a.x - b.x);
 
-  // Scattered row: every analysed buyer looks independent before the merge (deterministic shuffle).
+  // Scattered row: every analysed buyer stands alone before the merge (deterministic shuffle).
   const N = targets.length;
   const order = targets.map((_, i) => i);
   const rnd = prng(N * 7919 + 17);

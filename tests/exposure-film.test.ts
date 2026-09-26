@@ -17,7 +17,9 @@ import {
   type FilmGeometry,
   type FilmInput,
 } from "@/components/exposure/film/geometry";
-import { filmGuide, filmZones, pulseNet } from "@/lib/xray/copy";
+import { formatPct } from "@/lib/format";
+import { buyerFunding, filmGuide, filmZones, pulseNet, UNIQUE_FUNDERS } from "@/lib/xray/copy";
+import { primaryWall } from "@/lib/xray/diagnosis";
 import type {
   BuyersFinding,
   FlowFinding,
@@ -433,7 +435,7 @@ describe("film geometry: readability layer", () => {
     expect(g.now!.tag.x + g.now!.tag.w).toBeLessThanOrEqual(V.LX - 4);
   });
 
-  it("ladder bars are thick, tinted by side of the price, and the wall's bar carries its share", () => {
+  it("ladder bars are thick, tinted by side of the price, and the wall's bar carries what its length shows", () => {
     const g = buildFilmGeometry(input());
     const w = g.walls!;
     for (const b of w.ladder) expect(b.h).toBeGreaterThanOrEqual(8);
@@ -442,8 +444,12 @@ describe("film geometry: readability layer", () => {
       if (b.y + b.h < nowY - 2) expect(b.warm).toBe(true);
       if (b.y > nowY + 2) expect(b.warm).toBe(false);
     }
-    expect(w.ladder.filter((b) => b.wall)).toHaveLength(1);
-    expect(w.wallLabel!.text).toBe("9.0%");
+    const bars = w.ladder.filter((b) => b.wall);
+    expect(bars).toHaveLength(1);
+    // The bar is the whole price bin (8% of supply), not the wall's own 9%: the label says 8.0%, the same
+    // figure the crosshair reads on that bar. The wall's own numbers stay in marker 3's tag and the lab.
+    expect(w.wallLabel!.text).toBe("8.0%");
+    expect(readoutAt(g, V.LX + 20, bars[0].y + bars[0].h / 2)!.lines[2]).toMatch(/^ENTERED HERE 8\.0% · /);
     expect(Math.max(...w.ladder.map((b) => b.w))).toBeLessThanOrEqual(V.LB);
   });
 
@@ -478,6 +484,77 @@ describe("film geometry: readability layer", () => {
     if (src.mode !== "clusters") throw new Error("expected clusters");
     expect(src.counter).toEqual({ from: 80, to: 23 });
     expect(src.extra).toBe(" · ONE WALLET FUNDED 30");
+    // The grid under the headline is a different count, so it has a different word.
+    expect(src.labels.map((l) => [l.count, l.name])).toEqual([
+      ["30", "0x1"],
+      ["14", "BINANCE"],
+      ["36", UNIQUE_FUNDERS],
+    ]);
+    expect(src.labels.some((l) => /INDEPENDENT/.test(l.name))).toBe(false);
+  });
+
+  it("a pair funded from one exchange shares a funder: its own clump, not a unique funder", () => {
+    const base = input();
+    const one = (id: string, kind: "wallet" | "exchange" | "bridge" | "untraced", label: string, wallets: number) => ({
+      id,
+      kind,
+      label,
+      ...(kind === "wallet" ? { funder: `0x${id.padEnd(40, "0")}` } : {}),
+      wallets,
+      boughtUsd: 1,
+      share: 0.01,
+      members: [],
+    });
+    const buyers: BuyersFinding = {
+      ...base.buyers!,
+      topBuyers: 60,
+      sources: 55,
+      clusters: [
+        one("a", "wallet", "0xa", 3),
+        one("b", "exchange", "Bitget", 2),
+        one("u", "untraced", "Untraced", 1),
+        ...Array.from({ length: 54 }, (_, i) => one(`s${i}`, "wallet", "x", 1)),
+      ],
+    };
+    const g = buildFilmGeometry({ ...base, buyers });
+    const src = g.sources!;
+    if (src.mode !== "clusters") throw new Error("expected clusters");
+    expect(src.labels.map((l) => l.name)).toEqual(["0xa", "BITGET", `${UNIQUE_FUNDERS} · 1 UNTRACED`]);
+    expect(src.labels[2].count).toBe(String(buyerFunding(buyers).unique));
+    expect(buyerFunding(buyers).unique).toBe(54);
+  });
+
+  it("small clumps that cannot all be named share one label, never a bare number", () => {
+    const base = input();
+    const buyers: BuyersFinding = {
+      ...base.buyers!,
+      topBuyers: 90,
+      sources: 70,
+      clusters: [
+        { id: "a", kind: "wallet", label: "0x5eed…1599", funder: `0x5eed${"1".repeat(34)}`, wallets: 12, boughtUsd: 1, share: 0.2, members: [] },
+        ...Array.from({ length: 9 }, (_, i) => ({
+          id: `p${i}`,
+          kind: "wallet" as const,
+          label: `0x${i}bcd…${i}f3c`,
+          funder: `0x${i}bcd${"0".repeat(32)}${i}f3c`,
+          wallets: 2,
+          boughtUsd: 1,
+          share: 0.01,
+          members: [],
+        })),
+        ...Array.from({ length: 60 }, (_, i) => ({ id: `s${i}`, kind: "wallet" as const, label: "x", wallets: 1, boughtUsd: 1, share: 0.01, members: [] })),
+      ],
+    };
+    const g = buildFilmGeometry({ ...base, buyers });
+    const src = g.sources!;
+    if (src.mode !== "clusters") throw new Error("expected clusters");
+    expect(src.labels.every((l) => l.name)).toBe(true);
+    const group = src.labels.find((l) => /SMALL GROUPS/.test(l.name))!;
+    expect(group).toBeDefined();
+    const funders = Number(/(\d+) (SMALL GROUPS|FUNDERS)/.exec(group.name)?.[1] ?? NaN);
+    expect(Number(group.count)).toBe(2 * funders);
+    expect(src.labels.reduce((acc, l) => acc + Number(l.count), 0)).toBe(90);
+    expect(src.labels.at(-1)).toMatchObject({ count: "60", name: UNIQUE_FUNDERS });
   });
 });
 
@@ -541,6 +618,10 @@ function layoutProblems(g: FilmGeometry): string[] {
       if (l.name && l.x + ht(l) + 8 > n.x - hn(n)) out.push(`count ${n.count} under name ${l.name}`);
       if (n.name && l.x + hn(l) + 8 > n.x - ht(n)) out.push(`count ${l.count} over name ${n.name}`);
     });
+    // Every clump is named (a funder, SMALL GROUPS, UNTRACED or UNIQUE FUNDERS), never a bare count.
+    for (const l of src.labels) if (!l.name) out.push(`source count ${l.count} has no name`);
+    // "Independent" is the headline's word only.
+    for (const l of src.labels) if (/INDEPENDENT/.test(l.name)) out.push(`source label ${l.name} says independent`);
     const head = `${src.counter.from} OF ${src.counter.from} ${src.short ? "" : "BUYERS "}FUNDED INDEPENDENTLY`;
     if (40 + textWidth(head, FS.head, 0.5) + textWidth(src.extra, FS.headExtra, 0.5) > V.EX0 - 40) out.push("headline too long");
   } else if (src?.mode === "concentration") {
@@ -574,6 +655,22 @@ describe("every recorded patient reads cleanly", () => {
       };
       const g = buildFilmGeometry(base);
       expect(layoutProblems(g)).toEqual([]);
+      const src = g.sources;
+      if (src?.mode === "clusters" && F.buyers) {
+        // Every traced buyer is counted under exactly one named label (hollow untraced dots are named by
+        // their own label or, in the grid, by the title's "○ UNTRACED"); the grid counts the unique funders.
+        const counted = src.labels.filter((l) => l.name !== "UNTRACED").reduce((acc, l) => acc + Number(l.count), 0);
+        expect(counted).toBe(F.buyers.clusters.filter((c) => c.kind !== "untraced").reduce((acc, c) => acc + c.wallets, 0));
+        if (F.buyers.clusters.some((c) => c.kind === "untraced")) expect(src.title).toContain("○ UNTRACED");
+        const grid = src.labels.find((l) => l.name.startsWith(UNIQUE_FUNDERS));
+        expect(grid?.count).toBe(String(buyerFunding(F.buyers).unique));
+      }
+      // The % beside the highlighted ladder bar is that bar's bin (its length), not the wall's own share.
+      const wall = primaryWall(F.walls, scan.meta.circulatingSupply);
+      if (g.walls?.wallLabel && wall) {
+        const bin = g.walls.bins.find((b) => wall.price >= b.lo && wall.price < b.hi)!;
+        expect(g.walls.wallLabel.text).toBe(formatPct(bin.supplyShare));
+      }
       expect(g.walls?.loss && g.walls.profit).toBeTruthy();
       expect(g.ticks.length).toBeGreaterThanOrEqual(4);
       // With a wallet pasted (entry 10% above today's price), marker 5 must fit as well.

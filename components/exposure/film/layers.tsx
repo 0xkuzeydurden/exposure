@@ -280,7 +280,7 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
               strokeWidth={1.6}
             />
           )}
-          {/* After the NOW tick, so its halo keeps the tick from striking through the wall's share. */}
+          {/* After the NOW tick, so its halo keeps the tick from striking through the wall bar's share. */}
           {w?.wallLabel && (
             <text x={w.wallLabel.x} y={w.wallLabel.y} fontSize={FS.wallPct} fontWeight={600} fill={C.warmText} {...HALO}>
               {w.wallLabel.text}

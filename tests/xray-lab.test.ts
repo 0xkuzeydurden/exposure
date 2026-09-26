@@ -246,13 +246,16 @@ describe("01 buyers: funnel + treemap", () => {
       ["exchange", "Binance"],
       ["exchange", "Coinbase"],
       ["exchange", "Relay"],
-      ["independent", "9 independent"],
+      ["independent", "9 other funders"],
       ["untraced", "Untraced"],
     ]);
     expect(c.tiles[0].address).toBe(biggestSource(buyers)!.funder);
     expect(c.tiles.reduce((s, t) => s + t.share, 0)).toBeCloseTo(1, 2);
     expect(c.tiles[4].children).toHaveLength(9);
     expect(c.legend.map((l) => l.kind)).toEqual(["biggest", "exchange", "independent", "untraced"]);
+    // "Independent" is only ever the headline's word (sources, exchange-funded buyers one each): the
+    // pale tile is the other funding wallets, not a second "independent" count.
+    expect(c.legend.map((l) => l.label)).toEqual(["one wallet funded 30 buyers", "exchange or bridge", "other funders", "untraced"]);
     expect(buyersAnswer(buyers)).toEqual({
       value: "23",
       tone: "amber",
