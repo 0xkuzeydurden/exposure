@@ -449,6 +449,95 @@ function youNote(w: WalletCheck | null | undefined): string {
   return w ? "Checked on demand with 1-3 Nansen API calls." : "";
 }
 
+/* ================= film labels ================= */
+
+/** "0.3%" of coverage reads "<1%" on the film, never a rounded "0%" that is not true. */
+function filmShare(x: number): string {
+  const v = clamp01(x);
+  if (v <= 0) return "0%";
+  if (v >= 1) return "100%";
+  if (v < 0.01) return "<1%";
+  if (v > 0.99) return ">99%";
+  return pct0(v);
+}
+
+export interface FilmZoneCopy {
+  /** Above today's price: "37%" + " OF ANALYSED SUPPLY AT A LOSS ↑". */
+  loss: { pct: string; text: string };
+  /** Below: "63%" + " IN PROFIT ↓" (the two always add up to 100%). */
+  profit: { pct: string; text: string };
+  /** Coverage caveat ("BASED ON 5% OF SUPPLY", "SOME ENTRIES FROM 30-DAY BUYS") or "". */
+  note: string;
+}
+
+/**
+ * Finding 03's supply split at today's price, for the film's two zone labels. The share is of the
+ * ANALYSED supply (holders whose entry price is known); thin coverage and blended entry prices are
+ * said on the film too, as the report does.
+ */
+export function filmZones(w: WallsFinding | null | undefined): FilmZoneCopy | null {
+  if (!w || !isAvailable(w) || !finite(w.underwaterShare)) return null;
+  const u = clamp01(w.underwaterShare);
+  const n = Math.round(u * 100);
+  let loss: string;
+  let profit: string;
+  if (u <= 0 || u >= 1) {
+    loss = u <= 0 ? "0%" : "100%";
+    profit = u <= 0 ? "100%" : "0%";
+  } else if (n < 1) {
+    loss = "<1%";
+    profit = ">99%";
+  } else if (n > 99) {
+    loss = ">99%";
+    profit = "<1%";
+  } else {
+    loss = `${n}%`;
+    profit = `${100 - n}%`;
+  }
+  const whose = w.method === "recent_buyers" ? "OF RECENT BUYERS' TOKENS" : "OF ANALYSED SUPPLY";
+  const notes: string[] = [];
+  const cov = finite(w.analyzedSupplyShare) ? w.analyzedSupplyShare : 0;
+  if (w.status === "partial" || cov < T.insufficient.analysedSupply) notes.push(`BASED ON ${filmShare(cov)} OF SUPPLY`);
+  if (w.method === "hybrid") notes.push("SOME ENTRIES FROM 30-DAY BUYS");
+  return {
+    loss: { pct: loss, text: ` ${whose} AT A LOSS ↑` },
+    profit: { pct: profit, text: " IN PROFIT ↓" },
+    note: notes.join(" · "),
+  };
+}
+
+export interface FilmGuideItem {
+  /** Coloured lead ("Above the price:"), then the plain rest (" holders waiting to break even"). */
+  lead: string;
+  text: string;
+  tone: "warm" | "cool" | "bone";
+}
+
+/** The film's one-line reading guide under the name plate; only what the film actually shows. */
+export function filmGuide(has: { zones: boolean; smart: boolean; buys: boolean }): FilmGuideItem[] {
+  const out: FilmGuideItem[] = [];
+  if (has.zones) {
+    out.push({ lead: "Above the price:", text: " holders waiting to break even", tone: "warm" });
+    out.push({ lead: "Below:", text: " holders in profit", tone: "cool" });
+  }
+  if (has.smart) out.push({ lead: "Dashed:", text: " smart money's average entry", tone: "bone" });
+  if (has.buys) out.push({ lead: "Dots:", text: " large buys", tone: "bone" });
+  return out;
+}
+
+/** The pulse strip's net reading: "−2.8% OF SUPPLY · 7D" (selling), "+0.7% OF SUPPLY · 7D", "FLAT · 7D". */
+export function pulseNet(f: FlowFinding | null | undefined): { text: string; tone: "sell" | "buy" | "flat" } | null {
+  if (!f || !isAvailable(f)) return null;
+  if (finite(f.informedNetPctSupply)) {
+    const x = f.informedNetPctSupply;
+    if (Math.abs(x) < T.copy.quietFlow) return { text: "FLAT · 7D", tone: "flat" };
+    return { text: `${formatSignedPct(x)} OF SUPPLY · 7D`, tone: x < 0 ? "sell" : "buy" };
+  }
+  const usd = finite(f.informedNetUsd) ? f.informedNetUsd : 0;
+  if (Math.abs(usd) < 1_000) return { text: "FLAT · 7D", tone: "flat" };
+  return { text: `${signedUsd(usd)} · 7D`, tone: usd < 0 ? "sell" : "buy" };
+}
+
 /* ================= dispatch ================= */
 
 /** Film marker tag ("23 SOURCES", "PULSE −3.1%", "SELL WALL +22%", "SM ENTRY $0.030", "YOU"). "" while pending. */

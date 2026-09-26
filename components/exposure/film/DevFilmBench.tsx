@@ -1,9 +1,10 @@
 "use client";
 // DEV ONLY: /dev/film test bench for the x-ray film and the exposure transition on synthetic data.
 // Never linked from the app; the route 404s in production builds.
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Film from "../Film";
 import { ExposureOverlay, useExposure } from "../ExposureOverlay";
+import { loadGallery, loadScan, scanFileUrl } from "../WaitingRoom";
 import { makeSyntheticScan } from "@/lib/xray/fixtures";
 import { sound, useSoundEnabled } from "@/lib/exposure/sound";
 import { ease } from "@/lib/exposure/filmScale";
@@ -34,9 +35,76 @@ async function tween(ms: number, fn: (k: number) => void, curve: (t: number) => 
   }
 }
 
+/**
+ * ?p=GSTOCK (a recorded patient's symbol, or its file name) loads that scan instead of the synthetic
+ * one; ?bare=1 shows the film alone at the full page width (set the viewport to the film's real size
+ * in the room, e.g. 827x473 at 1440x900 or 940x537 at 1920x1080, to judge legibility); &you=1 adds a
+ * wallet whose entry is 10% above today's price (marker 5).
+ */
+interface BenchParams {
+  patient: string | null;
+  bare: boolean;
+  you: boolean;
+  /** Bare-mode animation state (&reveal=0.5&merge=0&markers=3&focus=3), for checking in-between frames. */
+  reveal: number;
+  merge: number;
+  markers: number;
+  focus: FocusN;
+}
+
+function useBenchParams(): BenchParams {
+  const [p, setP] = useState<BenchParams>({
+    patient: null,
+    bare: false,
+    you: false,
+    reveal: 1,
+    merge: 1,
+    markers: 5,
+    focus: null,
+  });
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const num = (k: string, d: number) => (q.has(k) && Number.isFinite(Number(q.get(k))) ? Number(q.get(k)) : d);
+    const f = num("focus", 0);
+    // Read once after mount (the bench is client-only; no hydration mismatch on the first render).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setP({
+      patient: q.get("p"),
+      bare: q.get("bare") === "1",
+      you: q.get("you") === "1",
+      reveal: num("reveal", 1),
+      merge: num("merge", 1),
+      markers: num("markers", 5),
+      focus: f >= 1 && f <= 5 ? (f as FocusN) : null,
+    });
+  }, []);
+  return p;
+}
+
+function useRecorded(patient: string | null): Scan | null {
+  const [scan, setScan] = useState<Scan | null>(null);
+  useEffect(() => {
+    if (!patient) return;
+    const ac = new AbortController();
+    (async () => {
+      const list = await loadGallery(ac.signal);
+      const key = patient.toLowerCase();
+      const hit = list.find((e) => (e.symbol || "").toLowerCase() === key || e.file?.toLowerCase().startsWith(key));
+      const url = hit ? hit.url : key === "synthetic" ? "/scans/_synthetic.json" : scanFileUrl(patient);
+      const s = await loadScan(url, ac.signal);
+      if (!ac.signal.aborted) setScan(s);
+    })().catch(() => {});
+    return () => ac.abort();
+  }, [patient]);
+  return scan;
+}
+
 export default function DevFilmBench() {
   const [seed, setSeed] = useState(7);
-  const { scan, error } = useMemo(() => load(seed), [seed]);
+  const params = useBenchParams();
+  const recorded = useRecorded(params.patient);
+  const synthetic = useMemo(() => load(seed), [seed]);
+  const { scan, error } = recorded ? { scan: recorded, error: null } : synthetic;
   const [reveal, setReveal] = useState(1);
   const [merge, setMerge] = useState(1);
   const [markers, setMarkers] = useState(5);
@@ -111,6 +179,29 @@ export default function DevFilmBench() {
     }
     if (alive()) sound.stamp();
   }, [runExposure]);
+
+  if (params.bare) {
+    return (
+      // The spacer keeps the page's fixed corner badges off the film in screenshots.
+      <div className="min-h-screen bg-[#070b10] pb-[80px]">
+        <Film
+          meta={scan?.meta ?? null}
+          price={scan?.price ?? []}
+          bigBuys={scan?.bigBuys ?? []}
+          buyers={findings?.buyers ?? null}
+          flow={findings?.flow ?? null}
+          walls={findings?.walls ?? null}
+          smart={findings?.smart ?? null}
+          you={params.you ? you : null}
+          reveal={params.reveal}
+          beam={params.reveal < 1}
+          merge={params.merge}
+          markers={params.markers}
+          focus={params.focus}
+        />
+      </div>
+    );
+  }
 
   const row = "flex flex-wrap items-center gap-x-5 gap-y-2";
   const lab = "flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-[#8a9aa8]";

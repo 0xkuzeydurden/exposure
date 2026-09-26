@@ -3,7 +3,18 @@
 // (reveal / merge / markers) only touch a clip rect, a transform or a single path attribute.
 import { memo, type KeyboardEvent } from "react";
 import { formatPct } from "@/lib/format";
-import { C, V, dotsPath, mergeEase, tagBox, type FilmGeometry, type MarkerGeo, type MarkerN } from "./geometry";
+import {
+  C,
+  FS,
+  V,
+  dotsPath,
+  mergeEase,
+  tagBox,
+  type FilmGeometry,
+  type MarkerGeo,
+  type MarkerN,
+  type ZoneLabelGeo,
+} from "./geometry";
 import s from "./film.module.css";
 
 export interface FilmIds {
@@ -14,6 +25,7 @@ export interface FilmIds {
   clip: string;
   beam: string;
   glow: string;
+  pulse: string;
 }
 
 export type Focus = MarkerN | null;
@@ -30,16 +42,29 @@ function layerProps(n: MarkerN, focus: Focus) {
 /** Glow filter for the focused layer's strokes (never on text: it would smear the letters). */
 const glowIf = (on: boolean, ids: FilmIds) => (on ? url(ids.glow) : undefined);
 
-const LBL = { fontSize: 12, letterSpacing: "1.2" } as const;
+/**
+ * A dark outline painted under the letters (paint-order, not a filter): keeps a label legible where it
+ * crosses a band, the price line or a dot. `pre` keeps the spaces between a label's tspans.
+ */
+const HALO = {
+  stroke: "#070b10",
+  strokeWidth: 5,
+  strokeLinejoin: "round",
+  paintOrder: "stroke",
+  style: { whiteSpace: "pre" },
+} as const;
+
+const TONE = { sell: C.warmText, buy: C.coolText, flat: C.dim } as const;
 
 /* ---------------------------------------------------------------- defs */
 
 export const FilmDefs = memo(function FilmDefs({ ids }: { ids: FilmIds }) {
-  const tissue = (id: string, c: string, a: number) => (
+  // Tinted bands fade out at their top and bottom edge; each band's opacity sets its strength.
+  const tissue = (id: string, c: string) => (
     <linearGradient id={id} x1={0} x2={0} y1={0} y2={1}>
-      <stop offset="0" stopColor={c} stopOpacity={0.04} />
-      <stop offset="0.5" stopColor={c} stopOpacity={a} />
-      <stop offset="1" stopColor={c} stopOpacity={0.04} />
+      <stop offset="0" stopColor={c} stopOpacity={0.3} />
+      <stop offset="0.5" stopColor={c} stopOpacity={1} />
+      <stop offset="1" stopColor={c} stopOpacity={0.3} />
     </linearGradient>
   );
   return (
@@ -58,8 +83,15 @@ export const FilmDefs = memo(function FilmDefs({ ids }: { ids: FilmIds }) {
           <feMergeNode in="SourceGraphic" />
         </feMerge>
       </filter>
-      {tissue(ids.warm, "#dbe9f5", 0.42)}
-      {tissue(ids.cool, "#7fa2bd", 0.26)}
+      {tissue(ids.warm, C.warm)}
+      {tissue(ids.cool, C.cool)}
+      {/* Pulse fill: green above the zero line, red below, stronger further from it. */}
+      <linearGradient id={ids.pulse} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={V.EB - 56} y2={V.EB + 56}>
+        <stop offset="0" stopColor={C.cool} stopOpacity={0.45} />
+        <stop offset="0.5" stopColor={C.cool} stopOpacity={0.14} />
+        <stop offset="0.5" stopColor={C.warm} stopOpacity={0.14} />
+        <stop offset="1" stopColor={C.warm} stopOpacity={0.45} />
+      </linearGradient>
       <linearGradient id={ids.beam} x1={0} x2={1} y1={0} y2={0}>
         <stop offset="0" stopColor="#cfe6ff" stopOpacity={0} />
         <stop offset="0.85" stopColor="#cfe6ff" stopOpacity={0.18} />
@@ -69,49 +101,75 @@ export const FilmDefs = memo(function FilmDefs({ ids }: { ids: FilmIds }) {
   );
 });
 
-/* ---------------------------------------------------------------- base: vignette, plate, scale */
+/* ---------------------------------------------------------------- base: vignette, plate, guide, scale */
 
 export const FilmBase = memo(function FilmBase({ geo, ids }: { geo: FilmGeometry; ids: FilmIds }) {
-  const { missing, partial } = geo.status;
+  const { missing, partial, x: sx } = geo.status;
   return (
     <g>
       <rect x={0} y={0} width={V.W} height={V.H} fill={url(ids.vign)} />
       <g>
-        <rect x={40} y={32} width={340} height={60} fill="rgba(233,242,249,0.04)" stroke="rgba(233,242,249,0.2)" />
-        <text x={54} y={57} fontSize={16} fill={C.bone} letterSpacing="2">
+        <rect x={40} y={22} width={geo.plate.w} height={64} fill="rgba(233,242,249,0.05)" stroke="rgba(233,242,249,0.28)" />
+        <text x={56} y={51} fontSize={FS.plate} fontWeight={500} fill={C.bone} letterSpacing="2">
           {geo.plate.name}
         </text>
-        <text x={54} y={80} fontSize={11} fill={C.dim} letterSpacing="1.2">
+        <text x={56} y={75} fontSize={FS.plateSub} fill={C.dim} letterSpacing="1.2">
           {geo.plate.sub}
         </text>
       </g>
       {missing.length > 0 && (
-        <text x={400} y={57} fontSize={11} fill={C.dim} letterSpacing="1.2">
+        <text x={sx} y={49} fontSize={FS.status} fill={C.dim} letterSpacing="1">
           NOT AVAILABLE · {missing.join(" · ")}
         </text>
       )}
       {partial.length > 0 && (
-        <text x={400} y={missing.length ? 80 : 57} fontSize={11} fill={C.faint} letterSpacing="1.2">
+        <text x={sx} y={missing.length ? 73 : 49} fontSize={FS.status} fill={C.dim} letterSpacing="1">
           PARTIAL · {partial.join(" · ")}
         </text>
       )}
-      <text x={1340} y={70} fontSize={34} fill="rgba(233,242,249,0.55)" fontWeight={500} textAnchor="end">
+      <text x={1360} y={70} fontSize={34} fill="rgba(233,242,249,0.6)" fontWeight={500} textAnchor="end">
         7D
       </text>
+      {geo.guide.length > 0 && (
+        <text x={40} y={V.GUIDE_Y} fontSize={FS.guide} fill={C.dim} style={{ whiteSpace: "pre" }}>
+          {geo.guide.map((g, i) => (
+            <tspan key={g.lead}>
+              {i > 0 ? " · " : ""}
+              <tspan fill={g.tone === "warm" ? C.warmText : g.tone === "cool" ? C.coolText : C.bone} fontWeight={600}>
+                {g.lead}
+              </tspan>
+              {g.text}
+            </tspan>
+          ))}
+        </text>
+      )}
       {geo.ticks.map((t) => (
         <g key={t.label}>
-          <line x1={V.X0 - 16} x2={V.X0 - 6} y1={t.y} y2={t.y} stroke="rgba(233,242,249,0.25)" />
-          <text x={V.X0 - 22} y={t.y + 4} fontSize={12} fill={C.faint} textAnchor="end">
+          <line x1={V.X0 - 10} x2={V.X0 - 2} y1={t.y} y2={t.y} stroke="rgba(233,242,249,0.45)" />
+          <text x={V.X0 - 14} y={t.y + 6} fontSize={FS.tick} fill={C.dim} textAnchor="end">
             {t.label}
           </text>
         </g>
       ))}
+      {/* Today's price across the chart: the line between the two zones. */}
+      {geo.now && (
+        <line
+          x1={V.X0}
+          x2={V.X1}
+          y1={geo.now.y}
+          y2={geo.now.y}
+          stroke={C.bone}
+          strokeOpacity={0.5}
+          strokeWidth={1.2}
+          strokeDasharray="7 6"
+        />
+      )}
       {geo.hasMeta && !geo.hasPrice && (
         <text
           x={(V.X0 + V.X1) / 2}
           y={(V.Y0 + V.Y1) / 2}
-          fontSize={13}
-          fill={C.faint}
+          fontSize={FS.zone}
+          fill={C.dim}
           textAnchor="middle"
           letterSpacing="2"
         >
@@ -122,7 +180,7 @@ export const FilmBase = memo(function FilmBase({ geo, ids }: { geo: FilmGeometry
   );
 });
 
-/* ---------------------------------------------------------------- tissue: bands, ladder, SM, YOU, big buys */
+/* ---------------------------------------------------------------- tissue: zones, bands, ladder, SM, YOU, big buys */
 
 export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeometry; focus: Focus; ids: FilmIds }) {
   const w = geo.walls;
@@ -130,6 +188,12 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
     <g clipPath={url(ids.clip)}>
       {w && (
         <g {...layerProps(3, focus)}>
+          {w.zones && (
+            <>
+              <rect x={V.X0} width={V.X1 - V.X0} y={w.zones.warm.y} height={w.zones.warm.h} fill={C.warm} fillOpacity={0.05} />
+              <rect x={V.X0} width={V.X1 - V.X0} y={w.zones.cool.y} height={w.zones.cool.h} fill={C.cool} fillOpacity={0.045} />
+            </>
+          )}
           {w.bands.map((b, i) => (
             <rect
               key={i}
@@ -138,19 +202,9 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
               y={b.y}
               height={b.h}
               fill={url(b.warm ? ids.warm : ids.cool)}
-              opacity={focus === 3 ? Math.min(1, b.opacity * 1.35) : b.opacity}
+              opacity={focus === 3 ? Math.min(0.85, b.opacity * 1.35) : b.opacity}
             />
           ))}
-          {w.lossLabelY !== null && (
-            <text x={w.lossLabelX} y={w.lossLabelY} fill={C.label} {...LBL} letterSpacing="2">
-              HOLDERS AT A LOSS
-            </text>
-          )}
-          {w.profitLabelY !== null && (
-            <text x={w.profitLabelX} y={w.profitLabelY} fill={C.labelCool} {...LBL} letterSpacing="2">
-              HOLDERS IN PROFIT
-            </text>
-          )}
         </g>
       )}
       {geo.smY !== null && (
@@ -162,9 +216,9 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
             y1={geo.smY}
             y2={geo.smY}
             stroke={C.bone}
-            strokeOpacity={geo.smOff ? 0.45 : 0.75}
-            strokeWidth={focus === 4 ? 2 : 1.4}
-            strokeDasharray={geo.smOff ? "2 7" : "8 6"}
+            strokeOpacity={geo.smOff ? 0.5 : 0.85}
+            strokeWidth={focus === 4 ? 2.4 : 1.8}
+            strokeDasharray={geo.smOff ? "2 7" : "10 7"}
             filter={glowIf(focus === 4, ids)}
           />
         </g>
@@ -177,8 +231,8 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
             y1={geo.youY}
             y2={geo.youY}
             stroke={C.you}
-            strokeOpacity={focus === 5 ? 0.95 : 0.6}
-            strokeWidth={focus === 5 ? 1.8 : 1.2}
+            strokeOpacity={focus === 5 ? 0.95 : 0.7}
+            strokeWidth={focus === 5 ? 2 : 1.5}
             strokeDasharray="2 5"
             filter={glowIf(focus === 5, ids)}
           />
@@ -187,19 +241,19 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
       {geo.bigBuys.length > 0 && (
         <g {...layerProps(1, focus)}>
           {geo.bigBuys.map((d, i) => (
-            <circle
-              key={i}
-              cx={d.cx}
-              cy={d.cy}
-              r={d.r}
-              fill={C.bone}
-              fillOpacity={focus === 1 ? Math.min(1, d.o + 0.25) : d.o}
-            />
+            <g key={i}>
+              <circle cx={d.cx} cy={d.cy} r={d.r + 3} fill="none" stroke={C.bone} strokeOpacity={0.32} strokeWidth={1} />
+              <circle cx={d.cx} cy={d.cy} r={d.r} fill={C.bone} fillOpacity={focus === 1 ? Math.min(1, d.o + 0.2) : d.o} />
+            </g>
           ))}
         </g>
       )}
       {(w || geo.wallsMissing) && (
         <g {...layerProps(3, focus)}>
+          <text x={V.LX + V.LW} y={V.Y0 - 32} fontSize={FS.ladder} fill={C.dim} textAnchor="end" letterSpacing="1">
+            SUPPLY BY ENTRY PRICE
+          </text>
+          {w && <line x1={V.LX} x2={V.LX} y1={V.Y0 - 6} y2={V.Y1 + 6} stroke="rgba(233,242,249,0.25)" />}
           {w?.ladder.map((b, i) => (
             <rect
               key={i}
@@ -207,37 +261,89 @@ export const Tissue = memo(function Tissue({ geo, focus, ids }: { geo: FilmGeome
               y={b.y}
               width={b.w}
               height={b.h}
-              rx={b.h / 2}
-              fill={C.band}
-              fillOpacity={focus === 3 ? Math.min(1, b.opacity + 0.2) : b.opacity}
+              rx={2}
+              fill={b.warm ? C.warm : C.cool}
+              fillOpacity={b.wall ? 1 : focus === 3 ? Math.min(1, b.opacity + 0.15) : b.opacity}
+              stroke={b.wall ? C.warmText : undefined}
+              strokeWidth={b.wall ? 1.5 : undefined}
             />
           ))}
-          <text x={V.LX} y={V.Y1 + 28} fontSize={11} fill={C.faint} letterSpacing="1.2">
-            SUPPLY BY ENTRY PRICE
-          </text>
+          {/* Today's price on the ladder: warm bars above it, cool below. */}
+          {w && geo.now && (
+            <line
+              x1={V.LX - 8}
+              x2={V.LX + V.LB + 6}
+              y1={geo.now.y}
+              y2={geo.now.y}
+              stroke={C.bone}
+              strokeOpacity={0.85}
+              strokeWidth={1.6}
+            />
+          )}
+          {/* After the NOW tick, so its halo keeps the tick from striking through the wall's share. */}
+          {w?.wallLabel && (
+            <text x={w.wallLabel.x} y={w.wallLabel.y} fontSize={FS.wallPct} fontWeight={600} fill={C.warmText} {...HALO}>
+              {w.wallLabel.text}
+            </text>
+          )}
           {/* Supply that entered beyond the film's price range, so the ladder never hides it. */}
           {w && w.offAbove >= 0.005 && (
-            <text x={V.LX} y={V.Y0 - 16} fontSize={10.5} fill={C.dim} letterSpacing="1">
+            <text x={V.LX + V.LW} y={V.Y0 - 12} fontSize={FS.ladder} fill={C.dim} textAnchor="end" letterSpacing="0.5">
               ↑ {formatPct(w.offAbove, 0)} ENTERED HIGHER
             </text>
           )}
           {w && w.offBelow >= 0.005 && (
-            <text x={V.LX} y={V.Y1 + 44} fontSize={10.5} fill={C.dim} letterSpacing="1">
+            <text x={V.LX + V.LW} y={V.Y1 + 26} fontSize={FS.ladder} fill={C.dim} textAnchor="end" letterSpacing="0.5">
               ↓ {formatPct(w.offBelow, 0)} ENTERED LOWER
             </text>
           )}
           {geo.wallsMissing && (
-            <text x={V.LX} y={(V.Y0 + V.Y1) / 2} fontSize={11} fill={C.dim} letterSpacing="1.2">
+            <text x={V.LX} y={(V.Y0 + V.Y1) / 2} fontSize={FS.ladder} fill={C.dim} letterSpacing="1">
               NOT AVAILABLE
             </text>
           )}
           {w?.partial && (
-            <text x={V.LX} y={V.Y1 + (w.offBelow >= 0.005 ? 58 : 44)} fontSize={10} fill={C.faint} letterSpacing="1.2">
+            <text
+              x={V.LX + V.LW}
+              y={V.Y1 + (w.offBelow >= 0.005 ? 46 : 26)}
+              fontSize={FS.ladder}
+              fill={C.dim}
+              textAnchor="end"
+              letterSpacing="1"
+            >
               PARTIAL
             </text>
           )}
         </g>
       )}
+    </g>
+  );
+});
+
+/* ---------------------------------------------------------------- zone labels (over the price line) */
+
+export const ZoneLabels = memo(function ZoneLabels({ geo, focus }: { geo: FilmGeometry; focus: Focus }) {
+  const w = geo.walls;
+  if (!w || (!w.loss && !w.profit)) return null;
+  const label = (l: ZoneLabelGeo, color: string) => (
+    <text x={l.x} y={l.y} fill={color} {...HALO}>
+      <tspan fontSize={FS.zonePct} fontWeight={600} letterSpacing="0.5">
+        {l.pct}
+      </tspan>
+      <tspan fontSize={FS.zone} fontWeight={500} letterSpacing="1">
+        {l.text}
+      </tspan>
+      {l.note ? (
+        <tspan fontSize={FS.zoneNote} fill={C.dim} letterSpacing="1">
+          {`  ${l.note}`}
+        </tspan>
+      ) : null}
+    </text>
+  );
+  return (
+    <g {...layerProps(3, focus)}>
+      {w.loss && label(w.loss, C.warmText)}
+      {w.profit && label(w.profit, C.coolText)}
     </g>
   );
 });
@@ -249,7 +355,7 @@ export const BoneLine = memo(function BoneLine({ geo, ids }: { geo: FilmGeometry
   return (
     <>
       <path d={geo.pricePath} fill="none" stroke={C.glow} strokeWidth={7} strokeOpacity={0.28} filter={url(ids.soft)} />
-      <path d={geo.pricePath} fill="none" stroke={C.boneLine} strokeWidth={2} strokeLinejoin="round" />
+      <path d={geo.pricePath} fill="none" stroke={C.boneLine} strokeWidth={2.4} strokeLinejoin="round" />
     </>
   );
 });
@@ -257,12 +363,13 @@ export const BoneLine = memo(function BoneLine({ geo, ids }: { geo: FilmGeometry
 export const NowMark = memo(function NowMark({ geo }: { geo: FilmGeometry }) {
   const n = geo.now;
   if (!n) return null;
-  const w = n.label.length * 7.4 + 8;
+  const t = n.tag;
   return (
     <g>
-      <circle cx={n.x} cy={n.y} r={4.5} fill="#ffffff" />
-      <rect x={n.x + 7} y={n.y - 9} width={w} height={17} fill="#070b10" fillOpacity={0.72} />
-      <text x={n.x + 10} y={n.y + 4} fontSize={12} fill={C.bone}>
+      <circle cx={n.x} cy={n.y} r={10} fill="none" stroke="#ffffff" strokeOpacity={0.4} strokeWidth={1.2} />
+      <circle cx={n.x} cy={n.y} r={5.5} fill="#ffffff" />
+      <rect x={t.x} y={t.y} width={t.w} height={t.h} rx={3} fill={C.bone} />
+      <text x={t.x + 8} y={t.y + t.h / 2 + n.size * 0.36} fontSize={n.size} fontWeight={700} fill={C.ink} letterSpacing="0.4">
         {n.label}
       </text>
     </g>
@@ -285,13 +392,13 @@ export const Sources = memo(function Sources({
     if (!geo.sourcesMissing) return null;
     return (
       <g>
-        <text x={V.X0} y={V.TITLE_Y} fill={C.faint} {...LBL}>
+        <text x={40} y={V.TITLE_Y} fontSize={FS.title} fill={C.dim} letterSpacing="1.2">
           FUNDING SOURCES
         </text>
         <text
           x={(V.SRC_X0 + V.SRC_X1) / 2}
-          y={V.SRC_CY + 4}
-          fontSize={12}
+          y={V.SRC_CY + 6}
+          fontSize={FS.zone}
           fill={C.dim}
           textAnchor="middle"
           letterSpacing="1.2"
@@ -307,21 +414,21 @@ export const Sources = memo(function Sources({
     const b = src.bar;
     return (
       <g {...layerProps(1, focus)}>
-        <text x={V.X0} y={V.TITLE_Y} fill={C.faint} {...LBL}>
+        <text x={40} y={V.TITLE_Y} fontSize={FS.title} fill={C.dim} letterSpacing="1.2">
           {title}
         </text>
-        <rect x={b.x} y={b.y} width={b.w} height={b.h} fill="rgba(233,242,249,0.06)" stroke="rgba(233,242,249,0.18)" />
-        <rect x={b.x} y={b.y} width={b.w * b.share} height={b.h} fill={C.bone} fillOpacity={0.8} />
-        <text x={b.x} y={b.y + b.h + 24} fontSize={12} fill={C.bone} letterSpacing="1.2">
-          {src.text}
+        <text x={40} y={V.HEAD_Y} fontSize={FS.head} fontWeight={600} fill={C.bone} letterSpacing="0.5" {...HALO}>
+          {src.head}
         </text>
+        <rect x={b.x} y={b.y} width={b.w} height={b.h} fill="rgba(233,242,249,0.07)" stroke="rgba(233,242,249,0.3)" />
+        <rect x={b.x} y={b.y} width={b.w * b.share} height={b.h} fill={C.bone} fillOpacity={0.85} />
         {src.rest && (
-          <text x={b.x + b.w} y={b.y + b.h + 24} fontSize={11} fill={C.faint} textAnchor="end" letterSpacing="1.2">
+          <text x={b.x} y={716} fontSize={FS.name} fill={C.dim} letterSpacing="1">
             {src.rest}
           </text>
         )}
         {src.note && (
-          <text x={V.X0} y={V.LABEL_Y} fontSize={10} fill={C.faint} letterSpacing="1">
+          <text x={b.x} y={742} fontSize={FS.name} fill={C.dim} letterSpacing="1">
             {src.note}
           </text>
         )}
@@ -330,17 +437,23 @@ export const Sources = memo(function Sources({
   }
 
   const k = mergeEase(Math.min(1, Math.max(0, merge)));
-  const counterX = V.X0 + title.length * 8.4 + 14;
   // Counts down from "90 OF 90" to "88 OF 90" as the dots merge: how many buyers had a funder of their own.
   const cur = Math.round(src.counter.from + (src.counter.to - src.counter.from) * k);
   return (
     <g {...layerProps(1, focus)}>
-      <text x={V.X0} y={V.TITLE_Y} fill={C.faint} {...LBL}>
+      <text x={40} y={V.TITLE_Y} fontSize={FS.title} fill={C.dim} letterSpacing="1.2">
         {title}
       </text>
       {k > 0 && (
-        <text x={counterX} y={V.TITLE_Y} fontSize={12} fill={C.dim} letterSpacing="1.2" opacity={Math.min(1, k * 3)}>
-          · {cur} OF {src.counter.from} FUNDED INDEPENDENTLY
+        <text x={40} y={V.HEAD_Y} fill={C.bone} opacity={Math.min(1, k * 3)} {...HALO}>
+          <tspan fontSize={FS.head} fontWeight={600} letterSpacing="0.5">
+            {`${cur} OF ${src.counter.from} ${src.short ? "" : "BUYERS "}FUNDED INDEPENDENTLY`}
+          </tspan>
+          {src.extra ? (
+            <tspan fontSize={FS.headExtra} fontWeight={500} fill={C.warmText} letterSpacing="0.5">
+              {src.extra}
+            </tspan>
+          ) : null}
         </text>
       )}
       {src.groups.map((g, i) =>
@@ -349,30 +462,30 @@ export const Sources = memo(function Sources({
             key={i}
             d={dotsPath(g.pts, k, src.r)}
             fill={C.bone}
-            fillOpacity={focus === 1 ? Math.min(1, g.opacity + 0.2) : g.opacity}
+            fillOpacity={focus === 1 ? Math.min(1, g.opacity + 0.15) : g.opacity}
           />
         ) : (
           <path
             key={i}
-            d={dotsPath(g.pts, k, src.r - 0.6)}
+            d={dotsPath(g.pts, k, src.r - 0.7)}
             fill="none"
             stroke={C.bone}
             strokeOpacity={g.opacity}
-            strokeWidth={1.2}
+            strokeWidth={1.5}
           />
         ),
       )}
       <g opacity={k}>
         {src.labels.map((l, i) => (
           <g key={i}>
-            {l.text ? (
-              <text x={l.x} y={V.LABEL_Y} fontSize={11} fill={C.dim} textAnchor="middle" letterSpacing="1.2">
-                {l.text}
+            <text x={l.x} y={V.NUM_Y} fontSize={FS.num} fontWeight={600} fill={C.bone} textAnchor="middle">
+              {l.count}
+            </text>
+            {l.name ? (
+              <text x={l.x} y={V.NAME_Y} fontSize={FS.name} fill={C.dim} textAnchor="middle" letterSpacing="1">
+                {l.name}
               </text>
             ) : null}
-            <text x={l.x} y={V.SUB_Y} fontSize={10} fill={C.faint} textAnchor="middle" letterSpacing="1">
-              {l.sub}
-            </text>
           </g>
         ))}
       </g>
@@ -385,33 +498,53 @@ export const Pulse = memo(function Pulse({ geo, focus, ids }: { geo: FilmGeometr
   if (!p && !geo.pulseMissing) return null;
   return (
     <g {...(p ? layerProps(2, focus) : {})}>
-      <text x={V.EX0} y={V.TITLE_Y} fill={C.faint} {...LBL}>
+      <text x={V.EX0} y={V.TITLE_Y} fontSize={FS.title} fill={C.dim} letterSpacing="1.2">
         {p?.partial ? "INFORMED MONEY · PULSE · PARTIAL" : "INFORMED MONEY · PULSE"}
       </text>
       {p ? (
         <>
-          <text x={V.EX1} y={V.TITLE_Y} fontSize={10} fill={C.faint} textAnchor="end" letterSpacing="1">
-            UP = BUYING · DOWN = SELLING
+          {p.net && (
+            <text x={V.EX0} y={V.HEAD_Y} fontSize={FS.net} fontWeight={600} fill={TONE[p.net.tone]} letterSpacing="0.5" {...HALO}>
+              {p.net.text}
+            </text>
+          )}
+          <path d={p.area} fill={url(ids.pulse)} />
+          <line x1={V.EX0} x2={V.EX1} y1={V.EB} y2={V.EB} stroke={C.bone} strokeOpacity={0.4} strokeWidth={1.2} />
+          {/* The zero line's scale: net buying pulls the trace up, net selling down. */}
+          <text x={V.EX1 + 8} y={V.EB - 16} fontSize={FS.legend} fill={C.coolText}>
+            BUY ↑
           </text>
-          <line x1={V.EX0} x2={V.EX1} y1={V.EB} y2={V.EB} stroke="rgba(233,242,249,0.07)" strokeDasharray="2 6" />
-          <path d={p.d} fill="none" stroke={C.glow} strokeWidth={5} strokeOpacity={0.22} filter={url(ids.soft)} />
+          <text x={V.EX1 + 8} y={V.EB + 5} fontSize={FS.legend} fill={C.dim}>
+            0
+          </text>
+          <text x={V.EX1 + 8} y={V.EB + 27} fontSize={FS.legend} fill={C.warmText}>
+            SELL ↓
+          </text>
+          <path d={p.d} fill="none" stroke={C.glow} strokeWidth={6} strokeOpacity={0.2} filter={url(ids.soft)} />
           <path
             d={p.d}
             fill="none"
             stroke={C.bone}
-            strokeWidth={focus === 2 ? 2 : 1.6}
+            strokeWidth={focus === 2 ? 3 : 2.6}
             strokeLinejoin="round"
             filter={glowIf(focus === 2, ids)}
           />
-          <text x={V.EX0} y={V.LABEL_Y} fontSize={11} fill={C.faint} letterSpacing="1.2">
+          <text x={V.EX0} y={V.DATE_Y} fontSize={FS.date} fill={C.dim} letterSpacing="1">
             {p.from}
           </text>
-          <text x={V.EX1} y={V.LABEL_Y} fontSize={11} fill={C.faint} textAnchor="end" letterSpacing="1.2">
+          <text x={V.EX1} y={V.DATE_Y} fontSize={FS.date} fill={C.dim} textAnchor="end" letterSpacing="1">
             {p.to}
           </text>
         </>
       ) : (
-        <text x={(V.EX0 + V.EX1) / 2} y={V.EB + 4} fontSize={12} fill={C.dim} textAnchor="middle" letterSpacing="1.2">
+        <text
+          x={(V.EX0 + V.EX1) / 2}
+          y={V.EB + 6}
+          fontSize={FS.zone}
+          fill={C.dim}
+          textAnchor="middle"
+          letterSpacing="1.2"
+        >
           NOT AVAILABLE
         </text>
       )}

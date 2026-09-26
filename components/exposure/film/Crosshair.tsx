@@ -3,11 +3,11 @@
 // supply that entered at that level (from the walls ladder). One rAF-throttled pointer handler that
 // writes attributes directly (no React state per mouse move).
 import { memo, useEffect, useRef, type RefObject } from "react";
-import { C, V, readoutAt, type FilmGeometry } from "./geometry";
+import { C, FS, V, readoutAt, type FilmGeometry } from "./geometry";
 import s from "./film.module.css";
 
-const BOX_W = 262;
-const BOX_H = 64;
+const BOX_W = 310;
+const BOX_H = 76;
 
 export const Crosshair = memo(function Crosshair({
   geo,
@@ -115,7 +115,7 @@ export const Crosshair = memo(function Crosshair({
       <line
         ref={hLine}
         x1={V.X0}
-        x2={V.LX + V.LW}
+        x2={V.LX + V.LB + 8}
         y1={0}
         y2={0}
         stroke="rgba(233,242,249,0.32)"
@@ -123,10 +123,10 @@ export const Crosshair = memo(function Crosshair({
       />
       <circle ref={dot} cx={0} cy={0} r={4} fill="#070b10" stroke={C.glow} strokeWidth={1.6} />
       <g ref={box}>
-        <rect x={0} y={0} width={BOX_W} height={BOX_H} fill={C.ink} fillOpacity={0.9} stroke="rgba(233,242,249,0.25)" />
-        <text ref={t1} x={10} y={19} fontSize={12} fill={C.bone} letterSpacing="0.6" />
-        <text ref={t2} x={10} y={37} fontSize={12} fill={C.dim} letterSpacing="0.6" />
-        <text ref={t3} x={10} y={55} fontSize={12} fill={C.dim} letterSpacing="0.6" />
+        <rect x={0} y={0} width={BOX_W} height={BOX_H} fill={C.ink} fillOpacity={0.92} stroke="rgba(233,242,249,0.3)" />
+        <text ref={t1} x={12} y={23} fontSize={FS.date} fill={C.bone} letterSpacing="0.4" />
+        <text ref={t2} x={12} y={45} fontSize={FS.date} fill={C.dim} letterSpacing="0.4" />
+        <text ref={t3} x={12} y={67} fontSize={FS.date} fill={C.dim} letterSpacing="0.4" />
       </g>
     </g>
   );

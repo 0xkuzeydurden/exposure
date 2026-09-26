@@ -835,6 +835,201 @@
   color: var(--marker);
 }
 
+/* ------------------------------------------------------------------ check-in gate */
+/* First page of a browser session (components/exposure/CheckIn): a reception card over the dimmed
+   room; the click turns the sound on. No backdrop-filter: the room is still until the card has left,
+   so a plain filter on the scene is drawn once, and it is lifted with the card's fade. */
+
+.checkin {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(3, 5, 7, 0.78);
+  transition: opacity 260ms ease-out;
+}
+.checkin[hidden] {
+  display: none;
+}
+.checkin.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+.room:has(> .checkin:not([hidden])) > .scene {
+  filter: blur(3px) brightness(0.8);
+}
+.room:has(> .checkin.is-leaving) > .scene {
+  filter: none;
+  transition: filter 260ms ease-out;
+}
+
+.checkin-card {
+  width: min(100%, 480px);
+  display: grid;
+  justify-items: center;
+  padding: 40px 40px 26px;
+  text-align: center;
+  background: #0e151c;
+  border: 1px solid #22303c;
+  border-top: 3px solid #2d6a8a;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(233, 242, 249, 0.04);
+  transition: transform 260ms ease-out;
+}
+.checkin.is-leaving .checkin-card {
+  transform: translateY(-6px) scale(0.985);
+}
+.checkin-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.checkin-cross {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 30px;
+}
+.checkin-cross::before,
+.checkin-cross::after {
+  content: "";
+  position: absolute;
+  background: #e9f2f9;
+}
+.checkin-cross::before {
+  left: 11px;
+  top: 1px;
+  width: 8px;
+  height: 28px;
+}
+.checkin-cross::after {
+  left: 1px;
+  top: 11px;
+  width: 28px;
+  height: 8px;
+}
+.checkin-brand b {
+  /* the trailing letter-spacing is trimmed so the word sits on the card's axis */
+  margin-right: -0.24em;
+  font: 600 32px/1 var(--sign);
+  letter-spacing: 0.24em;
+  color: var(--bone);
+}
+.checkin-dept {
+  margin: 14px 0 0;
+  font: 500 13px/1.2 var(--sign);
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+}
+.checkin-go {
+  width: 100%;
+  margin-top: 34px;
+  padding: 19px 20px 18px;
+  font: 600 24px/1 var(--sign);
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  text-transform: uppercase;
+  color: #05080b;
+  background: var(--bone);
+  border: 1px solid var(--bone);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease-out,
+    border-color 120ms ease-out;
+}
+.checkin-go:hover {
+  background: var(--marker);
+  border-color: var(--marker);
+}
+.checkin-go:focus-visible {
+  outline: 2px solid var(--marker);
+  outline-offset: 4px;
+}
+.checkin-go:active {
+  transform: translateY(1px);
+}
+.checkin-note {
+  margin: 14px 0 0;
+  font: 400 12px/1.4 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--bone-dim);
+}
+.checkin-silent {
+  margin-top: 20px;
+  padding: 6px 8px;
+  font: 500 12px/1 var(--sign);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-color: rgba(138, 154, 168, 0.4);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.checkin-silent:hover,
+.checkin-silent:focus-visible {
+  color: var(--marker);
+  text-decoration-color: currentColor;
+}
+.checkin-silent:focus-visible {
+  outline: 1px solid var(--marker);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .checkin-card {
+    padding: 30px 22px 20px;
+  }
+  .checkin-brand {
+    gap: 12px;
+  }
+  .checkin-brand b {
+    font-size: 26px;
+  }
+  .checkin-cross {
+    width: 24px;
+    height: 24px;
+  }
+  .checkin-cross::before {
+    left: 9px;
+    width: 6px;
+    height: 22px;
+  }
+  .checkin-cross::after {
+    top: 9px;
+    width: 22px;
+    height: 6px;
+  }
+  .checkin-dept {
+    font-size: 12px;
+  }
+  .checkin-go {
+    margin-top: 28px;
+    font-size: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkin,
+  .checkin-card,
+  .checkin-go,
+  .room:has(> .checkin.is-leaving) > .scene {
+    transition: none;
+  }
+  .checkin.is-leaving .checkin-card {
+    transform: none;
+  }
+}
+
 /* ------------------------------------------------------------------ LAB RESULTS drawer */
 /* Every tab: one dominant chart, one big number, a coloured lab flag, one short line; tables behind
    "Show ... ▸". Follows the approved lab-results mockup. */

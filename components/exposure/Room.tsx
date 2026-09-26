@@ -7,7 +7,10 @@
 //   → funding-source dots merge → the report types findings 1–5 (each lights its film marker with
 //   a monitor beep) → impression → stamp.
 // Recorded scans replay through the same path (useScan + playScan).
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+// The first page of a browser session opens on the check-in gate (CheckIn): the room is rendered behind
+// it and the opening exposure only starts once the visitor checked in (with sound) or entered silently.
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { CheckIn } from "@/components/exposure/CheckIn";
 import { DirectorStage } from "@/components/exposure/Director";
 import type { DirectorConfig } from "@/components/exposure/DirectorScript";
 import { ExposureOverlay, useExposure, type ExposurePhase } from "@/components/exposure/ExposureOverlay";
@@ -28,6 +31,7 @@ import {
   type Patient,
 } from "@/components/exposure/WaitingRoom";
 import { useScan } from "@/hooks/useScan";
+import { checkedInSnapshot, completeCheckIn, gateNeeded, hasCheckedIn, subscribeCheckIn } from "@/lib/exposure/checkin";
 import { sound, useSoundEnabled } from "@/lib/exposure/sound";
 import { isCancelled, sleep, TypingCancelled, waitFor } from "@/lib/exposure/typewriter";
 import { isEvmChain, isValidAddress } from "@/lib/nansen/chains";
@@ -74,6 +78,8 @@ const LIVE_SWEEP_MS = 3200;
 const BEAM_FADE_MS = 260;
 const MERGE_MS = 800;
 const AUTOPLAY_DELAY_MS = 1200;
+/** From the check-in card leaving to the intro (the click already said "start"). */
+const AFTER_CHECKIN_MS = 300;
 const GHOST_CHAR_MS = 90;
 
 const WALLET_IDLE = { pending: false, error: null as string | null };
@@ -108,6 +114,9 @@ const ACCOUNT_UNKNOWN: AccountInfo = {
 
 const inOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const linear = (t: number) => t;
+
+/** Server (and hydration) snapshot of the check-in: not yet, so the gate is in the server HTML. */
+const NOT_CHECKED_IN = () => false;
 
 function prefersReducedMotion(): boolean {
   return typeof window !== "undefined" && !!window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -288,6 +297,26 @@ export function Room({ initial, director = null }: RoomProps) {
    * Set from the start in recording mode, where the director runs the room.
    */
   const tookOver = useRef(director !== null);
+
+  /* ------------------------------ check-in gate ------------------------------ */
+  const checkedIn = useSyncExternalStore(subscribeCheckIn, checkedInSnapshot, NOT_CHECKED_IN);
+  const gated = gateNeeded({ recording: director !== null, checkedIn });
+  /** `open`: the intro waits; `fresh`: the visitor checked in on this page (the intro follows at once). */
+  const gate = useRef({ open: gated, fresh: false });
+  useEffect(() => {
+    gate.current.open = gated;
+  });
+  const onCheckedIn = useCallback(() => {
+    gate.current = { open: false, fresh: true };
+    completeCheckIn();
+  }, []);
+  // Checked in on an earlier page of this session: no gate, so try to start the audio without a
+  // gesture (allowed after a same-origin reload in most browsers; else silent until the first click).
+  const recording = director !== null;
+  useEffect(() => {
+    if (!recording && hasCheckedIn()) sound.resume();
+  }, [recording]);
+
   const scanCache = useRef(new Map<string, Scan>());
   const accountRef = useRef(account);
   useEffect(() => {
@@ -436,6 +465,11 @@ export function Room({ initial, director = null }: RoomProps) {
     const ctrl = new AbortController();
     const signal = ctrl.signal;
     const stop = () => signal.aborted || tookOver.current;
+    /** Resolves once the check-in gate is gone (at once without one); true when it was on this page. */
+    const afterGate = async (sig: AbortSignal) => {
+      await waitFor(() => !gate.current.open, sig, 40);
+      return gate.current.fresh;
+    };
     void (async () => {
       try {
         let list = await loadGallery(signal);
@@ -467,9 +501,10 @@ export function Room({ initial, director = null }: RoomProps) {
           }
           // Already on the lightbox when the server rendered it.
           if (scan !== stateRef.current.scan) present(scan);
-          if (prefersReducedMotion()) return;
+          const fresh = await afterGate(signal);
+          if (stop() || prefersReducedMotion()) return;
           // The mockup's opening: the patient's name is typed into the intake, then the exposure.
-          await sleep(AUTOPLAY_DELAY_MS, signal);
+          await sleep(fresh ? AFTER_CHECKIN_MS : AUTOPLAY_DELAY_MS, signal);
           const name = scan.meta.symbol.replace(/^\$/, "");
           for (let i = 1; i <= name.length; i++) {
             if (stop()) return;
@@ -491,8 +526,9 @@ export function Room({ initial, director = null }: RoomProps) {
           return;
         }
         if (scan !== stateRef.current.scan) present(scan);
-        if (prefersReducedMotion()) return;
-        await sleep(AUTOPLAY_DELAY_MS * 0.6, signal);
+        const fresh = await afterGate(signal);
+        if (stop() || prefersReducedMotion()) return;
+        await sleep(fresh ? AFTER_CHECKIN_MS : AUTOPLAY_DELAY_MS * 0.6, signal);
         if (stop()) return;
         await expose({ kind: "scan", scan }, { url: false });
       } catch (err) {
@@ -772,6 +808,8 @@ export function Room({ initial, director = null }: RoomProps) {
 
   return (
     <main className="room">
+      {gated ? <CheckIn onDone={onCheckedIn} /> : null}
+
       <div className="scene" ref={sceneRef}>
         <Signage
           note={signNote}

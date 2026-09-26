@@ -130,50 +130,94 @@ export function timeScale(t0: number, t1: number, x0: number, x1: number): TimeS
 
 const tidy = (v: number) => Number(v.toPrecision(12));
 
+/** Mantissa sets per decade for log-spaced ticks, simplest first. */
+const LOG_SETS: readonly (readonly number[])[] = [
+  [1],
+  [1, 2, 5],
+  [1, 2, 3, 5],
+  [1, 1.5, 2, 3, 5, 7],
+  [1, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8],
+];
+
 /**
- * Round price levels for the scale ticks. Linear "nice" steps (1, 2, 2.5, 5 x 10^k) for ordinary
- * ranges, 1-2-5 decades when the domain spans more than ~6x. Ticks closer than `minGapPx` on the
- * given scale are dropped (top-down).
+ * Round price levels for the scale ticks: `minTicks`..`maxTicks` of them (when the range allows),
+ * never closer than `minGapPx` on the given scale. Candidates are linear "nice" steps (1, 2, 2.5, 5 x
+ * 10^k) and log-spaced decade sets (1-2-5, 1-2-3-5, ...) for wide ranges; after thinning, the simplest
+ * set with a count in range and the most even spacing wins. A 6x range no longer drops to two ticks.
  */
-export function priceTicks(scale: LogScale, maxTicks = 7, minGapPx = 22): number[] {
+export function priceTicks(scale: LogScale, maxTicks = 6, minGapPx = 34, minTicks = 4): number[] {
   const { lo, hi } = scale.domain;
   if (!(hi > lo) || !(lo > 0)) return [];
-  const ticks: number[] = [];
 
-  if (hi / lo > 6) {
-    for (let e = Math.floor(Math.log10(lo)); e <= Math.ceil(Math.log10(hi)); e++) {
-      for (const m of [1, 2, 5]) {
-        const v = tidy(m * Math.pow(10, e));
-        if (v >= lo && v <= hi) ticks.push(v);
+  const thin = (ticks: number[]): number[] => {
+    ticks.sort((a, b) => b - a);
+    const kept: number[] = [];
+    let lastY = -Infinity;
+    for (const v of ticks) {
+      const y = scale(v);
+      if (y - lastY >= minGapPx) {
+        kept.push(v);
+        lastY = y;
       }
     }
-  } else {
-    const rough = (hi - lo) / Math.max(2, maxTicks - 1);
-    const mag = Math.pow(10, Math.floor(Math.log10(rough)));
-    let step = mag;
-    for (const m of [1, 2, 2.5, 5, 10]) {
-      step = m * mag;
-      if ((hi - lo) / step <= maxTicks) break;
-    }
-    const start = Math.ceil(lo / step - 1e-9);
-    for (let i = start; i * step <= hi * (1 + 1e-12); i++) {
-      const v = tidy(i * step);
-      if (v > 0 && v >= lo) ticks.push(v);
-    }
+    return kept;
+  };
+
+  const cands: { ticks: number[]; cost: number }[] = [];
+  // Linear steps.
+  const span = hi - lo;
+  const mag0 = Math.pow(10, Math.floor(Math.log10(span / Math.max(2, maxTicks))));
+  for (const k of [0.1, 1, 10]) {
+    ([1, 2, 2.5, 5] as const).forEach((m, mi) => {
+      const step = tidy(m * mag0 * k);
+      if (!(step > 0) || span / step > 60) return;
+      const ticks: number[] = [];
+      for (let i = Math.ceil(lo / step - 1e-9); i * step <= hi * (1 + 1e-12); i++) {
+        const v = tidy(i * step);
+        if (v > 0 && v >= lo) ticks.push(v);
+      }
+      cands.push({ ticks: thin(ticks), cost: mi === 2 ? 1.5 : mi * 0.5 });
+    });
+  }
+  // Log-spaced decades (wide ranges, where linear ticks crowd at the bottom).
+  if (hi / lo > 2.5) {
+    LOG_SETS.forEach((set, si) => {
+      const ticks: number[] = [];
+      for (let e = Math.floor(Math.log10(lo)); e <= Math.ceil(Math.log10(hi)); e++) {
+        for (const m of set) {
+          const v = tidy(m * Math.pow(10, e));
+          if (v >= lo && v <= hi) ticks.push(v);
+        }
+      }
+      cands.push({ ticks: thin(ticks), cost: 0.5 + si * 0.75 });
+    });
   }
 
-  // Thin out ticks that crowd on the log scale (low end of wide ranges).
-  ticks.sort((a, b) => b - a);
-  const kept: number[] = [];
-  let lastY = -Infinity;
-  for (const v of ticks) {
-    const y = scale(v);
-    if (y - lastY >= minGapPx) {
-      kept.push(v);
-      lastY = y;
+  let best: number[] = [];
+  let bestScore = Infinity;
+  for (const c of cands) {
+    const n = c.ticks.length;
+    if (n === 0) continue;
+    const ys = c.ticks.map((v) => scale(v));
+    let gMin = Infinity;
+    let gMax = 0;
+    for (let i = 1; i < n; i++) {
+      const g = ys[i] - ys[i - 1];
+      gMin = Math.min(gMin, g);
+      gMax = Math.max(gMax, g);
+    }
+    const uneven = n > 2 ? (gMax - gMin) / gMax : 0;
+    const miss = n < minTicks ? (minTicks - n) * 4 : n > maxTicks ? (n - maxTicks) * 4 : 0;
+    // Ticks should reach both ends of the scale, not bunch in one half of it.
+    const [top, bottom] = scale.range;
+    const reach = n > 1 ? 1 - (ys[n - 1] - ys[0]) / Math.abs(bottom - top) : 1;
+    const score = miss + c.cost + uneven * 2 + reach * 3;
+    if (score < bestScore - 1e-9) {
+      bestScore = score;
+      best = c.ticks;
     }
   }
-  return kept.slice(0, maxTicks + 2);
+  return best.slice(0, maxTicks + 1);
 }
 
 /** Index of the element of `sorted` (ascending) nearest to `v`; -1 when empty. */

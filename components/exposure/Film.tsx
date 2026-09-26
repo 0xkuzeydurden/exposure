@@ -6,7 +6,7 @@
 import { useId, useMemo, useRef, useState } from "react";
 import type { FilmProps } from "@/lib/xray/types";
 import { buildFilmGeometry, V } from "./film/geometry";
-import { BoneLine, FilmBase, FilmDefs, Markers, NowMark, Pulse, Sources, Tissue, type FilmIds } from "./film/layers";
+import { BoneLine, FilmBase, FilmDefs, Markers, NowMark, Pulse, Sources, Tissue, ZoneLabels, type FilmIds } from "./film/layers";
 import { Crosshair } from "./film/Crosshair";
 import s from "./film/film.module.css";
 
@@ -23,6 +23,7 @@ function useFilmIds(): FilmIds {
       clip: `xf${raw}r`,
       beam: `xf${raw}b`,
       glow: `xf${raw}g`,
+      pulse: `xf${raw}p`,
     }),
     [raw],
   );
@@ -111,7 +112,9 @@ export default function Film({
           <NowMark geo={geo} />
 
           <g clipPath={`url(#${ids.clip})`}>
-            <line x1={40} x2={1360} y1={V.STRIP_Y} y2={V.STRIP_Y} stroke="rgba(233,242,249,0.08)" />
+            {/* Zone labels sit over the price line (they are placed where it leaves room). */}
+            <ZoneLabels geo={geo} focus={focus} />
+            <line x1={40} x2={1360} y1={V.STRIP_Y} y2={V.STRIP_Y} stroke="rgba(233,242,249,0.14)" />
             <Sources geo={geo} merge={merge} focus={focus} />
             <Pulse geo={geo} focus={focus} ids={ids} />
           </g>

@@ -4,6 +4,7 @@
 //
 //   import { sound } from "@/lib/exposure/sound";
 //   sound.unlock();            // inside any click/keydown handler (also done automatically on the first gesture)
+//   sound.resume();            // no gesture yet, but the visitor checked in earlier this session (lib/exposure/checkin)
 //   sound.charge(); sound.shot(); sound.key(ch); sound.ding(); sound.beep(); sound.stamp();
 //   const [on, setOn] = useSoundEnabled();
 import { useSyncExternalStore } from "react";
@@ -64,6 +65,23 @@ export function unlock(): void {
     ctx = null;
     master = null;
   }
+}
+
+/**
+ * Start the audio without a gesture, for a visitor who already checked in this session (the check-in
+ * gate is skipped on their later pages). Browsers that still count the earlier click (a same-origin
+ * reload) let the context run; otherwise it stays suspended and silent, without errors, until the
+ * first gesture (installAutoUnlock). No-op while the sound is off.
+ */
+export function resume(): void {
+  if (!readPref() || typeof navigator === "undefined") return;
+  try {
+    const policy = (navigator as Navigator & { getAutoplayPolicy?: (type: string) => string }).getAutoplayPolicy?.("audiocontext");
+    if (policy === "disallowed") return;
+  } catch {
+    /* no autoplay policy API: just try */
+  }
+  unlock();
 }
 
 let autoInstalled = false;
@@ -233,6 +251,7 @@ export const sound = {
   beep,
   stamp,
   unlock,
+  resume,
   get enabled() {
     return readPref();
   },

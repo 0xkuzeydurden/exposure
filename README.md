@@ -58,6 +58,10 @@ credits". Nothing in this mode talks to Nansen.
 
 - `/x/<chain>/<token>` shows a token's recorded x-ray. Without a recording it offers **Take the x-ray**
   with its credit cost. Opening a page never spends credits.
+- The first page of a browser session opens on a **check-in** card over the room: **Check in** turns the
+  sound on (browsers only allow audio after a click) and then plays the opening exposure with it;
+  **Enter silently** (or Esc) plays it muted. Later pages of the session skip the card. Recording mode
+  (`?rec=1`) never shows it.
 - `public/scans/_synthetic.json` is a generated patient ($KAIRO) marked "SYNTHETIC PREVIEW" on the
   report and in the lab; it is only shown when the gallery is empty.
 - `npm test` runs the unit tests with a mocked Nansen API (no network, no key).

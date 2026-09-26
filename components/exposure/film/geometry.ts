@@ -1,8 +1,22 @@
 // Film geometry: turns the scan data into SVG coordinates for every layer of the x-ray film.
 // Pure and deterministic (no React, no DOM) so it is memoised once per data change and unit-tested.
-// The viewBox is fixed at 1400x800 and matches the approved mockup.
+// The viewBox is fixed at 1400x800. In the room the film renders about 830px wide at 1440x900 and
+// 940px at 1920x1080 (0.6 to 0.67 px per unit), so the text sizes in FS are set for that scale.
 import { formatAmount, formatPct, formatPrice, formatSignedPct } from "@/lib/format";
-import { chainLabel, patientName, plateLine, priceTick, sourceName, tagFor, untracedReason } from "@/lib/xray/copy";
+import {
+  buyerFunding,
+  chainLabel,
+  filmGuide,
+  filmZones,
+  patientName,
+  plateLine,
+  priceTick,
+  pulseNet,
+  sourceName,
+  tagFor,
+  untracedReason,
+  type FilmGuideItem,
+} from "@/lib/xray/copy";
 import { hasSmartData, primaryWall } from "@/lib/xray/diagnosis";
 import {
   clamp,
@@ -34,40 +48,74 @@ export const V = {
   W: 1400,
   H: 800,
   /** Main chart area. */
-  X0: 96,
-  X1: 1150,
-  Y0: 118,
-  Y1: 520,
-  /** Side ladder "supply by entry price". */
-  LX: 1178,
-  LW: 110,
-  /** Lower strip. */
-  STRIP_Y: 590,
-  TITLE_Y: 620,
-  LABEL_Y: 764,
-  SUB_Y: 779,
-  SRC_X0: 110,
+  X0: 108,
+  X1: 1060,
+  Y0: 162,
+  Y1: 486,
+  /** Reading guide baseline, under the name plate. */
+  GUIDE_Y: 108,
+  /** Side ladder "supply by entry price": bars start at LX and are at most LB long; labels end by LX + LW. */
+  LX: 1226,
+  LW: 150,
+  LB: 104,
+  /** Lower strip: rule, titles, headlines, cluster numerals and names. */
+  STRIP_Y: 544,
+  TITLE_Y: 570,
+  HEAD_Y: 601,
+  NUM_Y: 748,
+  NAME_Y: 772,
+  /** Funding sources (dots). */
+  SRC_X0: 56,
   SRC_X1: 772,
-  SRC_CY: 690,
-  ROW_Y: 646,
-  /** Pulse (ECG) strip. */
+  SRC_CY: 672,
+  ROW_Y: 648,
+  /** Pulse (ECG) strip; EB is its zero line. */
   EX0: 820,
   EX1: 1330,
-  EB: 690,
+  EB: 672,
+  DATE_Y: 772,
+} as const;
+
+/** Font sizes in viewBox units (x0.6 at 1440x900, x0.67 at 1920x1080 for screen px). */
+export const FS = {
+  plate: 22,
+  plateSub: 16,
+  status: 16,
+  guide: 16,
+  tick: 19,
+  now: 17,
+  zonePct: 28,
+  zone: 19,
+  zoneNote: 16,
+  ladder: 16,
+  wallPct: 17,
+  title: 17,
+  head: 22,
+  headExtra: 17,
+  num: 24,
+  name: 16,
+  legend: 15,
+  net: 22,
+  date: 16,
 } as const;
 
 export const C = {
   bone: "#e9f2f9",
   boneLine: "#f2f8fd",
   glow: "#cfe6ff",
-  dim: "#8a9aa8",
-  faint: "#5d6c78",
-  label: "#9fb8cc",
-  labelCool: "#7f98ab",
-  band: "#dbe9f5",
+  /** Secondary text. Nothing on the film is written darker than this. */
+  dim: "#a9b8c4",
+  /** Rules and tick marks only (never text). */
+  faint: "#6c7d8b",
   marker: "#ffb547",
   you: "#ff6b47",
   ink: "#0a0f14",
+  /** Above today's price: holders at a loss, sellers waiting. */
+  warm: "#ff6f61",
+  warmText: "#ffa497",
+  /** Below today's price: holders in profit. */
+  cool: "#34c7a4",
+  coolText: "#80e4c9",
 } as const;
 
 export type MarkerN = 1 | 2 | 3 | 4 | 5;
@@ -118,19 +166,34 @@ export interface LadderBarGeo {
   h: number;
   w: number;
   opacity: number;
+  /** Entry above today's price (tinted warm), else cool. */
+  warm: boolean;
+  /** The bar holding the headline sell wall (finding 03). */
+  wall: boolean;
+}
+
+/** "37%" + " OF ANALYSED SUPPLY AT A LOSS ↑" (+ a caveat), placed in its zone of the chart. */
+export interface ZoneLabelGeo {
+  x: number;
+  y: number;
+  pct: string;
+  text: string;
+  note: string;
+  w: number;
 }
 
 export interface WallsGeo {
   bands: BandGeo[];
-  lossLabelY: number | null;
-  profitLabelY: number | null;
-  /** x of the two band labels, moved along the band to where the price line and SM line leave room. */
-  lossLabelX: number;
-  profitLabelX: number;
+  /** Tinted wash above / below today's price; null without a price. */
+  zones: { warm: { y: number; h: number }; cool: { y: number; h: number } } | null;
+  loss: ZoneLabelGeo | null;
+  profit: ZoneLabelGeo | null;
   /** Share of circulating supply that entered above / below the film's price range (side-ladder notes). */
   offAbove: number;
   offBelow: number;
   ladder: LadderBarGeo[];
+  /** The headline wall's share of supply, beside its ladder bar. */
+  wallLabel: { x: number; y: number; text: string } | null;
   /** Sorted by price, for the crosshair's "supply entered at this price". */
   bins: LadderBin[];
   partial: boolean;
@@ -146,18 +209,25 @@ export interface DotGroup {
 export interface SourcesClusterGeo {
   mode: "clusters";
   title: string;
+  /** Headline "88 OF 90 BUYERS FUNDED INDEPENDENTLY", counting down from `from` to `to` as the dots merge. */
   counter: { from: number; to: number };
+  /** " · ONE WALLET FUNDED 30" when one funder paid for 3+ of the buyers, else "". */
+  extra: string;
+  /** Headline without "BUYERS " (so the extra fits). */
+  short: boolean;
   r: number;
   groups: DotGroup[];
-  labels: { x: number; text: string; sub: string }[];
+  /** Under each clump: its wallet count (big numeral) and the funder's name. */
+  labels: { x: number; count: string; name: string }[];
   partial: boolean;
 }
 
 export interface SourcesConcentrationGeo {
   mode: "concentration";
   title: string;
+  /** "TOP 10 BUYERS DID 53% OF THE BUYING". */
+  head: string;
   bar: Box & { share: number };
-  text: string;
   rest: string;
   note: string | null;
   partial: boolean;
@@ -167,16 +237,33 @@ export type SourcesGeo = SourcesClusterGeo | SourcesConcentrationGeo;
 
 export interface PulseGeo {
   d: string;
+  /** `d` closed along the zero line: the filled area (green above, red below). */
+  area: string;
   from: string;
   to: string;
   partial: boolean;
+  /** "−2.8% OF SUPPLY · 7D" in the strip's corner. */
+  net: { text: string; tone: "sell" | "buy" | "flat" } | null;
+}
+
+export interface NowGeo {
+  x: number;
+  y: number;
+  /** "NOW $0.02410" */
+  label: string;
+  /** Font size of the tag (a step smaller when a long price would not fit before the ladder). */
+  size: number;
+  /** Tag box, between the chart's right edge and the ladder. */
+  tag: Box;
 }
 
 export interface FilmGeometry {
   hasMeta: boolean;
   hasPrice: boolean;
-  plate: { name: string; sub: string };
-  status: { missing: string[]; partial: string[] };
+  plate: { name: string; sub: string; w: number };
+  status: { missing: string[]; partial: string[]; x: number };
+  /** The one-line reading guide under the plate (only what this film shows). */
+  guide: FilmGuideItem[];
   y: LogScale;
   x: TimeScale | null;
   priceNow: number | null;
@@ -184,7 +271,7 @@ export interface FilmGeometry {
   series: { t: number[]; c: number[]; xs: number[]; ys: number[] };
   ticks: { y: number; label: string }[];
   pricePath: string;
-  now: { x: number; y: number; label: string } | null;
+  now: NowGeo | null;
   walls: WallsGeo | null;
   wallsMissing: boolean;
   smY: number | null;
@@ -227,6 +314,13 @@ const parseTime = (iso: string | null | undefined): number | null => {
   return Number.isFinite(t) ? t : null;
 };
 
+/** Width of `s` in the film's monospace face at `size` (0.6em a glyph, 1em for CJK and other wide glyphs). */
+export function textWidth(s: string, size: number, letterSpacing = 0): number {
+  let n = 0;
+  for (const ch of s) n += /[⺀-￯]/.test(ch) ? 1 / 0.6 : 1;
+  return n * (size * 0.6 + letterSpacing);
+}
+
 /** Mockup tag box width for a 15px mono tag. */
 export const tagWidth = (tag: string) => tag.length * 10.4 + 18;
 
@@ -234,7 +328,12 @@ export function tagBox(m: Pick<MarkerGeo, "tx" | "ty" | "w" | "anchor">): Box {
   return { x: m.anchor === "end" ? m.tx - m.w : m.tx - 2, y: m.ty - 21, w: m.w, h: 28 };
 }
 
-const intersects = (a: Box, b: Box, pad = 0) =>
+/** Zone label box (the big percentage sets the height). */
+export function zoneBox(l: Pick<ZoneLabelGeo, "x" | "y" | "w">): Box {
+  return { x: l.x - 4, y: l.y - 23, w: l.w + 8, h: 30 };
+}
+
+export const intersects = (a: Box, b: Box, pad = 0) =>
   a.x - pad < b.x + b.w && b.x - pad < a.x + a.w && a.y - pad < b.y + b.h && b.y - pad < a.y + a.h;
 
 /** Path of `n` circles (one <path> per dot group keeps the per-frame merge update to a single attribute). */
@@ -265,49 +364,66 @@ function offTag(tag: string, off: "above" | "below" | null): string {
   return off === "below" ? `${tag} ↓` : off === "above" ? `${tag} ↑` : tag;
 }
 
-/** Band label width on the film (12px mono, letter-spacing 2). */
-const BAND_LABEL_W = 17 * 9.3;
+/** Width of a zone label: big percentage, the sentence, and the caveat in smaller type. */
+function zoneWidth(pct: string, text: string, note: string): number {
+  return (
+    textWidth(pct, FS.zonePct, 0.5) + textWidth(text, FS.zone, 1) + (note ? textWidth(`  ${note}`, FS.zoneNote, 1) : 0)
+  );
+}
 
 /**
- * Moves "HOLDERS AT A LOSS" / "HOLDERS IN PROFIT" along their band (and a line up or down) to where the
- * price line and the smart-money line leave them readable.
+ * Places the two zone labels right above ("AT A LOSS ↑") and below ("IN PROFIT ↓") today's price
+ * line, where the price line, the smart-money / YOU lines, the markers' tags and the NOW tag leave
+ * them readable. A zone too thin to hold its label puts it just past the chart's edge.
  */
-function placeBandLabels(w: WallsGeo, series: { xs: number[]; ys: number[] }, smY: number | null, markers: readonly MarkerGeo[]): void {
-  const obstacles: Box[] = markers.flatMap((m) => [tagBox(m), { x: m.cx - 19, y: m.cy - 19, w: 38, h: 38 }]);
-  const xsCand = [V.X0 + 12, V.X0 + 300, V.X1 - BAND_LABEL_W - 20, V.X0 + 560];
-  const place = (y0: number | null, dir: 1 | -1): [number, number] | null => {
-    if (y0 === null) return null;
-    let best: [number, number] = [V.X0 + 12, y0];
+function placeZoneLabels(
+  w: WallsGeo,
+  copy: NonNullable<ReturnType<typeof filmZones>>,
+  nowY: number,
+  series: { xs: number[]; ys: number[] },
+  lines: number[],
+  obstacles: Box[],
+): void {
+  const taken: Box[] = [...obstacles];
+  const place = (pct: string, text: string, note: string, up: boolean): ZoneLabelGeo => {
+    const width = zoneWidth(pct, text, note);
+    const top = V.Y0 - 6;
+    const bottom = V.Y1 + 26;
+    const ys: number[] = [];
+    if (up) {
+      for (let y = nowY - 13; y >= top && ys.length < 14; y -= 16) ys.push(y);
+      if (!ys.length) ys.push(top);
+    } else {
+      for (let y = nowY + 31; y <= bottom && ys.length < 14; y += 16) ys.push(y);
+      if (!ys.length) ys.push(bottom);
+    }
+    const right = V.X1 - width - 16;
+    const xs = [V.X0 + 14, V.X0 + 190, V.X0 + 370, V.X0 + 550, right].filter((x, i) => i === 0 || x <= right);
+    let best: ZoneLabelGeo = { x: xs[0], y: ys[0], pct, text, note, w: width };
     let bestScore = Infinity;
-    for (const [dy, pen] of [
-      [0, 0],
-      [-14 * dir, 4],
-      [14 * dir, 6],
-    ] as const) {
-      const y = y0 + dy;
-      if (y < 104 || y > V.Y1 + 40) continue;
-      xsCand.forEach((x, i) => {
+    ys.forEach((y, yi) => {
+      xs.forEach((x, xi) => {
+        const box = zoneBox({ x, y, w: width });
         let hits = 0;
         for (let k = 0; k < series.xs.length; k++) {
-          if (series.xs[k] < x - 6 || series.xs[k] > x + BAND_LABEL_W + 6) continue;
-          if (series.ys[k] > y - 16 && series.ys[k] < y + 7) hits++;
+          if (series.xs[k] < box.x - 4 || series.xs[k] > box.x + box.w + 4) continue;
+          if (series.ys[k] > box.y - 4 && series.ys[k] < box.y + box.h + 4) hits++;
         }
-        const sm = smY !== null && smY > y - 15 && smY < y + 7 ? 60 : 0;
-        const box: Box = { x: x - 4, y: y - 13, w: BAND_LABEL_W + 8, h: 17 };
-        const blocked = obstacles.some((o) => intersects(box, o, 2)) ? 200 : 0;
-        const score = hits * 10 + sm + blocked + pen + i * 1.5;
+        let score = hits * 12 + yi * 3 + xi * 2;
+        for (const ly of lines) if (ly > box.y - 2 && ly < box.y + box.h + 2) score += 60;
+        if (nowY > box.y && nowY < box.y + box.h) score += 150;
+        for (const o of taken) if (intersects(box, o, 12)) score += 400;
         if (score < bestScore) {
           bestScore = score;
-          best = [x, y];
+          best = { x, y, pct, text, note, w: width };
         }
       });
-    }
+    });
+    taken.push(zoneBox(best));
     return best;
   };
-  const loss = place(w.lossLabelY, 1);
-  const profit = place(w.profitLabelY, -1);
-  if (loss) [w.lossLabelX, w.lossLabelY] = loss;
-  if (profit) [w.profitLabelX, w.profitLabelY] = profit;
+  w.loss = place(copy.loss.pct, copy.loss.text, "", true);
+  w.profit = place(copy.profit.pct, copy.profit.text, copy.note, false);
 }
 
 /* ---------------------------------------------------------------- main */
@@ -374,15 +490,22 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
     for (let i = 0; i < pts.length; i++)
       pricePath += `${i ? "L" : "M"}${series.xs[i].toFixed(1)} ${series.ys[i].toFixed(1)}`;
   }
-  const now =
-    x && pts.length && priceNow
-      ? { x: series.xs[series.xs.length - 1], y: y.clamped(priceNow), label: formatPrice(priceNow) }
-      : null;
+  let now: NowGeo | null = null;
+  if (x && pts.length && priceNow) {
+    const ny = y.clamped(priceNow);
+    const label = `NOW ${formatPrice(priceNow)}`;
+    const size = textWidth(label, FS.now, 0.4) + 16 <= V.LX - V.X1 - 20 ? FS.now : FS.now - 2;
+    const tw = textWidth(label, size, 0.4) + 16;
+    now = { x: series.xs[series.xs.length - 1], y: ny, label, size, tag: { x: V.X1 + 12, y: ny - 14, w: tw, h: 28 } };
+  }
 
   // Plate.
   const plate = meta
     ? { name: `${patientName(meta).slice(0, 14)} · ${chainLabel(meta.chain)}`, sub: plateLine(meta) }
     : { name: "AWAITING PATIENT", sub: "NO EXPOSURE ON THIS FILM" };
+  const plateW = Math.round(
+    Math.max(340, textWidth(plate.name, FS.plate, 2) + 30, textWidth(plate.sub, FS.plateSub, 1.2) + 30),
+  );
 
   // Status plate.
   const missing: string[] = [];
@@ -406,6 +529,7 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
   const wallsGeo = wallsOk ? buildWalls(walls!, y, priceNow, wall) : null;
   const offOf = (p: number): "above" | "below" | null => (p > y.domain.hi ? "above" : p < y.domain.lo ? "below" : null);
   const smY = smartOk ? y.clamped(smart!.avgEntry!) : null;
+  const youY = youOk ? y.clamped(you!.cost!) : null;
 
   // Big buys: dots on the price at the time of the buy.
   const bigBuys: FilmGeometry["bigBuys"] = [];
@@ -418,7 +542,7 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
       const k = Math.sqrt(b.usd / maxUsd);
       const cy = y(b.price);
       if (cy < V.Y0 - 10 || cy > V.Y1 + 10) continue;
-      bigBuys.push({ cx: x(b.t), cy, r: 2 + 4 * k, o: 0.25 + 0.5 * k });
+      bigBuys.push({ cx: x(b.t), cy, r: Math.round((2.5 + 4.5 * k) * 100) / 100, o: Math.round((0.35 + 0.5 * k) * 100) / 100 });
     }
   }
 
@@ -429,11 +553,13 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
   const smOff = smartOk ? offOf(smart!.avgEntry!) : null;
   const parkedTicks = smOff && smY !== null ? ticks.filter((t) => Math.abs(t.y - smY) >= 18) : ticks;
 
+  const zones = wallsGeo && wallsGeo.zones && now ? filmZones(walls) : null;
   const geo: FilmGeometry = {
     hasMeta: !!meta,
     hasPrice,
-    plate,
-    status: { missing, partial },
+    plate: { ...plate, w: plateW },
+    status: { missing, partial, x: 40 + plateW + 24 },
+    guide: meta ? filmGuide({ zones: !!zones, smart: smY !== null, buys: bigBuys.length > 0 }) : [],
     y,
     x,
     priceNow,
@@ -444,7 +570,7 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
     walls: wallsGeo,
     wallsMissing: !!walls && walls.status === "unavailable",
     smY,
-    youY: youOk ? y.clamped(you!.cost!) : null,
+    youY,
     smOff,
     youOff: youOk ? offOf(you!.cost!) : null,
     bigBuys,
@@ -455,7 +581,7 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
     markers: [],
   };
 
-  geo.markers = placeMarkers(geo, {
+  const markerInputs: MarkerInputs = {
     buyers: sources ? { anchor: sources.anchor, tag: tagFor(1, buyers) } : null,
     flow: pulse ? { anchor: pulse.anchor, tag: tagFor(2, flow) } : null,
     wall: wall && isPos(wall.price) ? { price: wall.price, tag: tagFor(3, walls) } : null,
@@ -463,9 +589,28 @@ export function buildFilmGeometry(input: FilmInput): FilmGeometry {
     wallFallback: wallsGeo && !wall && priceNow ? { tag: tagFor(3, walls) } : null,
     smart: smartOk ? { tag: offTag(tagFor(4, smart), offOf(smart!.avgEntry!)) } : null,
     you: youOk ? { tag: offTag(tagFor(5, you), offOf(you!.cost!)) } : null,
-  });
-  // The band labels go where the price line, the SM line and the markers' tags leave room.
-  if (wallsGeo) placeBandLabels(wallsGeo, series, smY, geo.markers);
+  };
+  geo.markers = placeMarkers(geo, markerInputs, []);
+  // The zone labels go where the price line, the SM / YOU lines, the markers and the NOW tag leave room.
+  if (wallsGeo && zones && now) {
+    const place = () => {
+      const obstacles: Box[] = [now.tag];
+      for (const m of geo.markers) obstacles.push(tagBox(m), ringBox(m.cx, m.cy, 2));
+      const lines = [smY, youY].filter((v): v is number => v !== null);
+      placeZoneLabels(wallsGeo, zones, now.y, series, lines, obstacles);
+    };
+    place();
+    // A zone with no free spot (price at the very edge of the film) keeps its label, and the markers
+    // make room for it instead.
+    const labels = [wallsGeo.loss, wallsGeo.profit].filter((l): l is ZoneLabelGeo => !!l).map(zoneBox);
+    const blocked = geo.markers.some((m) =>
+      labels.some((b) => intersects(b, tagBox(m), 2) || intersects(b, ringBox(m.cx, m.cy), 2)),
+    );
+    if (blocked) {
+      geo.markers = placeMarkers(geo, markerInputs, labels);
+      place();
+    }
+  }
 
   return geo;
 }
@@ -548,12 +693,19 @@ function buildWalls(walls: WallsFinding, y: LogScale, priceNow: number | null, p
       yy -= (6 - h) / 2;
       h = 6;
     }
-    bands.push({ y: yy, h, warm: b.warm, opacity: 0.5 + 0.5 * (b.weight / maxW) });
+    // The densest band reads first: tint strength follows the supply that entered there.
+    const dens = b.weight / maxW;
+    bands.push({ y: yy, h, warm: b.warm, opacity: Math.round((0.14 + 0.46 * Math.pow(dens, 1.2)) * 1000) / 1000 });
   }
-  const warm = bands.filter((b) => b.warm);
-  const cool = bands.filter((b) => !b.warm);
-  const lossLabelY = warm.length ? Math.max(106, Math.min(...warm.map((b) => b.y)) - 9) : null;
-  const profitLabelY = cool.length ? Math.min(V.Y1 + 36, Math.max(...cool.map((b) => b.y + b.h)) + 24) : null;
+
+  const nowY = priceNow ? y.clamped(priceNow) : null;
+  const zones =
+    nowY !== null
+      ? {
+          warm: { y: top, h: Math.max(0, nowY - top) },
+          cool: { y: nowY, h: Math.max(0, bottom - nowY) },
+        }
+      : null;
 
   // Supply that entered beyond the film's range: summed into the side ladder's notes, not dropped silently.
   let offAbove = 0;
@@ -564,27 +716,46 @@ function buildWalls(walls: WallsFinding, y: LogScale, priceNow: number | null, p
   }
 
   const ladder: LadderBarGeo[] = [];
+  let wallLabel: WallsGeo["wallLabel"] = null;
   if (maxShare > 0) {
     for (const b of bins) {
       const yt = y(b.hi);
       const yb = y(b.lo);
-      if (yb < V.Y0 - 8 || yt > V.Y1 + 8) continue;
-      const mid = clamp((yt + yb) / 2, V.Y0 - 8, V.Y1 + 8);
-      const h = clamp((yb - yt) * 0.6, 2.5, 6);
+      const mid = (yt + yb) / 2;
+      if (mid < V.Y0 - 4 || mid > V.Y1 + 4) continue;
+      const binH = yb - yt;
+      const h = binH >= 10 ? clamp(binH * 0.62, 8, 18) : Math.max(2.5, binH - 1.5);
       const dens = b.supplyShare / maxShare;
-      ladder.push({ y: mid - h / 2, h, w: Math.max(2, dens * V.LW), opacity: 0.25 + dens * 0.6 });
+      const isWall = !!primary && primary.price >= b.lo && primary.price < b.hi;
+      const bar: LadderBarGeo = {
+        y: Math.round((mid - h / 2) * 100) / 100,
+        h: Math.round(h * 100) / 100,
+        w: Math.round(Math.max(3, dens * V.LB) * 100) / 100,
+        opacity: Math.round((0.4 + 0.55 * dens) * 1000) / 1000,
+        warm: priceNow ? Math.sqrt(b.lo * b.hi) >= priceNow : true,
+        wall: isWall,
+      };
+      ladder.push(bar);
+      if (isWall && isNum(primary!.supplyShare) && primary!.supplyShare > 0) {
+        const share = primary!.supplyShare;
+        wallLabel = {
+          x: Math.round((V.LX + bar.w + 7) * 100) / 100,
+          y: Math.round((mid + FS.wallPct * 0.35) * 100) / 100,
+          text: formatPct(share, share < 0.095 ? 1 : 0),
+        };
+      }
     }
   }
 
   return {
     bands,
-    lossLabelY,
-    profitLabelY,
-    lossLabelX: V.X0 + 12,
-    profitLabelX: V.X0 + 12,
+    zones,
+    loss: null,
+    profit: null,
     offAbove,
     offBelow,
     ladder,
+    wallLabel,
     bins,
     partial: walls.status === "partial",
   };
@@ -605,6 +776,9 @@ export function binAt(bins: readonly LadderBin[], price: number): LadderBin | nu
 }
 
 /* ---------------------------------------------------------------- 01 funding sources */
+
+/** Clear space between two cluster labels (so "OKX" and "INDEPENDENT" never read as one name). */
+const LABEL_GAP = 24;
 
 /** Longest cluster label on the film (characters); longer names end in "…". */
 const CLUSTER_LABEL_MAX = 12;
@@ -632,10 +806,15 @@ const KIND_LABEL = (c: SourceCluster): string => {
   }
 };
 
-function buildSources(
-  b: BuyersFinding,
-  tag: string,
-): { geo: SourcesGeo; anchor: { x: number; y: number; right: boolean; lift?: boolean } } | null {
+/** Anchor of marker 1: the ring's centre, and whether its tag goes to the right of it (else below-right). */
+interface BuyersAnchor {
+  x: number;
+  y: number;
+  right: boolean;
+  lift?: boolean;
+}
+
+function buildSources(b: BuyersFinding, tag: string): { geo: SourcesGeo; anchor: BuyersAnchor } | null {
   const clusters = b.clusters.filter((c) => c.wallets > 0);
   const partial = b.status === "partial";
 
@@ -643,23 +822,24 @@ function buildSources(
     // Concentration fallback (Solana / quick tier): the analysed buyers' share of all buying.
     if (!(b.topBuyers > 0)) return null;
     const share = clamp(isNum(b.topShare) ? b.topShare : 0, 0, 1);
-    const bar = { x: V.SRC_X0, y: 668, w: 620, h: 18, share };
+    const bar = { x: V.SRC_X0, y: 622, w: 640, h: 24, share };
     const others = Math.max(0, (b.totalBuyers || 0) - b.topBuyers);
-    // One short line that fits under the bar (the pipeline's note runs to 200+ characters and was cut
+    // One short line under the bar (the pipeline's note runs to 200+ characters and was cut
     // mid-sentence): why there are no funders, and how much the single largest buyer did.
     const top1 = clamp(isNum(b.biggestSourceShare) ? b.biggestSourceShare : 0, 0, 1);
     const reason = untracedReason(b).replace(/\.$/, "").toUpperCase();
+    const who = b.topBuyers === 1 ? "THE TOP BUYER" : `TOP ${b.topBuyers} BUYERS`;
     return {
       geo: {
         mode: "concentration",
         title: "BUYING CONCENTRATION",
+        head: `${who} DID ${formatPct(share, 0)} OF THE BUYING`,
         bar,
-        text: `TOP ${b.topBuyers} BUYERS · ${formatPct(share, 0)} OF BUYING`,
-        rest: others ? `${formatAmount(others)}${b.totalBuyersCapped ? "+" : ""} OTHER BUYERS` : "",
+        rest: others ? `${formatAmount(others)}${b.totalBuyersCapped ? "+" : ""} OTHER BUYERS DID THE REST` : "",
         note: b.topBuyers > 1 && top1 > 0 ? `${reason} · LARGEST BUYER ${formatPct(top1, 0)}` : reason,
         partial,
       },
-      anchor: { x: bar.x + bar.w * share, y: bar.y + bar.h / 2, right: false },
+      anchor: { x: bar.x + bar.w * share, y: bar.y + bar.h + 27, right: false },
     };
   }
 
@@ -678,7 +858,7 @@ function buildSources(
   const items: Item[] = ordered.map((c) => ({
     c,
     n: Math.max(1, Math.round(c.wallets / unit)),
-    opacity: c === hi ? 0.95 : c.kind === "untraced" ? 0.55 : 0.6,
+    opacity: c === hi ? 0.95 : c.kind === "untraced" ? 0.85 : 0.7,
     mode: c.kind === "untraced" ? "stroke" : "fill",
   }));
 
@@ -694,20 +874,26 @@ function buildSources(
     singles = items.slice(1);
   }
 
-  const LABEL_CH = 7.8;
-  const SUB_CH = 7;
-  const subOf = (w: number) => `${w} ${w === 1 ? "WALLET" : "WALLETS"}`;
-  const labelWidth = (c: SourceCluster) => Math.max(KIND_LABEL(c).length * LABEL_CH, subOf(c.wallets).length * SUB_CH);
+  const nameW = (s: string) => textWidth(s, FS.name, 1);
+  const numW = (n: number) => textWidth(String(n), FS.num, 0);
+  const labelWidth = (c: SourceCluster) => Math.max(nameW(KIND_LABEL(c)), numW(c.wallets));
   const avail = V.SRC_X1 - V.SRC_X0 - 14;
   const maxN = Math.max(...multi.map((m) => m.n));
-  let s = Math.min(6, 40 / Math.sqrt(Math.max(1, maxN - 1)));
+  let s = Math.min(8, 53 / Math.sqrt(Math.max(1, maxN - 1)));
 
-  // `subs`: reserve room for the "N WALLETS" count of unnamed clumps too (only while it costs no dot size).
+  // The grid's own name, as labelled below ("SMALL SOURCES" once a demoted clump joins it).
+  const gridName = (sg: Item[]) => {
+    const traced = sg.filter((it) => it.c.kind !== "untraced");
+    if (!traced.length) return "UNTRACED";
+    return traced.every((it) => it.c.wallets === 1 || service(it.c)) ? "INDEPENDENT" : "SMALL SOURCES";
+  };
+
+  // `subs`: reserve room for the wallet count of unnamed clumps too (only while it costs no dot size).
   let subs = true;
   const measure = (sp: number, ms: Item[], sg: Item[]) => {
-    const r = clamp(3.4 * (sp / 6), 1.6, 3.4);
+    const r = clamp(4.4 * (sp / 8), 2, 4.4);
     const R = ms.map((m) => sp * Math.sqrt(m.n - 1) + r);
-    const cell = Math.max(2 * r + 2, 16 * (sp / 6));
+    const cell = Math.max(2 * r + 2.5, 21 * (sp / 8));
     const sgN = sg.reduce((acc, it) => acc + it.n, 0);
     const rows = sgN ? clamp(Math.round(Math.sqrt(sgN / 1.8)), 1, 5) : 0;
     const cols = rows ? Math.ceil(sgN / rows) : 0;
@@ -716,17 +902,17 @@ function buildSources(
     // counted with the other small clumps rather than crowding the row with another address).
     const labeled = ms.map((m, i) => i === 0 || ((i < 3 || m.c.wallets >= total * 0.06) && m.c.wallets >= 3));
     const halfW = ms.map((_, i) => R[i]);
-    // An unnamed clump still gets its "N WALLETS" count, so it reserves that much room too.
-    const labelW = ms.map((m, i) => (labeled[i] ? labelWidth(m.c) : subs ? subOf(m.c.wallets).length * SUB_CH : 0));
+    // An unnamed clump still gets its wallet count, so it reserves that much room too.
+    const labelW = ms.map((m, i) => (labeled[i] ? labelWidth(m.c) : subs ? numW(m.c.wallets) : 0));
     const gaps: number[] = [];
     let width = 0;
     for (let i = 0; i < ms.length; i++) {
       width += 2 * halfW[i];
       if (i < ms.length - 1 || gridW) {
         const nextHalf = i < ms.length - 1 ? halfW[i + 1] : gridW / 2;
-        const nextLabel = i < ms.length - 1 ? labelW[i + 1] : 13 * LABEL_CH;
-        let g = 18;
-        if (labelW[i] && nextLabel) g = Math.max(g, labelW[i] / 2 + nextLabel / 2 + 10 - halfW[i] - nextHalf);
+        const nextLabel = i < ms.length - 1 ? labelW[i + 1] : nameW(gridName(sg));
+        let g = 22;
+        if (labelW[i] && nextLabel) g = Math.max(g, labelW[i] / 2 + nextLabel / 2 + LABEL_GAP + 4 - halfW[i] - nextHalf);
         if (i === 0) g = Math.max(g, 72);
         gaps.push(g);
         width += g;
@@ -744,12 +930,15 @@ function buildSources(
   for (let pass = 0; pass < 3 && m.width > avail; pass++) {
     const gapSum = m.gaps.reduce((a, g) => a + g, 0);
     const f = Math.max(0.2, (avail - gapSum) / Math.max(1, m.width - gapSum));
-    s = Math.max(2.2, s * f);
+    s = Math.max(2.6, s * f);
     m = measure(s, multi, singles);
   }
   while (m.width > avail && multi.length > 3) {
-    const smallest = multi[multi.length - 1];
-    multi = multi.slice(0, -1);
+    // The smallest traced clump joins the grid; the untraced clump (hollow dots) keeps its own label.
+    let at = multi.length - 1;
+    while (at > 1 && multi[at].c.kind === "untraced") at--;
+    const smallest = multi[at];
+    multi = multi.filter((_, i) => i !== at);
     singles = [...singles, smallest];
     m = measure(s, multi, singles);
   }
@@ -771,12 +960,24 @@ function buildSources(
   // Merged targets.
   const targets: { item: Item; tx: number; ty: number }[] = [];
   // Label candidates, placed by priority (a named cluster, then the grid's label, then a bare wallet
-  // count) so a small clump's "2 WALLETS" never pushes out the INDEPENDENT label of the grid.
-  type LabelCand = SourcesClusterGeo["labels"][number] & { half: number; pri: number };
+  // count) so a small clump's count never pushes out the INDEPENDENT label of the grid.
+  // `at`: the clump's centre (the label may slide up to `shift` off it to clear a neighbour).
+  // `hn` / `ht`: half widths of the numeral and of the name (they sit on two rows).
+  type LabelCand = SourcesClusterGeo["labels"][number] & { at: number; hn: number; ht: number; pri: number; shift: number };
+  const cand = (x: number, count: string, name: string, pri: number, shift: number): LabelCand => ({
+    x,
+    at: x,
+    count,
+    name,
+    pri,
+    shift,
+    hn: textWidth(count, FS.num) / 2,
+    ht: name ? nameW(name) / 2 : 0,
+  });
   const cands: LabelCand[] = [];
   const clumps: { x: number; wallets: number }[] = [];
   let cursor = V.SRC_X0 + 14;
-  let anchor: { x: number; y: number; right: boolean; lift?: boolean } = { x: 0, y: 0, right: true };
+  let anchor: BuyersAnchor = { x: 0, y: 0, right: true };
   multi.forEach((it, i) => {
     const cx = cursor + m.R[i];
     for (let j = 0; j < it.n; j++) {
@@ -788,10 +989,10 @@ function buildSources(
     {
       // Named when it is one of the first three or a big one; otherwise (or when the name does not fit)
       // at least its wallet count, so no clump of dots is left unexplained.
-      const halfL = labelWidth(it.c) / 2;
-      const halfS = (subOf(it.c.wallets).length * SUB_CH) / 2;
-      if (m.labeled[i]) cands.push({ x: cx, text: KIND_LABEL(it.c), sub: subOf(it.c.wallets), half: halfL, pri: i === 0 ? 0 : 1 });
-      cands.push({ x: cx, text: "", sub: subOf(it.c.wallets), half: halfS, pri: 3 });
+      const count = String(it.c.wallets);
+      const shift = m.R[i] * 0.8;
+      if (m.labeled[i]) cands.push(cand(cx, count, KIND_LABEL(it.c), i === 0 ? 0 : 1, shift));
+      cands.push(cand(cx, count, "", 3, shift));
       clumps.push({ x: cx, wallets: it.c.wallets });
     }
     if (i === 0) anchor = { x: cx + m.R[0] + 19, y: V.SRC_CY - 30, right: true, lift: liftTag };
@@ -812,33 +1013,60 @@ function buildSources(
     // apart instead of turning the whole grid into "small sources".
     const traced = singles.filter((it) => it.c.kind !== "untraced");
     const untracedN = singles.filter((it) => it.c.kind === "untraced").reduce((acc, it) => acc + it.c.wallets, 0);
-    const allOne = traced.every((it) => it.c.wallets === 1 || service(it.c));
     const wallets = traced.reduce((acc, it) => acc + it.c.wallets, 0);
-    const text = !traced.length ? "UNTRACED" : allOne ? "INDEPENDENT" : "SMALL SOURCES";
-    const sub = !traced.length
-      ? subOf(untracedN)
-      : untracedN
-        ? `${subOf(wallets)} · ${untracedN} UNTRACED`
-        : subOf(wallets);
+    const name = gridName(singles);
+    const count = String(traced.length ? wallets : untracedN);
     const gx = x0 + (m.gridW - 2 * m.r) / 2;
-    const half = Math.max(text.length * LABEL_CH, sub.length * SUB_CH) * 0.5;
-    cands.push({ x: gx, text, sub, half, pri: 2 });
+    // The hollow dots are named too when there is room: "INDEPENDENT · 1 UNTRACED".
+    const shift = Math.max(0, m.gridW / 2 - 10);
+    if (traced.length && untracedN) {
+      const full = `${name} · ${untracedN} UNTRACED`;
+      cands.push(cand(gx, count, full, 2, shift));
+    }
+    cands.push(cand(gx, count, name, 2.5, shift));
+    if (traced.length) cands.push(cand(gx, count, "OTHERS", 2.6, shift));
+    // Squeezed: at least the grid's count.
+    cands.push(cand(gx, count, "", 2.7, shift));
   }
   let labels: LabelCand[] = [];
-  const fits = (list: LabelCand[], c: LabelCand) =>
-    // One label per clump, none overlapping another or running past the strip.
-    !list.some((l) => Math.abs(l.x - c.x) < 0.5) &&
-    c.x + c.half <= V.SRC_X1 + 40 &&
-    !list.some((l) => l.x - l.half - 8 < c.x + c.half && c.x - c.half < l.x + l.half + 8);
-  for (const c of cands.filter((k) => k.pri <= 2).sort((a, b) => a.pri - b.pri)) if (fits(labels, c)) labels.push(c);
-  // The remaining small clumps: each its own "2 WALLETS" when all of them fit; otherwise the clumps
-  // between two named ones share one label ("3 MORE · 7 WALLETS") so none is left unexplained.
-  const bare = clumps.filter((k) => !labels.some((l) => Math.abs(l.x - k.x) < 0.5));
+  /**
+   * The candidate at the nearest x (within `shift` of its clump) where it overlaps no placed label and
+   * stays on the strip; null when there is none. One label per clump (`at`).
+   */
+  const fit = (list: LabelCand[], c: LabelCand): LabelCand | null => {
+    if (list.some((l) => Math.abs(l.at - c.at) < 0.5)) return null;
+    const half = Math.max(c.hn, c.ht);
+    let lo = 20 + half;
+    // Clear of the pulse strip's first date ("SAT 19 SEP" at EX0) on the same rows.
+    let hi = V.EX0 - LABEL_GAP - half;
+    for (const l of list) {
+      // Numerals need a little air; two names need more, or "OKX" and "INDEPENDENT" read as one; and a
+      // bare count must not sit over a neighbour's name, or the name reads as its own.
+      const gap = Math.max(
+        l.hn + 12 + c.hn,
+        l.ht && c.ht ? l.ht + LABEL_GAP + c.ht : 0,
+        l.ht ? l.ht + 10 + c.hn : 0,
+        c.ht ? l.hn + 10 + c.ht : 0,
+      );
+      if (l.x <= c.x) lo = Math.max(lo, l.x + gap);
+      else hi = Math.min(hi, l.x - gap);
+    }
+    if (lo > hi) return null;
+    const x = clamp(c.x, lo, hi);
+    return Math.abs(x - c.x) <= c.shift ? { ...c, x: Math.round(x * 100) / 100 } : null;
+  };
+  for (const c of cands.filter((k) => k.pri < 3).sort((a, b) => a.pri - b.pri)) {
+    const f = fit(labels, c);
+    if (f) labels.push(f);
+  }
+  // The remaining small clumps: each its own count when all of them fit; otherwise the clumps between
+  // two named ones share one label ("7" over "3 SOURCES") so none is left unexplained.
+  const bare = clumps.filter((k) => !labels.some((l) => Math.abs(l.at - k.x) < 0.5));
   const own = [...labels];
   let all = true;
   for (const k of bare) {
-    const c = cands.find((x) => x.pri === 3 && Math.abs(x.x - k.x) < 0.5)!;
-    if (fits(own, c)) own.push(c);
+    const f = fit(own, cands.find((x) => x.pri === 3 && Math.abs(x.at - k.x) < 0.5)!);
+    if (f) own.push(f);
     else all = false;
   }
   if (all) labels = own;
@@ -846,22 +1074,22 @@ function buildSources(
     const runs: (typeof bare)[] = [];
     for (const k of bare) {
       const run = runs[runs.length - 1];
-      const between = run && labels.some((l) => l.x > run[run.length - 1].x && l.x < k.x);
+      const between = run && labels.some((l) => l.at > run[run.length - 1].x && l.at < k.x);
       if (run && !between) run.push(k);
       else runs.push([k]);
     }
     for (const run of runs) {
       const x = run.reduce((a, k) => a + k.x, 0) / run.length;
       const wallets = run.reduce((a, k) => a + k.wallets, 0);
-      const text = run.length > 1 ? `${run.length} MORE` : "";
-      const sub = subOf(wallets);
-      const c: LabelCand = { x, text, sub, half: Math.max(text.length * LABEL_CH, sub.length * SUB_CH) / 2, pri: 4 };
-      if (fits(labels, c)) labels.push(c);
+      const name = run.length > 1 ? `${run.length} SOURCES` : "";
+      const span = run.length > 1 ? (run[run.length - 1].x - run[0].x) / 2 : 0;
+      const f = fit(labels, cand(x, String(wallets), name, 4, span)) ?? (name ? fit(labels, cand(x, String(wallets), "", 4, span)) : null);
+      if (f) labels.push(f);
       else {
         // No room for the shared label either: as many single counts as fit.
         for (const k of run) {
-          const one = cands.find((x2) => x2.pri === 3 && Math.abs(x2.x - k.x) < 0.5)!;
-          if (fits(labels, one)) labels.push(one);
+          const one = fit(labels, cands.find((x2) => x2.pri === 3 && Math.abs(x2.at - k.x) < 0.5)!);
+          if (one) labels.push(one);
         }
       }
     }
@@ -876,16 +1104,16 @@ function buildSources(
     const j = Math.floor(rnd() * (i + 1));
     [order[i], order[j]] = [order[j], order[i]];
   }
-  const twoRows = N > 90;
+  const twoRows = N > 80;
   const perRow = twoRows ? Math.ceil(N / 2) : N;
-  const rowW = Math.min(600, perRow * 9);
+  const rowW = Math.min(660, perRow * 11);
   const groupsMap = new Map<Item, DotGroup>();
   order.forEach((ti, slot) => {
     const t = targets[ti];
     const row = twoRows ? slot % 2 : 0;
     const idx = twoRows ? Math.floor(slot / 2) : slot;
-    const sx = V.SRC_X0 + (perRow > 1 ? (idx / (perRow - 1)) * rowW : 0);
-    const sy = twoRows ? V.ROW_Y - 6 + row * 12 : V.ROW_Y;
+    const sx = V.SRC_X0 + 14 + (perRow > 1 ? (idx / (perRow - 1)) * rowW : 0);
+    const sy = twoRows ? V.ROW_Y - 8 + row * 16 : V.ROW_Y;
     let g = groupsMap.get(t.item);
     if (!g) {
       g = { mode: t.item.mode, opacity: t.item.opacity, pts: [] };
@@ -895,14 +1123,24 @@ function buildSources(
   });
 
   const topBuyers = b.topBuyers > 0 ? b.topBuyers : total;
+  // "ONE WALLET FUNDED 30" when the funding is concentrated (the report's sentence says the same).
+  const most = buyerFunding(b).mostFromOneWallet;
+  const extra = most >= 3 ? ` · ONE WALLET FUNDED ${most}` : "";
+  const headW = (short: boolean) =>
+    textWidth(`${topBuyers} OF ${topBuyers} ${short ? "" : "BUYERS "}FUNDED INDEPENDENTLY`, FS.head, 0.5) +
+    textWidth(extra, FS.headExtra, 0.5);
   return {
     geo: {
       mode: "clusters",
-      title: `FUNDING SOURCES OF THE TOP ${topBuyers} BUYERS`,
+      // Hollow dots are explained once, in the title: the grid's label may not have room to.
+      title: `FUNDING SOURCES OF THE TOP ${topBuyers} BUYERS${ordered.some((c) => c.kind === "untraced") ? " · ○ UNTRACED" : ""}`,
       counter: { from: topBuyers, to: b.sources },
+      extra,
+      // The headline runs from the strip's left edge (x 40) to 40 short of the pulse strip.
+      short: headW(false) > V.EX0 - 80,
       r: m.r,
       groups: [...groupsMap.values()],
-      labels: labels.map(({ x, text, sub }) => ({ x, text, sub })),
+      labels: labels.map(({ x, count, name }) => ({ x, count, name })),
       partial,
     },
     anchor,
@@ -927,6 +1165,9 @@ function buildPulse(
   let beats: Beat[] = [];
   let t0 = x?.t0 ?? parseTime(meta?.window.from);
   let t1 = x?.t1 ?? parseTime(meta?.window.to);
+  // Beats in share of supply: the trace's size is then absolute (1% of supply fills the strip), so a
+  // week that barely moved draws a near-flat line instead of being stretched to full height.
+  let useCum = false;
 
   if (informed.length >= 2) {
     if (t0 === null || t1 === null || !(t1 > t0)) {
@@ -935,7 +1176,7 @@ function buildPulse(
     }
     const B = informed.length >= 28 ? 14 : clamp(informed.length, 1, 14);
     const dt = (t1 - t0) / B;
-    const useCum = informed.some((p) => isNum(p.cumPctSupply) && p.cumPctSupply !== 0);
+    useCum = informed.some((p) => isNum(p.cumPctSupply) && p.cumPctSupply !== 0);
     let prevCum = 0;
     let run = 0;
     let pi = 0;
@@ -976,25 +1217,26 @@ function buildPulse(
   const B = beats.length;
   const maxNet = beats.reduce((m, b) => Math.max(m, Math.abs(b.net)), 0);
   const maxCum = beats.reduce((m, b) => Math.max(m, Math.abs(b.cum)), 0);
+  const refNet = useCum ? Math.max(maxNet, 0.004) : maxNet;
+  const refCum = useCum ? Math.max(maxCum, 0.01) : maxCum;
   const bw = (V.EX1 - V.EX0) / B;
   const sx = Math.min(1, bw / 30);
-  const DRIFT = 22;
-  const base = (cum: number) => V.EB - (maxCum > 0 ? (cum / maxCum) * DRIFT : 0);
+  const DRIFT = 30;
+  const base = (cum: number) => V.EB - (refCum > 0 ? (cum / refCum) * DRIFT : 0);
 
+  // One clean spike per beat (no pre-dip or overshoot): the line's level is the running net, the
+  // spike that period's net, down for selling and up for buying.
   let d = `M${V.EX0} ${V.EB}`;
   const centers: { x: number; y: number }[] = [];
   beats.forEach((b, i) => {
     const bx = V.EX0 + (i + 0.5) * bw;
     const by = base(b.cum);
-    const amp = maxNet > 0 ? 5 + 29 * Math.pow(Math.abs(b.net) / maxNet, 0.8) : 5;
+    const amp = refNet > 0 ? 3 + 21 * Math.pow(Math.min(1, Math.abs(b.net) / refNet), 0.8) : 3;
     const dir = b.net < 0 ? 1 : -1; // selling pulls the trace down
-    const over = Math.min(10, amp * 0.35);
     d +=
-      ` L${(bx - 10 * sx).toFixed(1)} ${by.toFixed(1)}` +
-      ` L${(bx - 4 * sx).toFixed(1)} ${(by - 6 * dir).toFixed(1)}` +
+      ` L${(bx - 8 * sx).toFixed(1)} ${by.toFixed(1)}` +
       ` L${bx.toFixed(1)} ${(by + amp * dir).toFixed(1)}` +
-      ` L${(bx + 5 * sx).toFixed(1)} ${(by - over * dir).toFixed(1)}` +
-      ` L${(bx + 12 * sx).toFixed(1)} ${by.toFixed(1)}`;
+      ` L${(bx + 8 * sx).toFixed(1)} ${by.toFixed(1)}`;
     centers.push({ x: bx, y: by });
   });
   d += ` L${V.EX1} ${base(beats[B - 1].cum).toFixed(1)}`;
@@ -1035,9 +1277,11 @@ function buildPulse(
   return {
     geo: {
       d,
+      area: `${d} L${V.EX1} ${V.EB} Z`,
       from: t0 !== null ? fmtDay(t0) : "",
       to: t1 !== null ? fmtDay(t1) : "",
       partial: f.status === "partial",
+      net: pulseNet(f),
     },
     anchor: { x: centers[at].x, y: centers[at].y + 10 },
   };
@@ -1046,7 +1290,7 @@ function buildPulse(
 /* ---------------------------------------------------------------- markers */
 
 interface MarkerInputs {
-  buyers: { anchor: { x: number; y: number; right: boolean; lift?: boolean }; tag: string } | null;
+  buyers: { anchor: BuyersAnchor; tag: string } | null;
   flow: { anchor: { x: number; y: number }; tag: string } | null;
   wall: { price: number; tag: string } | null;
   wallFallback: { tag: string } | null;
@@ -1056,9 +1300,18 @@ interface MarkerInputs {
 
 const RING = 17;
 
-function placeMarkers(geo: FilmGeometry, inp: MarkerInputs): MarkerGeo[] {
+/** A marker ring's box (plus `pad`). */
+const ringBox = (cx: number, cy: number, pad = 0): Box => ({
+  x: cx - RING - pad,
+  y: cy - RING - pad,
+  w: 2 * (RING + pad),
+  h: 2 * (RING + pad),
+});
+
+function placeMarkers(geo: FilmGeometry, inp: MarkerInputs, reserved: readonly Box[]): MarkerGeo[] {
   const out: MarkerGeo[] = [];
-  const boxes: Box[] = [];
+  // The NOW tag (and, on a second pass, the zone labels) are fixed: no marker tag or ring may cover them.
+  const boxes: Box[] = geo.now ? [geo.now.tag, ...reserved] : [...reserved];
   const rings: Box[] = [];
   const { xs, ys } = geo.series;
 
@@ -1072,8 +1325,6 @@ function placeMarkers(geo: FilmGeometry, inp: MarkerInputs): MarkerGeo[] {
     anchor: "start" | "end",
     color: string = C.marker,
   ): MarkerGeo => ({ n, cx, cy, tag, tx, ty, anchor, color, w: tagWidth(tag), label: `Finding ${n}: ${tag}` });
-
-  const ringBox = (cx: number, cy: number): Box => ({ x: cx - RING, y: cy - RING, w: 2 * RING, h: 2 * RING });
 
   /** Price-line samples inside a box (the line should never run through a tag or a ring). */
   const lineHits = (b: Box, pad = 5) => {
@@ -1108,26 +1359,29 @@ function placeMarkers(geo: FilmGeometry, inp: MarkerInputs): MarkerGeo[] {
     const a = inp.buyers.anchor;
     const w = tagWidth(inp.buyers.tag);
     const cx = clamp(a.x, V.SRC_X0 + RING, V.SRC_X1 - RING);
-    const cy = a.right ? a.y : a.y - 22;
+    const cy = a.y;
     let tx = cx + 40;
     let anchor: "start" | "end" = "start";
     if (tx + w > V.EX0 - 16) {
       tx = cx - 40;
       anchor = "end";
     }
-    commit(mk(1, cx, a.lift ? cy - 2 : cy, inp.buyers.tag, tx, a.lift ? cy - 10 : cy + 8, anchor));
+    // Lifted: the tag rides just over the clumps' tops, clear of the headline above them.
+    commit(mk(1, cx, a.lift ? cy - 2 : cy, inp.buyers.tag, tx, a.lift ? cy - 6 : cy + 8, anchor));
   }
 
-  // 02 · flow (pulse strip); the tag hangs below-right, clear of the day labels.
+  // 02 · flow (pulse strip); the tag hangs under the ring on the date row, clear of both dates.
   if (inp.flow) {
     const { x: cx, y: cy } = inp.flow.anchor;
     const w = tagWidth(inp.flow.tag);
-    // Centred under the ring, clear of the day labels at both ends of the strip.
-    const tx = clamp(cx + w / 2, V.EX0 + 92 + w, V.EX1 - 92);
-    commit(mk(2, cx, cy, inp.flow.tag, tx, 780, "end"));
+    const dateW = textWidth("SAT 19 SEP", FS.date, 1) + 14;
+    const lo = V.EX0 + dateW + w;
+    const hi = V.EX1 - dateW;
+    const tx = lo <= hi ? clamp(cx + w / 2, lo, hi) : (V.EX0 + V.EX1 + w) / 2;
+    commit(mk(2, cx, cy, inp.flow.tag, tx, V.DATE_Y + 10, "end"));
   }
 
-  const chart: Box = { x: V.X0 - 10, y: 98, w: V.LX - 6 - (V.X0 - 10), h: 582 - 98 };
+  const chart: Box = { x: V.X0 - 10, y: V.Y0 - 26, w: V.LX - 8 - (V.X0 - 10), h: V.STRIP_Y - 6 - (V.Y0 - 26) };
   const xAt = (f: number) => V.X0 + f * (V.X1 - V.X0);
   const best = (cands: { m: MarkerGeo; bias: number }[]) => {
     let pick = cands[0];
@@ -1147,10 +1401,10 @@ function placeMarkers(geo: FilmGeometry, inp: MarkerInputs): MarkerGeo[] {
     const yW = inp.wall ? geo.y.clamped(inp.wall.price) : geo.y.clamped(geo.priceNow!);
     const tag = inp.wall ? inp.wall.tag : inp.wallFallback!.tag;
     const cands: { m: MarkerGeo; bias: number }[] = [];
-    for (let f = 0.6; f <= 0.8001; f += 0.04) {
+    for (let f = 0.56; f <= 0.8001; f += 0.04) {
       const cx = xAt(f);
-      cands.push({ m: mk(3, cx, yW, tag, cx + 62, yW - 44, "start"), bias: Math.abs(f - 0.76) * 10 });
-      cands.push({ m: mk(3, cx, yW, tag, cx + 62, yW + 58, "start"), bias: Math.abs(f - 0.76) * 10 + 3 });
+      cands.push({ m: mk(3, cx, yW, tag, cx + 62, yW - 44, "start"), bias: Math.abs(f - 0.72) * 10 });
+      cands.push({ m: mk(3, cx, yW, tag, cx + 62, yW + 58, "start"), bias: Math.abs(f - 0.72) * 10 + 3 });
     }
     commit(best(cands));
   }
@@ -1167,17 +1421,15 @@ function placeMarkers(geo: FilmGeometry, inp: MarkerInputs): MarkerGeo[] {
     commit(best(cands));
   }
 
-  // 05 · you (at the ladder, where your entry sits in the supply)
+  // 05 · you (on your entry line near today's end of the chart, where the ladder shows the supply)
   if (inp.you && geo.youY !== null) {
     const yY = geo.youY;
-    const cx = V.LX - 22;
-    commit(
-      best([
-        { m: mk(5, cx, yY, inp.you.tag, V.LX - 60, yY - 34, "end", C.you), bias: 0 },
-        { m: mk(5, cx, yY, inp.you.tag, V.LX - 60, yY + 48, "end", C.you), bias: 3 },
-        { m: mk(5, cx, yY, inp.you.tag, V.LX - 60, yY + 7, "end", C.you), bias: 6 },
-      ]),
-    );
+    const cands: { m: MarkerGeo; bias: number }[] = [];
+    [V.X1 - 34, V.X1 - 130, V.X1 - 226].forEach((cx, i) => {
+      cands.push({ m: mk(5, cx, yY, inp.you!.tag, cx - 38, yY - 34, "end", C.you), bias: i * 4 });
+      cands.push({ m: mk(5, cx, yY, inp.you!.tag, cx - 38, yY + 48, "end", C.you), bias: i * 4 + 3 });
+    });
+    commit(best(cands));
   }
 
   return out.sort((a, b) => a.n - b.n);
