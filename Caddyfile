@@ -1,0 +1,31 @@
+{
+	servers {
+		# Only these proxies may tell us the visitor's IP (Cloudflare's ranges when the domain is proxied).
+		trusted_proxies static {$TRUSTED_PROXIES}
+		client_ip_headers CF-Connecting-IP X-Forwarded-For
+	}
+}
+
+{$SITE_ADDRESS} {
+	encode zstd gzip
+
+	# Visitors must not choose their own IP for the per-visitor credit limits: drop the headers the
+	# app would trust and hand it the address Caddy resolved instead.
+	request_header -CF-Connecting-IP
+	request_header -Fly-Client-IP
+	request_header -X-Real-IP
+
+	reverse_proxy app:3000 {
+		header_up X-Real-IP {client_ip}
+		# Scan results stream as Server-Sent Events: pass every chunk through immediately.
+		flush_interval -1
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy strict-origin-when-cross-origin
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		-Server
+	}
+}

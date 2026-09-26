@@ -68,3 +68,6 @@ tmp/
 # agent notes written by next dev (not part of the app)
 AGENTS.md
 CLAUDE.md
+
+# production data volume (server)
+/data/

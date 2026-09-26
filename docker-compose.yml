@@ -1,0 +1,34 @@
+# Production stack: the Next.js app behind Caddy (TLS, compression, security headers, real client IP).
+# Secrets live in .env.production next to this file (chmod 600, never committed).
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env.production
+    volumes:
+      - ./data/cache:/app/.cache
+      - ./data/ledger:/app/.ledger
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2.10
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # ":80" serves plain HTTP on the server IP; set to the domain (e.g. exposure.example) for HTTPS.
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+      # Proxies allowed to report the visitor's IP. Set to Cloudflare's ranges once the domain is proxied.
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-private_ranges}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

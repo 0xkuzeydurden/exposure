@@ -1,0 +1,13 @@
+node_modules
+.next
+.cache
+.ledger
+.git
+.env
+.env.*
+!.env.example
+data
+docs/demo.*
+*.log
+.DS_Store
+coverage

@@ -25,7 +25,7 @@ Not financial advice.
 - [How it works](#how-it-works): findings · diagnosis · lab flags · architecture · data freshness
 - [Nansen API usage](#nansen-api-usage) and [the 1,000+ calls](#how-the-1000-calls-were-made)
 - [Data rules and attribution](#data-rules-and-attribution)
-- [Scripts](#scripts) · [Recording mode](#recording-mode) · [Limitations](#limitations-and-honest-caveats) · [Tech stack](#tech-stack) · [License](#credits-and-license)
+- [Scripts](#scripts) · [Deploying](docs/deploy.md) · [Recording mode](#recording-mode) · [Limitations](#limitations-and-honest-caveats) · [Tech stack](#tech-stack) · [License](#credits-and-license)
 
 ---
 
