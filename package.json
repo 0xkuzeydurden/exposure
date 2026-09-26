@@ -1,0 +1,47 @@
+{
+  "name": "exposure",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "EXPOSURE: every chart shows you the price. EXPOSURE shows who is behind it. A radiology-room x-ray of any token, built on the Nansen API.",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "demo": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "smoke": "tsx --env-file-if-exists=.env.local scripts/xray-smoke.ts",
+    "trending": "tsx --env-file-if-exists=.env.local scripts/trending.ts",
+    "warm": "tsx --env-file-if-exists=.env.local scripts/warm-scans.ts",
+    "shortlist": "tsx --env-file-if-exists=.env.local scripts/shortlist.ts",
+    "fixture": "tsx scripts/make-scan-fixture.ts",
+    "ledger": "tsx scripts/ledger-summary.ts",
+    "rediagnose": "tsx scripts/rediagnose.ts"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "next": "16.3.6",
+    "p-limit": "^7.3.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.13.6",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.2"
+  }
+}

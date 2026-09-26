@@ -1,0 +1,5906 @@
+{
+  "version": 1,
+  "tier": "deep",
+  "meta": {
+    "chain": "base",
+    "tokenAddress": "0x5eed000000000000000000000000000000c0ffee",
+    "symbol": "$KAIRO",
+    "name": "Synthetic preview",
+    "priceNow": 0.0412,
+    "priceChange7d": 0.184,
+    "marketCapUsd": 60419800,
+    "liquidityUsd": 1900000,
+    "circulatingSupply": 1466500000,
+    "holders": 18204,
+    "buyers24h": 1284,
+    "sellers24h": 911,
+    "volume24hUsd": 3140000,
+    "deployedAt": "2026-06-02T09:12:00.000Z",
+    "scannedAt": "2026-09-26T14:02:11.677Z",
+    "scanNo": 412,
+    "window": {
+      "from": "2026-09-19T14:00:00.000Z",
+      "to": "2026-09-26T14:00:00.000Z"
+    }
+  },
+  "price": [
+    {
+      "t": 1789830000000,
+      "c": 0.034797
+    },
+    {
+      "t": 1789833600000,
+      "c": 0.034932
+    },
+    {
+      "t": 1789837200000,
+      "c": 0.034681
+    },
+    {
+      "t": 1789840800000,
+      "c": 0.034377
+    },
+    {
+      "t": 1789844400000,
+      "c": 0.034483
+    },
+    {
+      "t": 1789848000000,
+      "c": 0.034501
+    },
+    {
+      "t": 1789851600000,
+      "c": 0.034745
+    },
+    {
+      "t": 1789855200000,
+      "c": 0.034184
+    },
+    {
+      "t": 1789858800000,
+      "c": 0.034094
+    },
+    {
+      "t": 1789862400000,
+      "c": 0.033868
+    },
+    {
+      "t": 1789866000000,
+      "c": 0.034257
+    },
+    {
+      "t": 1789869600000,
+      "c": 0.034541
+    },
+    {
+      "t": 1789873200000,
+      "c": 0.034774
+    },
+    {
+      "t": 1789876800000,
+      "c": 0.034797
+    },
+    {
+      "t": 1789880400000,
+      "c": 0.034913
+    },
+    {
+      "t": 1789884000000,
+      "c": 0.035123
+    },
+    {
+      "t": 1789887600000,
+      "c": 0.03485
+    },
+    {
+      "t": 1789891200000,
+      "c": 0.035502
+    },
+    {
+      "t": 1789894800000,
+      "c": 0.036068
+    },
+    {
+      "t": 1789898400000,
+      "c": 0.036881
+    },
+    {
+      "t": 1789902000000,
+      "c": 0.036809
+    },
+    {
+      "t": 1789905600000,
+      "c": 0.037319
+    },
+    {
+      "t": 1789909200000,
+      "c": 0.037425
+    },
+    {
+      "t": 1789912800000,
+      "c": 0.037158
+    },
+    {
+      "t": 1789916400000,
+      "c": 0.03768
+    },
+    {
+      "t": 1789920000000,
+      "c": 0.037523
+    },
+    {
+      "t": 1789923600000,
+      "c": 0.03738
+    },
+    {
+      "t": 1789927200000,
+      "c": 0.037617
+    },
+    {
+      "t": 1789930800000,
+      "c": 0.037302
+    },
+    {
+      "t": 1789934400000,
+      "c": 0.037208
+    },
+    {
+      "t": 1789938000000,
+      "c": 0.037653
+    },
+    {
+      "t": 1789941600000,
+      "c": 0.038298
+    },
+    {
+      "t": 1789945200000,
+      "c": 0.038633
+    },
+    {
+      "t": 1789948800000,
+      "c": 0.03927
+    },
+    {
+      "t": 1789952400000,
+      "c": 0.039149
+    },
+    {
+      "t": 1789956000000,
+      "c": 0.039726
+    },
+    {
+      "t": 1789959600000,
+      "c": 0.040406
+    },
+    {
+      "t": 1789963200000,
+      "c": 0.041085
+    },
+    {
+      "t": 1789966800000,
+      "c": 0.040064
+    },
+    {
+      "t": 1789970400000,
+      "c": 0.04098
+    },
+    {
+      "t": 1789974000000,
+      "c": 0.040818
+    },
+    {
+      "t": 1789977600000,
+      "c": 0.04023
+    },
+    {
+      "t": 1789981200000,
+      "c": 0.041066
+    },
+    {
+      "t": 1789984800000,
+      "c": 0.041417
+    },
+    {
+      "t": 1789988400000,
+      "c": 0.04121
+    },
+    {
+      "t": 1789992000000,
+      "c": 0.040605
+    },
+    {
+      "t": 1789995600000,
+      "c": 0.040731
+    },
+    {
+      "t": 1789999200000,
+      "c": 0.040885
+    },
+    {
+      "t": 1790002800000,
+      "c": 0.041523
+    },
+    {
+      "t": 1790006400000,
+      "c": 0.042266
+    },
+    {
+      "t": 1790010000000,
+      "c": 0.041831
+    },
+    {
+      "t": 1790013600000,
+      "c": 0.042666
+    },
+    {
+      "t": 1790017200000,
+      "c": 0.043144
+    },
+    {
+      "t": 1790020800000,
+      "c": 0.043476
+    },
+    {
+      "t": 1790024400000,
+      "c": 0.043901
+    },
+    {
+      "t": 1790028000000,
+      "c": 0.044267
+    },
+    {
+      "t": 1790031600000,
+      "c": 0.043842
+    },
+    {
+      "t": 1790035200000,
+      "c": 0.043716
+    },
+    {
+      "t": 1790038800000,
+      "c": 0.043945
+    },
+    {
+      "t": 1790042400000,
+      "c": 0.043961
+    },
+    {
+      "t": 1790046000000,
+      "c": 0.044777
+    },
+    {
+      "t": 1790049600000,
+      "c": 0.044822
+    },
+    {
+      "t": 1790053200000,
+      "c": 0.043712
+    },
+    {
+      "t": 1790056800000,
+      "c": 0.043512
+    },
+    {
+      "t": 1790060400000,
+      "c": 0.045089
+    },
+    {
+      "t": 1790064000000,
+      "c": 0.045861
+    },
+    {
+      "t": 1790067600000,
+      "c": 0.046383
+    },
+    {
+      "t": 1790071200000,
+      "c": 0.047494
+    },
+    {
+      "t": 1790074800000,
+      "c": 0.048066
+    },
+    {
+      "t": 1790078400000,
+      "c": 0.049551
+    },
+    {
+      "t": 1790082000000,
+      "c": 0.05108
+    },
+    {
+      "t": 1790085600000,
+      "c": 0.052501
+    },
+    {
+      "t": 1790089200000,
+      "c": 0.05535
+    },
+    {
+      "t": 1790092800000,
+      "c": 0.056358
+    },
+    {
+      "t": 1790096400000,
+      "c": 0.057627
+    },
+    {
+      "t": 1790100000000,
+      "c": 0.058613
+    },
+    {
+      "t": 1790103600000,
+      "c": 0.059733
+    },
+    {
+      "t": 1790107200000,
+      "c": 0.059991
+    },
+    {
+      "t": 1790110800000,
+      "c": 0.060408
+    },
+    {
+      "t": 1790114400000,
+      "c": 0.059655
+    },
+    {
+      "t": 1790118000000,
+      "c": 0.059263
+    },
+    {
+      "t": 1790121600000,
+      "c": 0.05874
+    },
+    {
+      "t": 1790125200000,
+      "c": 0.058788
+    },
+    {
+      "t": 1790128800000,
+      "c": 0.05728
+    },
+    {
+      "t": 1790132400000,
+      "c": 0.057295
+    },
+    {
+      "t": 1790136000000,
+      "c": 0.056487
+    },
+    {
+      "t": 1790139600000,
+      "c": 0.056332
+    },
+    {
+      "t": 1790143200000,
+      "c": 0.056458
+    },
+    {
+      "t": 1790146800000,
+      "c": 0.05525
+    },
+    {
+      "t": 1790150400000,
+      "c": 0.054235
+    },
+    {
+      "t": 1790154000000,
+      "c": 0.054129
+    },
+    {
+      "t": 1790157600000,
+      "c": 0.054426
+    },
+    {
+      "t": 1790161200000,
+      "c": 0.052823
+    },
+    {
+      "t": 1790164800000,
+      "c": 0.052161
+    },
+    {
+      "t": 1790168400000,
+      "c": 0.050469
+    },
+    {
+      "t": 1790172000000,
+      "c": 0.050449
+    },
+    {
+      "t": 1790175600000,
+      "c": 0.049357
+    },
+    {
+      "t": 1790179200000,
+      "c": 0.049382
+    },
+    {
+      "t": 1790182800000,
+      "c": 0.048801
+    },
+    {
+      "t": 1790186400000,
+      "c": 0.048279
+    },
+    {
+      "t": 1790190000000,
+      "c": 0.048696
+    },
+    {
+      "t": 1790193600000,
+      "c": 0.048241
+    },
+    {
+      "t": 1790197200000,
+      "c": 0.047781
+    },
+    {
+      "t": 1790200800000,
+      "c": 0.047617
+    },
+    {
+      "t": 1790204400000,
+      "c": 0.048157
+    },
+    {
+      "t": 1790208000000,
+      "c": 0.04811
+    },
+    {
+      "t": 1790211600000,
+      "c": 0.047274
+    },
+    {
+      "t": 1790215200000,
+      "c": 0.046743
+    },
+    {
+      "t": 1790218800000,
+      "c": 0.045724
+    },
+    {
+      "t": 1790222400000,
+      "c": 0.044747
+    },
+    {
+      "t": 1790226000000,
+      "c": 0.044265
+    },
+    {
+      "t": 1790229600000,
+      "c": 0.04298
+    },
+    {
+      "t": 1790233200000,
+      "c": 0.042559
+    },
+    {
+      "t": 1790236800000,
+      "c": 0.041706
+    },
+    {
+      "t": 1790240400000,
+      "c": 0.041782
+    },
+    {
+      "t": 1790244000000,
+      "c": 0.042064
+    },
+    {
+      "t": 1790247600000,
+      "c": 0.041646
+    },
+    {
+      "t": 1790251200000,
+      "c": 0.040851
+    },
+    {
+      "t": 1790254800000,
+      "c": 0.041107
+    },
+    {
+      "t": 1790258400000,
+      "c": 0.041211
+    },
+    {
+      "t": 1790262000000,
+      "c": 0.040488
+    },
+    {
+      "t": 1790265600000,
+      "c": 0.039683
+    },
+    {
+      "t": 1790269200000,
+      "c": 0.038951
+    },
+    {
+      "t": 1790272800000,
+      "c": 0.039534
+    },
+    {
+      "t": 1790276400000,
+      "c": 0.040026
+    },
+    {
+      "t": 1790280000000,
+      "c": 0.039679
+    },
+    {
+      "t": 1790283600000,
+      "c": 0.039508
+    },
+    {
+      "t": 1790287200000,
+      "c": 0.039035
+    },
+    {
+      "t": 1790290800000,
+      "c": 0.038649
+    },
+    {
+      "t": 1790294400000,
+      "c": 0.038169
+    },
+    {
+      "t": 1790298000000,
+      "c": 0.037699
+    },
+    {
+      "t": 1790301600000,
+      "c": 0.038378
+    },
+    {
+      "t": 1790305200000,
+      "c": 0.037911
+    },
+    {
+      "t": 1790308800000,
+      "c": 0.037317
+    },
+    {
+      "t": 1790312400000,
+      "c": 0.037113
+    },
+    {
+      "t": 1790316000000,
+      "c": 0.037043
+    },
+    {
+      "t": 1790319600000,
+      "c": 0.036746
+    },
+    {
+      "t": 1790323200000,
+      "c": 0.036902
+    },
+    {
+      "t": 1790326800000,
+      "c": 0.0369
+    },
+    {
+      "t": 1790330400000,
+      "c": 0.037778
+    },
+    {
+      "t": 1790334000000,
+      "c": 0.037849
+    },
+    {
+      "t": 1790337600000,
+      "c": 0.037798
+    },
+    {
+      "t": 1790341200000,
+      "c": 0.037434
+    },
+    {
+      "t": 1790344800000,
+      "c": 0.037861
+    },
+    {
+      "t": 1790348400000,
+      "c": 0.038184
+    },
+    {
+      "t": 1790352000000,
+      "c": 0.038278
+    },
+    {
+      "t": 1790355600000,
+      "c": 0.038868
+    },
+    {
+      "t": 1790359200000,
+      "c": 0.038536
+    },
+    {
+      "t": 1790362800000,
+      "c": 0.039052
+    },
+    {
+      "t": 1790366400000,
+      "c": 0.039522
+    },
+    {
+      "t": 1790370000000,
+      "c": 0.039743
+    },
+    {
+      "t": 1790373600000,
+      "c": 0.040771
+    },
+    {
+      "t": 1790377200000,
+      "c": 0.041015
+    },
+    {
+      "t": 1790380800000,
+      "c": 0.040148
+    },
+    {
+      "t": 1790384400000,
+      "c": 0.040119
+    },
+    {
+      "t": 1790388000000,
+      "c": 0.039983
+    },
+    {
+      "t": 1790391600000,
+      "c": 0.039972
+    },
+    {
+      "t": 1790395200000,
+      "c": 0.040503
+    },
+    {
+      "t": 1790398800000,
+      "c": 0.040483
+    },
+    {
+      "t": 1790402400000,
+      "c": 0.041022
+    },
+    {
+      "t": 1790406000000,
+      "c": 0.041012
+    },
+    {
+      "t": 1790409600000,
+      "c": 0.041092
+    },
+    {
+      "t": 1790413200000,
+      "c": 0.041341
+    },
+    {
+      "t": 1790416800000,
+      "c": 0.042047
+    },
+    {
+      "t": 1790420400000,
+      "c": 0.041976
+    },
+    {
+      "t": 1790424000000,
+      "c": 0.041517
+    },
+    {
+      "t": 1790427600000,
+      "c": 0.041385
+    },
+    {
+      "t": 1790431200000,
+      "c": 0.0412
+    }
+  ],
+  "bigBuys": [
+    {
+      "t": 1789833720000,
+      "price": 0.034925,
+      "usd": 45715
+    },
+    {
+      "t": 1789874280000,
+      "price": 0.034872,
+      "usd": 8152
+    },
+    {
+      "t": 1789962300000,
+      "price": 0.041486,
+      "usd": 61800
+    },
+    {
+      "t": 1789969260000,
+      "price": 0.040923,
+      "usd": 116037
+    },
+    {
+      "t": 1789991280000,
+      "price": 0.040361,
+      "usd": 12385
+    },
+    {
+      "t": 1790008260000,
+      "price": 0.041941,
+      "usd": 139876
+    },
+    {
+      "t": 1790019180000,
+      "price": 0.043794,
+      "usd": 18874
+    },
+    {
+      "t": 1790024220000,
+      "price": 0.043942,
+      "usd": 70915
+    },
+    {
+      "t": 1790041800000,
+      "price": 0.043889,
+      "usd": 50803
+    },
+    {
+      "t": 1790054820000,
+      "price": 0.043388,
+      "usd": 10772
+    },
+    {
+      "t": 1790064120000,
+      "price": 0.046391,
+      "usd": 28721
+    },
+    {
+      "t": 1790074440000,
+      "price": 0.048297,
+      "usd": 10488
+    },
+    {
+      "t": 1790075340000,
+      "price": 0.049715,
+      "usd": 116750
+    },
+    {
+      "t": 1790079300000,
+      "price": 0.050983,
+      "usd": 41860
+    },
+    {
+      "t": 1790108040000,
+      "price": 0.060213,
+      "usd": 53144
+    },
+    {
+      "t": 1790125440000,
+      "price": 0.056739,
+      "usd": 58522
+    },
+    {
+      "t": 1790131320000,
+      "price": 0.057201,
+      "usd": 72912
+    },
+    {
+      "t": 1790149080000,
+      "price": 0.054279,
+      "usd": 49176
+    },
+    {
+      "t": 1790162460000,
+      "price": 0.051897,
+      "usd": 118009
+    },
+    {
+      "t": 1790184840000,
+      "price": 0.048395,
+      "usd": 11430
+    },
+    {
+      "t": 1790190240000,
+      "price": 0.048067,
+      "usd": 13163
+    },
+    {
+      "t": 1790202480000,
+      "price": 0.047861,
+      "usd": 9994
+    },
+    {
+      "t": 1790243460000,
+      "price": 0.042258,
+      "usd": 14319
+    },
+    {
+      "t": 1790247180000,
+      "price": 0.041345,
+      "usd": 54755
+    },
+    {
+      "t": 1790260860000,
+      "price": 0.040307,
+      "usd": 44329
+    },
+    {
+      "t": 1790267700000,
+      "price": 0.03897,
+      "usd": 66123
+    },
+    {
+      "t": 1790277480000,
+      "price": 0.039611,
+      "usd": 77947
+    },
+    {
+      "t": 1790306640000,
+      "price": 0.037066,
+      "usd": 55249
+    },
+    {
+      "t": 1790313420000,
+      "price": 0.037331,
+      "usd": 55172
+    },
+    {
+      "t": 1790314080000,
+      "price": 0.036777,
+      "usd": 46404
+    },
+    {
+      "t": 1790342160000,
+      "price": 0.037911,
+      "usd": 36159
+    },
+    {
+      "t": 1790364480000,
+      "price": 0.039898,
+      "usd": 125450
+    },
+    {
+      "t": 1790375100000,
+      "price": 0.041274,
+      "usd": 8364
+    },
+    {
+      "t": 1790387880000,
+      "price": 0.039588,
+      "usd": 84796
+    }
+  ],
+  "findings": {
+    "buyers": {
+      "status": "ok",
+      "windowDays": 7,
+      "totalBuyers": 412,
+      "topBuyers": 80,
+      "topShare": 0.91,
+      "sources": 23,
+      "untracedShare": 0.2,
+      "biggestSourceShare": 0.31,
+      "biggestSourceWallets": 30,
+      "clusters": [
+        {
+          "id": "wallet-1",
+          "kind": "wallet",
+          "label": "0x5eed…1599",
+          "wallets": 30,
+          "boughtUsd": 1636800,
+          "share": 0.31,
+          "members": [
+            {
+              "address": "0x5eed4be8828c5f948eefc16bc30c4282d49cab36",
+              "short": "0x5eed…ab36",
+              "boughtUsd": 144864,
+              "boughtTokens": 2654957,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed4be8828c5f948eefc16bc30c4282d49cab36&chain=base",
+              "funder": "0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6"
+            },
+            {
+              "address": "0x5eedf63b84ba85827caa3c6da6c2cde511f62555",
+              "short": "0x5eed…2555",
+              "boughtUsd": 118720,
+              "boughtTokens": 2742787,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedf63b84ba85827caa3c6da6c2cde511f62555&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed760c69c30f91cfd6f2fdf61f7c21e0c80c7f",
+              "short": "0x5eed…0c7f",
+              "boughtUsd": 104753,
+              "boughtTokens": 2032542,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed760c69c30f91cfd6f2fdf61f7c21e0c80c7f&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed73dab80fc4ac5427ee389755d9eb892bcfcb",
+              "short": "0x5eed…cfcb",
+              "boughtUsd": 83103,
+              "boughtTokens": 1661683,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed73dab80fc4ac5427ee389755d9eb892bcfcb&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eeddfc7551731584aff1edbd7ced52600c1363e",
+              "short": "0x5eed…363e",
+              "boughtUsd": 81703,
+              "boughtTokens": 1991606,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eeddfc7551731584aff1edbd7ced52600c1363e&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed9f9f0a4eb02fcbc6ea69ba1fde4be7767958",
+              "short": "0x5eed…7958",
+              "boughtUsd": 80217,
+              "boughtTokens": 1507513,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed9f9f0a4eb02fcbc6ea69ba1fde4be7767958&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed258ab3a647e2420a4d3df2491fe2a6bb786b",
+              "short": "0x5eed…786b",
+              "boughtUsd": 76735,
+              "boughtTokens": 1782694,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed258ab3a647e2420a4d3df2491fe2a6bb786b&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eedd1cc0eb603438689589e4be290e605b9e225",
+              "short": "0x5eed…e225",
+              "boughtUsd": 75903,
+              "boughtTokens": 1436539,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedd1cc0eb603438689589e4be290e605b9e225&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eeda09e593c4225a883bc7358b18f89e9ec10ea",
+              "short": "0x5eed…10ea",
+              "boughtUsd": 67976,
+              "boughtTokens": 1338525,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eeda09e593c4225a883bc7358b18f89e9ec10ea&chain=base",
+              "funder": "0x5eed4be8828c5f948eefc16bc30c4282d49cab36"
+            },
+            {
+              "address": "0x5eede0654b17f02864c73d2533b4eee73a58f19e",
+              "short": "0x5eed…f19e",
+              "boughtUsd": 62009,
+              "boughtTokens": 1415736,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede0654b17f02864c73d2533b4eee73a58f19e&chain=base",
+              "funder": "0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6"
+            },
+            {
+              "address": "0x5eed4c7add5c9afca50ded498456fe8b5912a58b",
+              "short": "0x5eed…a58b",
+              "boughtUsd": 58198,
+              "boughtTokens": 1277574,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed4c7add5c9afca50ded498456fe8b5912a58b&chain=base",
+              "funder": "0x5eed227804f9cea6d7c61d2233c0858110b44a94"
+            },
+            {
+              "address": "0x5eed7ada89f55b69001b6332a1e19e70d29bda93",
+              "short": "0x5eed…da93",
+              "boughtUsd": 56171,
+              "boughtTokens": 1220122,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed7ada89f55b69001b6332a1e19e70d29bda93&chain=base",
+              "funder": "0x5eed5c27faae04f8d316fa13a80d61037d0d50be"
+            },
+            {
+              "address": "0x5eed869b6a7357139b51cf292c2d6f7957a8e225",
+              "short": "0x5eed…e225",
+              "boughtUsd": 53527,
+              "boughtTokens": 1100013,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed869b6a7357139b51cf292c2d6f7957a8e225&chain=base",
+              "funder": "0x5eede1417be1cf7ed703c25ca68cba42fd579d10"
+            },
+            {
+              "address": "0x5eede58a927705776690012ee33e5643985df0d0",
+              "short": "0x5eed…f0d0",
+              "boughtUsd": 48590,
+              "boughtTokens": 1150833,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede58a927705776690012ee33e5643985df0d0&chain=base",
+              "funder": "0x5eed3690b9a30372d940121bbe2170c77c2674c6"
+            },
+            {
+              "address": "0x5eed2776b4cb63f0d2961586c94b5ceabfd45544",
+              "short": "0x5eed…5544",
+              "boughtUsd": 48100,
+              "boughtTokens": 1251927,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed2776b4cb63f0d2961586c94b5ceabfd45544&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed9d6af71b7df4e9bf50ac5f3002b592cd12b7",
+              "short": "0x5eed…12b7",
+              "boughtUsd": 47249,
+              "boughtTokens": 952202,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed9d6af71b7df4e9bf50ac5f3002b592cd12b7&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed3690b9a30372d940121bbe2170c77c2674c6",
+              "short": "0x5eed…74c6",
+              "boughtUsd": 44435,
+              "boughtTokens": 1081688,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed3690b9a30372d940121bbe2170c77c2674c6&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eedf825688958ec40f719d35b0f13270a122598",
+              "short": "0x5eed…2598",
+              "boughtUsd": 42897,
+              "boughtTokens": 949369,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedf825688958ec40f719d35b0f13270a122598&chain=base",
+              "funder": "0x5eed04b77bb29b3a28eb2a4ba7a1653820fd2bb2"
+            },
+            {
+              "address": "0x5eede1417be1cf7ed703c25ca68cba42fd579d10",
+              "short": "0x5eed…9d10",
+              "boughtUsd": 41056,
+              "boughtTokens": 831112,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede1417be1cf7ed703c25ca68cba42fd579d10&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed1b290f63493301cd5deb3a018434c3c395b8",
+              "short": "0x5eed…95b8",
+              "boughtUsd": 40051,
+              "boughtTokens": 828357,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed1b290f63493301cd5deb3a018434c3c395b8&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed04b77bb29b3a28eb2a4ba7a1653820fd2bb2",
+              "short": "0x5eed…2bb2",
+              "boughtUsd": 38761,
+              "boughtTokens": 924255,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed04b77bb29b3a28eb2a4ba7a1653820fd2bb2&chain=base",
+              "funder": "0x5eed97b22539baa7703202831898442c55066dee"
+            },
+            {
+              "address": "0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6",
+              "short": "0x5eed…8bc6",
+              "boughtUsd": 38593,
+              "boughtTokens": 857700,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed227804f9cea6d7c61d2233c0858110b44a94",
+              "short": "0x5eed…4a94",
+              "boughtUsd": 38211,
+              "boughtTokens": 921910,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed227804f9cea6d7c61d2233c0858110b44a94&chain=base",
+              "funder": "0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6"
+            },
+            {
+              "address": "0x5eed97b22539baa7703202831898442c55066dee",
+              "short": "0x5eed…6dee",
+              "boughtUsd": 27005,
+              "boughtTokens": 662160,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed97b22539baa7703202831898442c55066dee&chain=base",
+              "funder": "0x5eedef216c8878abbb864f81df461873a6f7ae18"
+            },
+            {
+              "address": "0x5eede9f0b8231b1faa098b60a468a4b3014b3318",
+              "short": "0x5eed…3318",
+              "boughtUsd": 25015,
+              "boughtTokens": 544866,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede9f0b8231b1faa098b60a468a4b3014b3318&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eedbe107219d70de4a3488196262325018459cb",
+              "short": "0x5eed…59cb",
+              "boughtUsd": 23331,
+              "boughtTokens": 593397,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedbe107219d70de4a3488196262325018459cb&chain=base",
+              "funder": "0x5eed1b290f63493301cd5deb3a018434c3c395b8"
+            },
+            {
+              "address": "0x5eed5c27faae04f8d316fa13a80d61037d0d50be",
+              "short": "0x5eed…50be",
+              "boughtUsd": 22091,
+              "boughtTokens": 431969,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed5c27faae04f8d316fa13a80d61037d0d50be&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed1198397ea9f4c207b970a03bf48ca9a46698",
+              "short": "0x5eed…6698",
+              "boughtUsd": 17221,
+              "boughtTokens": 330934,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed1198397ea9f4c207b970a03bf48ca9a46698&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eedef216c8878abbb864f81df461873a6f7ae18",
+              "short": "0x5eed…ae18",
+              "boughtUsd": 16744,
+              "boughtTokens": 330391,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedef216c8878abbb864f81df461873a6f7ae18&chain=base",
+              "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+            },
+            {
+              "address": "0x5eed1588fccb7ce724e9cf7579079249188229b4",
+              "short": "0x5eed…29b4",
+              "boughtUsd": 13571,
+              "boughtTokens": 303011,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed1588fccb7ce724e9cf7579079249188229b4&chain=base",
+              "funder": "0x5eedf5498fd0dfc073802d228e7ee5007fd78bc6"
+            }
+          ],
+          "funder": "0x5eed5a5c32791f1a82cea029346217bfaa751599"
+        },
+        {
+          "id": "exchange-binance",
+          "kind": "exchange",
+          "label": "Binance",
+          "wallets": 8,
+          "boughtUsd": 739200,
+          "share": 0.14,
+          "members": [
+            {
+              "address": "0x5eed918f93882c42193f22ca1da64463999f778c",
+              "short": "0x5eed…778c",
+              "boughtUsd": 174231,
+              "boughtTokens": 3663363,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed918f93882c42193f22ca1da64463999f778c&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed6a735dea3b037da8e2ecbbf66cc45c4dfd08",
+              "short": "0x5eed…fd08",
+              "boughtUsd": 121982,
+              "boughtTokens": 2975262,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed6a735dea3b037da8e2ecbbf66cc45c4dfd08&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed28d951482915df345e15e514598069f8bfe6",
+              "short": "0x5eed…bfe6",
+              "boughtUsd": 102369,
+              "boughtTokens": 2426973,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed28d951482915df345e15e514598069f8bfe6&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eeda16a0f2663bb9e4ba5720209d082d305b9b3",
+              "short": "0x5eed…b9b3",
+              "boughtUsd": 91972,
+              "boughtTokens": 2085644,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eeda16a0f2663bb9e4ba5720209d082d305b9b3&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed4a5e5319325b680277d4e7cf881d2c49c3ee",
+              "short": "0x5eed…c3ee",
+              "boughtUsd": 76447,
+              "boughtTokens": 1787400,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed4a5e5319325b680277d4e7cf881d2c49c3ee&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed537aa004f8cf9ae53acd199c9dc729348635",
+              "short": "0x5eed…8635",
+              "boughtUsd": 68277,
+              "boughtTokens": 1495488,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed537aa004f8cf9ae53acd199c9dc729348635&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed8b1f7a4947cbd6356661802cbdbf903fd3d1",
+              "short": "0x5eed…d3d1",
+              "boughtUsd": 57266,
+              "boughtTokens": 1184094,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed8b1f7a4947cbd6356661802cbdbf903fd3d1&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            },
+            {
+              "address": "0x5eed9068eb6fdd3f385d47eed43bd1904813d2ab",
+              "short": "0x5eed…d2ab",
+              "boughtUsd": 46656,
+              "boughtTokens": 1072483,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed9068eb6fdd3f385d47eed43bd1904813d2ab&chain=base",
+              "funder": "0x5eed706b6c26b2dc248d2ed1f26182870f6b115f",
+              "funderLabel": "Binance"
+            }
+          ]
+        },
+        {
+          "id": "wallet-2",
+          "kind": "wallet",
+          "label": "0x5eed…30d1",
+          "wallets": 6,
+          "boughtUsd": 422400,
+          "share": 0.08,
+          "members": [
+            {
+              "address": "0x5eedab30bf0720dadda811b0a9104f7ba24bb7e7",
+              "short": "0x5eed…b7e7",
+              "boughtUsd": 114317,
+              "boughtTokens": 2524855,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedab30bf0720dadda811b0a9104f7ba24bb7e7&chain=base",
+              "funder": "0x5eed629730d476970a9f6c24fce1b0827a3095cb"
+            },
+            {
+              "address": "0x5eedba65d38852820d25c415940fd2ef8635df65",
+              "short": "0x5eed…df65",
+              "boughtUsd": 99802,
+              "boughtTokens": 2277727,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedba65d38852820d25c415940fd2ef8635df65&chain=base",
+              "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+            },
+            {
+              "address": "0x5eed291d11d50cdd54579ee8fb10e4b000e77b8a",
+              "short": "0x5eed…7b8a",
+              "boughtUsd": 87778,
+              "boughtTokens": 1933526,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed291d11d50cdd54579ee8fb10e4b000e77b8a&chain=base",
+              "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+            },
+            {
+              "address": "0x5eede4a64b778697a205c9a28a00a86646e1ae13",
+              "short": "0x5eed…ae13",
+              "boughtUsd": 47675,
+              "boughtTokens": 1027216,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede4a64b778697a205c9a28a00a86646e1ae13&chain=base",
+              "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+            },
+            {
+              "address": "0x5eed7f3ab550f9e4541a412c0581b8b6403739d8",
+              "short": "0x5eed…39d8",
+              "boughtUsd": 46135,
+              "boughtTokens": 1060191,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed7f3ab550f9e4541a412c0581b8b6403739d8&chain=base",
+              "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+            },
+            {
+              "address": "0x5eed629730d476970a9f6c24fce1b0827a3095cb",
+              "short": "0x5eed…95cb",
+              "boughtUsd": 26693,
+              "boughtTokens": 505225,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed629730d476970a9f6c24fce1b0827a3095cb&chain=base",
+              "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+            }
+          ],
+          "funder": "0x5eedc5ca15d01efebccea1276c1814a0f4af30d1"
+        },
+        {
+          "id": "exchange-coinbase",
+          "kind": "exchange",
+          "label": "Coinbase",
+          "wallets": 4,
+          "boughtUsd": 316800,
+          "share": 0.06,
+          "members": [
+            {
+              "address": "0x5eed0258a96a70a038717088939d3da72c195886",
+              "short": "0x5eed…5886",
+              "boughtUsd": 161873,
+              "boughtTokens": 3760791,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed0258a96a70a038717088939d3da72c195886&chain=base",
+              "funder": "0x5eedd5ca8f00458a177a95685cb4ca2ef743ad8b",
+              "funderLabel": "Coinbase"
+            },
+            {
+              "address": "0x5eede39a9279a14dc5ae39d6ca5957b071453b60",
+              "short": "0x5eed…3b60",
+              "boughtUsd": 62812,
+              "boughtTokens": 1498053,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede39a9279a14dc5ae39d6ca5957b071453b60&chain=base",
+              "funder": "0x5eedd5ca8f00458a177a95685cb4ca2ef743ad8b",
+              "funderLabel": "Coinbase"
+            },
+            {
+              "address": "0x5eede70c2ceb5cc951b73376c513e1f525937b92",
+              "short": "0x5eed…7b92",
+              "boughtUsd": 51890,
+              "boughtTokens": 1172458,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eede70c2ceb5cc951b73376c513e1f525937b92&chain=base",
+              "funder": "0x5eedd5ca8f00458a177a95685cb4ca2ef743ad8b",
+              "funderLabel": "Coinbase"
+            },
+            {
+              "address": "0x5eed300b6a833fd75c8960edda76485cdf73c60a",
+              "short": "0x5eed…c60a",
+              "boughtUsd": 40225,
+              "boughtTokens": 896267,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed300b6a833fd75c8960edda76485cdf73c60a&chain=base",
+              "funder": "0x5eedd5ca8f00458a177a95685cb4ca2ef743ad8b",
+              "funderLabel": "Coinbase"
+            }
+          ]
+        },
+        {
+          "id": "wallet-3",
+          "kind": "wallet",
+          "label": "0x5eed…9f5a",
+          "wallets": 4,
+          "boughtUsd": 316800,
+          "share": 0.06,
+          "members": [
+            {
+              "address": "0x5eed8b6b3b9aa0df051af59b4dd96262069ab7e0",
+              "short": "0x5eed…b7e0",
+              "boughtUsd": 114512,
+              "boughtTokens": 2708224,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed8b6b3b9aa0df051af59b4dd96262069ab7e0&chain=base",
+              "funder": "0x5eed8bd42d19ea3c46bdc39bd4ce1e90024d9f5a"
+            },
+            {
+              "address": "0x5eed7acb77684326ed333eed671366434ee157df",
+              "short": "0x5eed…57df",
+              "boughtUsd": 87054,
+              "boughtTokens": 2067591,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed7acb77684326ed333eed671366434ee157df&chain=base",
+              "funder": "0x5eedf303f5b6dbe438a5acb892557d617fe9f0e6"
+            },
+            {
+              "address": "0x5eedf303f5b6dbe438a5acb892557d617fe9f0e6",
+              "short": "0x5eed…f0e6",
+              "boughtUsd": 58814,
+              "boughtTokens": 1447368,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedf303f5b6dbe438a5acb892557d617fe9f0e6&chain=base",
+              "funder": "0x5eed8bd42d19ea3c46bdc39bd4ce1e90024d9f5a"
+            },
+            {
+              "address": "0x5eed8ed31ba9535557509c7dc966b4cbcbbd4fa3",
+              "short": "0x5eed…4fa3",
+              "boughtUsd": 56420,
+              "boughtTokens": 1364599,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed8ed31ba9535557509c7dc966b4cbcbbd4fa3&chain=base",
+              "funder": "0x5eed8bd42d19ea3c46bdc39bd4ce1e90024d9f5a"
+            }
+          ],
+          "funder": "0x5eed8bd42d19ea3c46bdc39bd4ce1e90024d9f5a"
+        },
+        {
+          "id": "wallet-4",
+          "kind": "wallet",
+          "label": "0x5eed…8e90",
+          "wallets": 3,
+          "boughtUsd": 237600,
+          "share": 0.045,
+          "members": [
+            {
+              "address": "0x5eed9df83da15c1d2daa684bb0caa6b24f21bb0c",
+              "short": "0x5eed…bb0c",
+              "boughtUsd": 141838,
+              "boughtTokens": 2704881,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed9df83da15c1d2daa684bb0caa6b24f21bb0c&chain=base",
+              "funder": "0x5eeda6bdd7e30aff3299ad1124913955ec578e90"
+            },
+            {
+              "address": "0x5eed089df3078c88916c65f455219e6545c10096",
+              "short": "0x5eed…0096",
+              "boughtUsd": 48967,
+              "boughtTokens": 1326904,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed089df3078c88916c65f455219e6545c10096&chain=base",
+              "funder": "0x5eeda6bdd7e30aff3299ad1124913955ec578e90"
+            },
+            {
+              "address": "0x5eedaaae67b818927290c1863211009c17dc34aa",
+              "short": "0x5eed…34aa",
+              "boughtUsd": 46795,
+              "boughtTokens": 1054186,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedaaae67b818927290c1863211009c17dc34aa&chain=base",
+              "funder": "0x5eeda6bdd7e30aff3299ad1124913955ec578e90"
+            }
+          ],
+          "funder": "0x5eeda6bdd7e30aff3299ad1124913955ec578e90"
+        },
+        {
+          "id": "wallet-5",
+          "kind": "wallet",
+          "label": "0x5eed…da3d",
+          "wallets": 2,
+          "boughtUsd": 158400,
+          "share": 0.03,
+          "members": [
+            {
+              "address": "0x5eedd732febcae010cc5b11901fa5ce78c5d63de",
+              "short": "0x5eed…63de",
+              "boughtUsd": 103902,
+              "boughtTokens": 2577390,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedd732febcae010cc5b11901fa5ce78c5d63de&chain=base",
+              "funder": "0x5eed248ce0ba6860fe802f2c39b5cbfec8fada3d"
+            },
+            {
+              "address": "0x5eed208035d6495f0760473f238d19c41a8a8765",
+              "short": "0x5eed…8765",
+              "boughtUsd": 54498,
+              "boughtTokens": 1282479,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed208035d6495f0760473f238d19c41a8a8765&chain=base",
+              "funder": "0x5eed248ce0ba6860fe802f2c39b5cbfec8fada3d"
+            }
+          ],
+          "funder": "0x5eed248ce0ba6860fe802f2c39b5cbfec8fada3d"
+        },
+        {
+          "id": "wallet-6",
+          "kind": "wallet",
+          "label": "0x5eed…f5e4",
+          "wallets": 2,
+          "boughtUsd": 132000,
+          "share": 0.025,
+          "members": [
+            {
+              "address": "0x5eed14fb0ef127823d79aaaf7fb9d4dd122a876d",
+              "short": "0x5eed…876d",
+              "boughtUsd": 97498,
+              "boughtTokens": 2169008,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed14fb0ef127823d79aaaf7fb9d4dd122a876d&chain=base",
+              "funder": "0x5eed19221e850f82237375a3fe3d1f1ebb92f5e4"
+            },
+            {
+              "address": "0x5eedc2291efaa6d3a8e97bb3211405858a1c2d5b",
+              "short": "0x5eed…2d5b",
+              "boughtUsd": 34502,
+              "boughtTokens": 642471,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedc2291efaa6d3a8e97bb3211405858a1c2d5b&chain=base",
+              "funder": "0x5eed19221e850f82237375a3fe3d1f1ebb92f5e4"
+            }
+          ],
+          "funder": "0x5eed19221e850f82237375a3fe3d1f1ebb92f5e4"
+        },
+        {
+          "id": "bridge-relay",
+          "kind": "bridge",
+          "label": "Relay",
+          "wallets": 1,
+          "boughtUsd": 132000,
+          "share": 0.025,
+          "members": [
+            {
+              "address": "0x5eed9ce9cd055f35c3a7c4d0ce993d6109131841",
+              "short": "0x5eed…1841",
+              "boughtUsd": 132000,
+              "boughtTokens": 2134327,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed9ce9cd055f35c3a7c4d0ce993d6109131841&chain=base",
+              "funder": "0x5eed8bfc22cb4d554a9f601c7943a4060c27d4a3",
+              "funderLabel": "Relay"
+            }
+          ]
+        },
+        {
+          "id": "wallet-7",
+          "kind": "wallet",
+          "label": "0x5eed…7ad5",
+          "wallets": 1,
+          "boughtUsd": 105600,
+          "share": 0.02,
+          "members": [
+            {
+              "address": "0x5eed14e0c12f29c373c5f631c10465af34b5fe9f",
+              "short": "0x5eed…fe9f",
+              "boughtUsd": 105600,
+              "boughtTokens": 2367463,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed14e0c12f29c373c5f631c10465af34b5fe9f&chain=base",
+              "funder": "0x5eeda2857bbb5935498685619147fd1e03417ad5"
+            }
+          ],
+          "funder": "0x5eeda2857bbb5935498685619147fd1e03417ad5"
+        },
+        {
+          "id": "wallet-8",
+          "kind": "wallet",
+          "label": "0x5eed…bf40",
+          "wallets": 1,
+          "boughtUsd": 95040,
+          "share": 0.018,
+          "members": [
+            {
+              "address": "0x5eedbbe1e8b80883e772c2197272b9a4752bf2f8",
+              "short": "0x5eed…f2f8",
+              "boughtUsd": 95040,
+              "boughtTokens": 2463266,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedbbe1e8b80883e772c2197272b9a4752bf2f8&chain=base",
+              "funder": "0x5eed99baab0aadfbbf6e6418a2cd2bf2ee82bf40"
+            }
+          ],
+          "funder": "0x5eed99baab0aadfbbf6e6418a2cd2bf2ee82bf40"
+        },
+        {
+          "id": "wallet-9",
+          "kind": "wallet",
+          "label": "0x5eed…86f7",
+          "wallets": 1,
+          "boughtUsd": 79200,
+          "share": 0.015,
+          "members": [
+            {
+              "address": "0x5eedc4649df40287e7909a8d072d121bdaf567e0",
+              "short": "0x5eed…67e0",
+              "boughtUsd": 79200,
+              "boughtTokens": 2019476,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedc4649df40287e7909a8d072d121bdaf567e0&chain=base",
+              "funder": "0x5eed685ead4c5fc15c3b356627d3a82cad7886f7"
+            }
+          ],
+          "funder": "0x5eed685ead4c5fc15c3b356627d3a82cad7886f7"
+        },
+        {
+          "id": "wallet-10",
+          "kind": "wallet",
+          "label": "0x5eed…7a0d",
+          "wallets": 1,
+          "boughtUsd": 63360,
+          "share": 0.012,
+          "members": [
+            {
+              "address": "0x5eed7bc0906c058b995107fdc24a193d19e12030",
+              "short": "0x5eed…2030",
+              "boughtUsd": 63360,
+              "boughtTokens": 1362746,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed7bc0906c058b995107fdc24a193d19e12030&chain=base",
+              "funder": "0x5eedf9b4d48876eb4e3cf517da24ba6ea63b7a0d"
+            }
+          ],
+          "funder": "0x5eedf9b4d48876eb4e3cf517da24ba6ea63b7a0d"
+        },
+        {
+          "id": "untraced",
+          "kind": "untraced",
+          "label": "Untraced",
+          "wallets": 16,
+          "boughtUsd": 844800,
+          "share": 0.16,
+          "members": [
+            {
+              "address": "0x5eedb2c22f699a0dcce45a03b2ebd30f2bb0426b",
+              "short": "0x5eed…426b",
+              "boughtUsd": 198875,
+              "boughtTokens": 4214944,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eedb2c22f699a0dcce45a03b2ebd30f2bb0426b&chain=base"
+            },
+            {
+              "address": "0x5eed55d1449d4294e905f087f9b7b7a841ae9579",
+              "short": "0x5eed…9579",
+              "boughtUsd": 94282,
+              "boughtTokens": 1931591,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed55d1449d4294e905f087f9b7b7a841ae9579&chain=base"
+            },
+            {
+              "address": "0x5eed1a943e9da5b40ddb617ae183bce9a139c563",
+              "short": "0x5eed…c563",
+              "boughtUsd": 84667,
+              "boughtTokens": 1766633,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed1a943e9da5b40ddb617ae183bce9a139c563&chain=base"
+            },
+            {
+              "address": "0x5eed53d3b1a5c47615c779dc2f2fee45d2c8c6c7",
+              "short": "0x5eed…c6c7",
+              "boughtUsd": 76877,
+              "boughtTokens": 1709732,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed53d3b1a5c47615c779dc2f2fee45d2c8c6c7&chain=base"
+            },
+            {
+              "address": "0x5eed680a8dfca8f220acfe52314b0a27f5bdb1c9",
+              "short": "0x5eed…b1c9",
+              "boughtUsd": 68570,
+              "boughtTokens": 1464926,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed680a8dfca8f220acfe52314b0a27f5bdb1c9&chain=base"
+            },
+            {
+              "address": "0x5eed3177bdeb18550fa845601b19771d8598c3ee",
+              "short": "0x5eed…c3ee",
+              "boughtUsd": 46900,
+              "boughtTokens": 1215276,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed3177bdeb18550fa845601b19771d8598c3ee&chain=base"
+            },
+            {
+              "address": "0x5eed04a507d209b9b1b4de2257eada2224073bfb",
+              "short": "0x5eed…3bfb",
+              "boughtUsd": 43977,
+              "boughtTokens": 996334,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed04a507d209b9b1b4de2257eada2224073bfb&chain=base"
+            },
+            {
+              "address": "0x5eed8b5ba1007a0162154a79eb23d32a4f6c70a9",
+              "short": "0x5eed…70a9",
+              "boughtUsd": 40135,
+              "boughtTokens": 803887,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed8b5ba1007a0162154a79eb23d32a4f6c70a9&chain=base"
+            },
+            {
+              "address": "0x5eed8acf350576151d3d3ed5a3c5af2fcb980344",
+              "short": "0x5eed…0344",
+              "boughtUsd": 38118,
+              "boughtTokens": 840112,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed8acf350576151d3d3ed5a3c5af2fcb980344&chain=base"
+            },
+            {
+              "address": "0x5eeda032fea564892fa72d0947d9a1e227c2cdff",
+              "short": "0x5eed…cdff",
+              "boughtUsd": 34644,
+              "boughtTokens": 860169,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eeda032fea564892fa72d0947d9a1e227c2cdff&chain=base"
+            },
+            {
+              "address": "0x5eed1a11026a45504cfc7577ff20d8d9ea4fd579",
+              "short": "0x5eed…d579",
+              "boughtUsd": 23678,
+              "boughtTokens": 564105,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed1a11026a45504cfc7577ff20d8d9ea4fd579&chain=base"
+            },
+            {
+              "address": "0x5eed64043133de89f901d97873c0da11023de9fe",
+              "short": "0x5eed…e9fe",
+              "boughtUsd": 23644,
+              "boughtTokens": 659556,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed64043133de89f901d97873c0da11023de9fe&chain=base"
+            },
+            {
+              "address": "0x5eed08e040813662d86413b86fa517964618cd37",
+              "short": "0x5eed…cd37",
+              "boughtUsd": 23196,
+              "boughtTokens": 497406,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed08e040813662d86413b86fa517964618cd37&chain=base"
+            },
+            {
+              "address": "0x5eed12306f1d8250715e308508921167a36dd118",
+              "short": "0x5eed…d118",
+              "boughtUsd": 18645,
+              "boughtTokens": 408652,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed12306f1d8250715e308508921167a36dd118&chain=base"
+            },
+            {
+              "address": "0x5eed4a59e3b7f6ba73edc4f3d568e98831b6cee8",
+              "short": "0x5eed…cee8",
+              "boughtUsd": 15925,
+              "boughtTokens": 369399,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eed4a59e3b7f6ba73edc4f3d568e98831b6cee8&chain=base"
+            },
+            {
+              "address": "0x5eeddd624db5c70804e4606740579393139c9bc8",
+              "short": "0x5eed…9bc8",
+              "boughtUsd": 12667,
+              "boughtTokens": 316740,
+              "nansenUrl": "https://app.nansen.ai/profiler?address=0x5eeddd624db5c70804e4606740579393139c9bc8&chain=base"
+            }
+          ]
+        }
+      ],
+      "demand": "mixed"
+    },
+    "flow": {
+      "status": "ok",
+      "informedNetUsd": -2000000,
+      "informedNetPctSupply": -0.031,
+      "freshNetUsd": 1600000,
+      "exchangeNetPctSupply": 0.008,
+      "series": [
+        {
+          "cohort": "informed",
+          "points": [
+            {
+              "t": 1789830000000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789833600000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789837200000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789840800000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789844400000,
+              "cumPctSupply": 0.000483,
+              "netUsd": 24406
+            },
+            {
+              "t": 1789848000000,
+              "cumPctSupply": 0.000483,
+              "netUsd": 0
+            },
+            {
+              "t": 1789851600000,
+              "cumPctSupply": -0.000204,
+              "netUsd": -34965
+            },
+            {
+              "t": 1789855200000,
+              "cumPctSupply": 0.001585,
+              "netUsd": 89641
+            },
+            {
+              "t": 1789858800000,
+              "cumPctSupply": 0.001585,
+              "netUsd": 0
+            },
+            {
+              "t": 1789862400000,
+              "cumPctSupply": 0.001848,
+              "netUsd": 13066
+            },
+            {
+              "t": 1789866000000,
+              "cumPctSupply": 0.001848,
+              "netUsd": 0
+            },
+            {
+              "t": 1789869600000,
+              "cumPctSupply": 0.001955,
+              "netUsd": 5435
+            },
+            {
+              "t": 1789873200000,
+              "cumPctSupply": 0.002227,
+              "netUsd": 13886
+            },
+            {
+              "t": 1789876800000,
+              "cumPctSupply": 0.002691,
+              "netUsd": 23691
+            },
+            {
+              "t": 1789880400000,
+              "cumPctSupply": 0.002957,
+              "netUsd": 13584
+            },
+            {
+              "t": 1789884000000,
+              "cumPctSupply": 0.003099,
+              "netUsd": 7331
+            },
+            {
+              "t": 1789887600000,
+              "cumPctSupply": 0.003738,
+              "netUsd": 32627
+            },
+            {
+              "t": 1789891200000,
+              "cumPctSupply": 0.003738,
+              "netUsd": 0
+            },
+            {
+              "t": 1789894800000,
+              "cumPctSupply": 0.003738,
+              "netUsd": 0
+            },
+            {
+              "t": 1789898400000,
+              "cumPctSupply": 0.003738,
+              "netUsd": 0
+            },
+            {
+              "t": 1789902000000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 23208
+            },
+            {
+              "t": 1789905600000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789909200000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789912800000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789916400000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789920000000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789923600000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789927200000,
+              "cumPctSupply": 0.004167,
+              "netUsd": 0
+            },
+            {
+              "t": 1789930800000,
+              "cumPctSupply": 0.004693,
+              "netUsd": 28760
+            },
+            {
+              "t": 1789934400000,
+              "cumPctSupply": 0.005066,
+              "netUsd": 20333
+            },
+            {
+              "t": 1789938000000,
+              "cumPctSupply": 0.005066,
+              "netUsd": 0
+            },
+            {
+              "t": 1789941600000,
+              "cumPctSupply": 0.005189,
+              "netUsd": 6901
+            },
+            {
+              "t": 1789945200000,
+              "cumPctSupply": 0.004886,
+              "netUsd": -17140
+            },
+            {
+              "t": 1789948800000,
+              "cumPctSupply": 0.004654,
+              "netUsd": -13384
+            },
+            {
+              "t": 1789952400000,
+              "cumPctSupply": 0.004654,
+              "netUsd": 0
+            },
+            {
+              "t": 1789956000000,
+              "cumPctSupply": 0.004654,
+              "netUsd": 0
+            },
+            {
+              "t": 1789959600000,
+              "cumPctSupply": 0.004654,
+              "netUsd": 0
+            },
+            {
+              "t": 1789963200000,
+              "cumPctSupply": 0.004654,
+              "netUsd": 0
+            },
+            {
+              "t": 1789966800000,
+              "cumPctSupply": 0.004654,
+              "netUsd": 0
+            },
+            {
+              "t": 1789970400000,
+              "cumPctSupply": 0.004879,
+              "netUsd": 13552
+            },
+            {
+              "t": 1789974000000,
+              "cumPctSupply": 0.004728,
+              "netUsd": -9054
+            },
+            {
+              "t": 1789977600000,
+              "cumPctSupply": 0.004606,
+              "netUsd": -7193
+            },
+            {
+              "t": 1789981200000,
+              "cumPctSupply": 0.004606,
+              "netUsd": 0
+            },
+            {
+              "t": 1789984800000,
+              "cumPctSupply": 0.00415,
+              "netUsd": -27732
+            },
+            {
+              "t": 1789988400000,
+              "cumPctSupply": 0.004275,
+              "netUsd": 7590
+            },
+            {
+              "t": 1789992000000,
+              "cumPctSupply": 0.004854,
+              "netUsd": 34493
+            },
+            {
+              "t": 1789995600000,
+              "cumPctSupply": 0.005978,
+              "netUsd": 67089
+            },
+            {
+              "t": 1789999200000,
+              "cumPctSupply": 0.005978,
+              "netUsd": 0
+            },
+            {
+              "t": 1790002800000,
+              "cumPctSupply": 0.005978,
+              "netUsd": 0
+            },
+            {
+              "t": 1790006400000,
+              "cumPctSupply": 0.005978,
+              "netUsd": 0
+            },
+            {
+              "t": 1790010000000,
+              "cumPctSupply": 0.006098,
+              "netUsd": 7393
+            },
+            {
+              "t": 1790013600000,
+              "cumPctSupply": 0.006098,
+              "netUsd": 0
+            },
+            {
+              "t": 1790017200000,
+              "cumPctSupply": 0.006225,
+              "netUsd": 8027
+            },
+            {
+              "t": 1790020800000,
+              "cumPctSupply": 0.006225,
+              "netUsd": 0
+            },
+            {
+              "t": 1790024400000,
+              "cumPctSupply": 0.006302,
+              "netUsd": 4984
+            },
+            {
+              "t": 1790028000000,
+              "cumPctSupply": 0.006302,
+              "netUsd": 0
+            },
+            {
+              "t": 1790031600000,
+              "cumPctSupply": 0.006563,
+              "netUsd": 16773
+            },
+            {
+              "t": 1790035200000,
+              "cumPctSupply": 0.006512,
+              "netUsd": -3301
+            },
+            {
+              "t": 1790038800000,
+              "cumPctSupply": 0.007665,
+              "netUsd": 74328
+            },
+            {
+              "t": 1790042400000,
+              "cumPctSupply": 0.008097,
+              "netUsd": 27821
+            },
+            {
+              "t": 1790046000000,
+              "cumPctSupply": 0.007225,
+              "netUsd": -57232
+            },
+            {
+              "t": 1790049600000,
+              "cumPctSupply": 0.006711,
+              "netUsd": -33761
+            },
+            {
+              "t": 1790053200000,
+              "cumPctSupply": 0.006711,
+              "netUsd": 0
+            },
+            {
+              "t": 1790056800000,
+              "cumPctSupply": 0.006711,
+              "netUsd": 0
+            },
+            {
+              "t": 1790060400000,
+              "cumPctSupply": 0.006127,
+              "netUsd": -38639
+            },
+            {
+              "t": 1790064000000,
+              "cumPctSupply": 0.004525,
+              "netUsd": -107737
+            },
+            {
+              "t": 1790067600000,
+              "cumPctSupply": 0.00401,
+              "netUsd": -35047
+            },
+            {
+              "t": 1790071200000,
+              "cumPctSupply": 0.00401,
+              "netUsd": 0
+            },
+            {
+              "t": 1790074800000,
+              "cumPctSupply": 0.00401,
+              "netUsd": 0
+            },
+            {
+              "t": 1790078400000,
+              "cumPctSupply": 0.003629,
+              "netUsd": -27713
+            },
+            {
+              "t": 1790082000000,
+              "cumPctSupply": 0.003629,
+              "netUsd": 0
+            },
+            {
+              "t": 1790085600000,
+              "cumPctSupply": 0.003812,
+              "netUsd": 14136
+            },
+            {
+              "t": 1790089200000,
+              "cumPctSupply": 0.003395,
+              "netUsd": -33897
+            },
+            {
+              "t": 1790092800000,
+              "cumPctSupply": 0.002168,
+              "netUsd": -101385
+            },
+            {
+              "t": 1790096400000,
+              "cumPctSupply": 0.002236,
+              "netUsd": 5729
+            },
+            {
+              "t": 1790100000000,
+              "cumPctSupply": 0.002419,
+              "netUsd": 15720
+            },
+            {
+              "t": 1790103600000,
+              "cumPctSupply": 0.001756,
+              "netUsd": -58037
+            },
+            {
+              "t": 1790107200000,
+              "cumPctSupply": 0.001857,
+              "netUsd": 8873
+            },
+            {
+              "t": 1790110800000,
+              "cumPctSupply": 0.001857,
+              "netUsd": 0
+            },
+            {
+              "t": 1790114400000,
+              "cumPctSupply": 0.001857,
+              "netUsd": 0
+            },
+            {
+              "t": 1790118000000,
+              "cumPctSupply": 0.00195,
+              "netUsd": 8095
+            },
+            {
+              "t": 1790121600000,
+              "cumPctSupply": 0.001843,
+              "netUsd": -9188
+            },
+            {
+              "t": 1790125200000,
+              "cumPctSupply": 0.001445,
+              "netUsd": -34376
+            },
+            {
+              "t": 1790128800000,
+              "cumPctSupply": 0.001445,
+              "netUsd": 0
+            },
+            {
+              "t": 1790132400000,
+              "cumPctSupply": 0.001445,
+              "netUsd": 0
+            },
+            {
+              "t": 1790136000000,
+              "cumPctSupply": 0.00168,
+              "netUsd": 19532
+            },
+            {
+              "t": 1790139600000,
+              "cumPctSupply": 0.00168,
+              "netUsd": 0
+            },
+            {
+              "t": 1790143200000,
+              "cumPctSupply": 0.00168,
+              "netUsd": 0
+            },
+            {
+              "t": 1790146800000,
+              "cumPctSupply": 0.00168,
+              "netUsd": 0
+            },
+            {
+              "t": 1790150400000,
+              "cumPctSupply": 0.001286,
+              "netUsd": -31382
+            },
+            {
+              "t": 1790154000000,
+              "cumPctSupply": 0.001488,
+              "netUsd": 16026
+            },
+            {
+              "t": 1790157600000,
+              "cumPctSupply": 0.001488,
+              "netUsd": 0
+            },
+            {
+              "t": 1790161200000,
+              "cumPctSupply": 0.000555,
+              "netUsd": -72240
+            },
+            {
+              "t": 1790164800000,
+              "cumPctSupply": 0.000416,
+              "netUsd": -10679
+            },
+            {
+              "t": 1790168400000,
+              "cumPctSupply": -0.000542,
+              "netUsd": -70867
+            },
+            {
+              "t": 1790172000000,
+              "cumPctSupply": -0.001286,
+              "netUsd": -55031
+            },
+            {
+              "t": 1790175600000,
+              "cumPctSupply": -0.002225,
+              "netUsd": -68006
+            },
+            {
+              "t": 1790179200000,
+              "cumPctSupply": -0.002225,
+              "netUsd": 0
+            },
+            {
+              "t": 1790182800000,
+              "cumPctSupply": -0.002399,
+              "netUsd": -12436
+            },
+            {
+              "t": 1790186400000,
+              "cumPctSupply": -0.002399,
+              "netUsd": 0
+            },
+            {
+              "t": 1790190000000,
+              "cumPctSupply": -0.002399,
+              "netUsd": 0
+            },
+            {
+              "t": 1790193600000,
+              "cumPctSupply": -0.003031,
+              "netUsd": -44702
+            },
+            {
+              "t": 1790197200000,
+              "cumPctSupply": -0.003969,
+              "netUsd": -65762
+            },
+            {
+              "t": 1790200800000,
+              "cumPctSupply": -0.005249,
+              "netUsd": -89322
+            },
+            {
+              "t": 1790204400000,
+              "cumPctSupply": -0.005064,
+              "netUsd": 13031
+            },
+            {
+              "t": 1790208000000,
+              "cumPctSupply": -0.005549,
+              "netUsd": -34186
+            },
+            {
+              "t": 1790211600000,
+              "cumPctSupply": -0.005888,
+              "netUsd": -23538
+            },
+            {
+              "t": 1790215200000,
+              "cumPctSupply": -0.006376,
+              "netUsd": -33473
+            },
+            {
+              "t": 1790218800000,
+              "cumPctSupply": -0.006376,
+              "netUsd": 0
+            },
+            {
+              "t": 1790222400000,
+              "cumPctSupply": -0.006376,
+              "netUsd": 0
+            },
+            {
+              "t": 1790226000000,
+              "cumPctSupply": -0.006376,
+              "netUsd": 0
+            },
+            {
+              "t": 1790229600000,
+              "cumPctSupply": -0.007198,
+              "netUsd": -51804
+            },
+            {
+              "t": 1790233200000,
+              "cumPctSupply": -0.007198,
+              "netUsd": 0
+            },
+            {
+              "t": 1790236800000,
+              "cumPctSupply": -0.007198,
+              "netUsd": 0
+            },
+            {
+              "t": 1790240400000,
+              "cumPctSupply": -0.007198,
+              "netUsd": 0
+            },
+            {
+              "t": 1790244000000,
+              "cumPctSupply": -0.008386,
+              "netUsd": -73242
+            },
+            {
+              "t": 1790247600000,
+              "cumPctSupply": -0.008519,
+              "netUsd": -8163
+            },
+            {
+              "t": 1790251200000,
+              "cumPctSupply": -0.008856,
+              "netUsd": -20192
+            },
+            {
+              "t": 1790254800000,
+              "cumPctSupply": -0.008856,
+              "netUsd": 0
+            },
+            {
+              "t": 1790258400000,
+              "cumPctSupply": -0.008856,
+              "netUsd": 0
+            },
+            {
+              "t": 1790262000000,
+              "cumPctSupply": -0.008856,
+              "netUsd": 0
+            },
+            {
+              "t": 1790265600000,
+              "cumPctSupply": -0.010208,
+              "netUsd": -78649
+            },
+            {
+              "t": 1790269200000,
+              "cumPctSupply": -0.010208,
+              "netUsd": 0
+            },
+            {
+              "t": 1790272800000,
+              "cumPctSupply": -0.010208,
+              "netUsd": 0
+            },
+            {
+              "t": 1790276400000,
+              "cumPctSupply": -0.011619,
+              "netUsd": -82839
+            },
+            {
+              "t": 1790280000000,
+              "cumPctSupply": -0.011619,
+              "netUsd": 0
+            },
+            {
+              "t": 1790283600000,
+              "cumPctSupply": -0.012597,
+              "netUsd": -56651
+            },
+            {
+              "t": 1790287200000,
+              "cumPctSupply": -0.012597,
+              "netUsd": 0
+            },
+            {
+              "t": 1790290800000,
+              "cumPctSupply": -0.012597,
+              "netUsd": 0
+            },
+            {
+              "t": 1790294400000,
+              "cumPctSupply": -0.013243,
+              "netUsd": -36184
+            },
+            {
+              "t": 1790298000000,
+              "cumPctSupply": -0.013516,
+              "netUsd": -15058
+            },
+            {
+              "t": 1790301600000,
+              "cumPctSupply": -0.013516,
+              "netUsd": 0
+            },
+            {
+              "t": 1790305200000,
+              "cumPctSupply": -0.013395,
+              "netUsd": 6728
+            },
+            {
+              "t": 1790308800000,
+              "cumPctSupply": -0.01425,
+              "netUsd": -46802
+            },
+            {
+              "t": 1790312400000,
+              "cumPctSupply": -0.014431,
+              "netUsd": -9875
+            },
+            {
+              "t": 1790316000000,
+              "cumPctSupply": -0.015734,
+              "netUsd": -70746
+            },
+            {
+              "t": 1790319600000,
+              "cumPctSupply": -0.016407,
+              "netUsd": -36279
+            },
+            {
+              "t": 1790323200000,
+              "cumPctSupply": -0.016407,
+              "netUsd": 0
+            },
+            {
+              "t": 1790326800000,
+              "cumPctSupply": -0.016407,
+              "netUsd": 0
+            },
+            {
+              "t": 1790330400000,
+              "cumPctSupply": -0.025708,
+              "netUsd": -515298
+            },
+            {
+              "t": 1790334000000,
+              "cumPctSupply": -0.025708,
+              "netUsd": 0
+            },
+            {
+              "t": 1790337600000,
+              "cumPctSupply": -0.027256,
+              "netUsd": -85829
+            },
+            {
+              "t": 1790341200000,
+              "cumPctSupply": -0.027256,
+              "netUsd": 0
+            },
+            {
+              "t": 1790344800000,
+              "cumPctSupply": -0.028297,
+              "netUsd": -57798
+            },
+            {
+              "t": 1790348400000,
+              "cumPctSupply": -0.029653,
+              "netUsd": -75885
+            },
+            {
+              "t": 1790352000000,
+              "cumPctSupply": -0.029653,
+              "netUsd": 0
+            },
+            {
+              "t": 1790355600000,
+              "cumPctSupply": -0.029653,
+              "netUsd": 0
+            },
+            {
+              "t": 1790359200000,
+              "cumPctSupply": -0.027863,
+              "netUsd": 101129
+            },
+            {
+              "t": 1790362800000,
+              "cumPctSupply": -0.027342,
+              "netUsd": 29838
+            },
+            {
+              "t": 1790366400000,
+              "cumPctSupply": -0.027342,
+              "netUsd": 0
+            },
+            {
+              "t": 1790370000000,
+              "cumPctSupply": -0.026962,
+              "netUsd": 22139
+            },
+            {
+              "t": 1790373600000,
+              "cumPctSupply": -0.026962,
+              "netUsd": 0
+            },
+            {
+              "t": 1790377200000,
+              "cumPctSupply": -0.026571,
+              "netUsd": 23534
+            },
+            {
+              "t": 1790380800000,
+              "cumPctSupply": -0.026571,
+              "netUsd": 0
+            },
+            {
+              "t": 1790384400000,
+              "cumPctSupply": -0.026571,
+              "netUsd": 0
+            },
+            {
+              "t": 1790388000000,
+              "cumPctSupply": -0.026571,
+              "netUsd": 0
+            },
+            {
+              "t": 1790391600000,
+              "cumPctSupply": -0.026571,
+              "netUsd": 0
+            },
+            {
+              "t": 1790395200000,
+              "cumPctSupply": -0.02777,
+              "netUsd": -71224
+            },
+            {
+              "t": 1790398800000,
+              "cumPctSupply": -0.028655,
+              "netUsd": -52514
+            },
+            {
+              "t": 1790402400000,
+              "cumPctSupply": -0.028892,
+              "netUsd": -14259
+            },
+            {
+              "t": 1790406000000,
+              "cumPctSupply": -0.028892,
+              "netUsd": 0
+            },
+            {
+              "t": 1790409600000,
+              "cumPctSupply": -0.028892,
+              "netUsd": 0
+            },
+            {
+              "t": 1790413200000,
+              "cumPctSupply": -0.028892,
+              "netUsd": 0
+            },
+            {
+              "t": 1790416800000,
+              "cumPctSupply": -0.028614,
+              "netUsd": 17103
+            },
+            {
+              "t": 1790420400000,
+              "cumPctSupply": -0.029443,
+              "netUsd": -51033
+            },
+            {
+              "t": 1790424000000,
+              "cumPctSupply": -0.031,
+              "netUsd": -94803
+            },
+            {
+              "t": 1790427600000,
+              "cumPctSupply": -0.031,
+              "netUsd": 0
+            },
+            {
+              "t": 1790431200000,
+              "cumPctSupply": -0.031,
+              "netUsd": 0
+            }
+          ]
+        },
+        {
+          "cohort": "exchange",
+          "points": [
+            {
+              "t": 1789830000000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789833600000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789837200000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789840800000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789844400000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789848000000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789851600000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789855200000,
+              "cumPctSupply": 0,
+              "netUsd": 0
+            },
+            {
+              "t": 1789858800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 30079
+            },
+            {
+              "t": 1789862400000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789866000000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789869600000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789873200000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789876800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789880400000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789884000000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789887600000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789891200000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789894800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789898400000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789902000000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789905600000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789909200000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789912800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789916400000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789920000000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789923600000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789927200000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789930800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789934400000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789938000000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789941600000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789945200000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789948800000,
+              "cumPctSupply": 0.000602,
+              "netUsd": 0
+            },
+            {
+              "t": 1789952400000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 19030
+            },
+            {
+              "t": 1789956000000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789959600000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789963200000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789966800000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789970400000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789974000000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789977600000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789981200000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789984800000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789988400000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789992000000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789995600000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1789999200000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1790002800000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1790006400000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1790010000000,
+              "cumPctSupply": 0.000933,
+              "netUsd": 0
+            },
+            {
+              "t": 1790013600000,
+              "cumPctSupply": 0.000144,
+              "netUsd": -49389
+            },
+            {
+              "t": 1790017200000,
+              "cumPctSupply": -0.00001,
+              "netUsd": -9709
+            },
+            {
+              "t": 1790020800000,
+              "cumPctSupply": -0.00001,
+              "netUsd": 0
+            },
+            {
+              "t": 1790024400000,
+              "cumPctSupply": -0.00001,
+              "netUsd": 0
+            },
+            {
+              "t": 1790028000000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 48771
+            },
+            {
+              "t": 1790031600000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790035200000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790038800000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790042400000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790046000000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790049600000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790053200000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790056800000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790060400000,
+              "cumPctSupply": 0.000742,
+              "netUsd": 0
+            },
+            {
+              "t": 1790064000000,
+              "cumPctSupply": 0.000067,
+              "netUsd": -45394
+            },
+            {
+              "t": 1790067600000,
+              "cumPctSupply": 0.000067,
+              "netUsd": 0
+            },
+            {
+              "t": 1790071200000,
+              "cumPctSupply": 0.000067,
+              "netUsd": 0
+            },
+            {
+              "t": 1790074800000,
+              "cumPctSupply": 0.000306,
+              "netUsd": 16848
+            },
+            {
+              "t": 1790078400000,
+              "cumPctSupply": 0.000306,
+              "netUsd": 0
+            },
+            {
+              "t": 1790082000000,
+              "cumPctSupply": 0.000306,
+              "netUsd": 0
+            },
+            {
+              "t": 1790085600000,
+              "cumPctSupply": 0.000614,
+              "netUsd": 23755
+            },
+            {
+              "t": 1790089200000,
+              "cumPctSupply": 0.000614,
+              "netUsd": 0
+            },
+            {
+              "t": 1790092800000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 28977
+            },
+            {
+              "t": 1790096400000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 0
+            },
+            {
+              "t": 1790100000000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 0
+            },
+            {
+              "t": 1790103600000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 0
+            },
+            {
+              "t": 1790107200000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 0
+            },
+            {
+              "t": 1790110800000,
+              "cumPctSupply": 0.000965,
+              "netUsd": 0
+            },
+            {
+              "t": 1790114400000,
+              "cumPctSupply": 0.002076,
+              "netUsd": 97221
+            },
+            {
+              "t": 1790118000000,
+              "cumPctSupply": 0.002306,
+              "netUsd": 20006
+            },
+            {
+              "t": 1790121600000,
+              "cumPctSupply": 0.002306,
+              "netUsd": 0
+            },
+            {
+              "t": 1790125200000,
+              "cumPctSupply": 0.002306,
+              "netUsd": 0
+            },
+            {
+              "t": 1790128800000,
+              "cumPctSupply": 0.002416,
+              "netUsd": 9188
+            },
+            {
+              "t": 1790132400000,
+              "cumPctSupply": 0.002646,
+              "netUsd": 19378
+            },
+            {
+              "t": 1790136000000,
+              "cumPctSupply": 0.002646,
+              "netUsd": 0
+            },
+            {
+              "t": 1790139600000,
+              "cumPctSupply": 0.002646,
+              "netUsd": 0
+            },
+            {
+              "t": 1790143200000,
+              "cumPctSupply": 0.002646,
+              "netUsd": 0
+            },
+            {
+              "t": 1790146800000,
+              "cumPctSupply": 0.002349,
+              "netUsd": -24059
+            },
+            {
+              "t": 1790150400000,
+              "cumPctSupply": 0.001573,
+              "netUsd": -61706
+            },
+            {
+              "t": 1790154000000,
+              "cumPctSupply": 0.001573,
+              "netUsd": 0
+            },
+            {
+              "t": 1790157600000,
+              "cumPctSupply": 0.00187,
+              "netUsd": 23657
+            },
+            {
+              "t": 1790161200000,
+              "cumPctSupply": 0.00187,
+              "netUsd": 0
+            },
+            {
+              "t": 1790164800000,
+              "cumPctSupply": 0.00187,
+              "netUsd": 0
+            },
+            {
+              "t": 1790168400000,
+              "cumPctSupply": 0.00187,
+              "netUsd": 0
+            },
+            {
+              "t": 1790172000000,
+              "cumPctSupply": 0.001348,
+              "netUsd": -38588
+            },
+            {
+              "t": 1790175600000,
+              "cumPctSupply": 0.001348,
+              "netUsd": 0
+            },
+            {
+              "t": 1790179200000,
+              "cumPctSupply": 0.001348,
+              "netUsd": 0
+            },
+            {
+              "t": 1790182800000,
+              "cumPctSupply": 0.001348,
+              "netUsd": 0
+            },
+            {
+              "t": 1790186400000,
+              "cumPctSupply": 0.001348,
+              "netUsd": 0
+            },
+            {
+              "t": 1790190000000,
+              "cumPctSupply": 0.001595,
+              "netUsd": 17603
+            },
+            {
+              "t": 1790193600000,
+              "cumPctSupply": 0.001595,
+              "netUsd": 0
+            },
+            {
+              "t": 1790197200000,
+              "cumPctSupply": 0.00202,
+              "netUsd": 29779
+            },
+            {
+              "t": 1790200800000,
+              "cumPctSupply": 0.00202,
+              "netUsd": 0
+            },
+            {
+              "t": 1790204400000,
+              "cumPctSupply": 0.00202,
+              "netUsd": 0
+            },
+            {
+              "t": 1790208000000,
+              "cumPctSupply": 0.00202,
+              "netUsd": 0
+            },
+            {
+              "t": 1790211600000,
+              "cumPctSupply": 0.002203,
+              "netUsd": 12724
+            },
+            {
+              "t": 1790215200000,
+              "cumPctSupply": 0.002391,
+              "netUsd": 12841
+            },
+            {
+              "t": 1790218800000,
+              "cumPctSupply": 0.002391,
+              "netUsd": 0
+            },
+            {
+              "t": 1790222400000,
+              "cumPctSupply": 0.002656,
+              "netUsd": 17424
+            },
+            {
+              "t": 1790226000000,
+              "cumPctSupply": 0.003044,
+              "netUsd": 25172
+            },
+            {
+              "t": 1790229600000,
+              "cumPctSupply": 0.003044,
+              "netUsd": 0
+            },
+            {
+              "t": 1790233200000,
+              "cumPctSupply": 0.003395,
+              "netUsd": 21897
+            },
+            {
+              "t": 1790236800000,
+              "cumPctSupply": 0.003395,
+              "netUsd": 0
+            },
+            {
+              "t": 1790240400000,
+              "cumPctSupply": 0.003231,
+              "netUsd": -10054
+            },
+            {
+              "t": 1790244000000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 23193
+            },
+            {
+              "t": 1790247600000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 0
+            },
+            {
+              "t": 1790251200000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 0
+            },
+            {
+              "t": 1790254800000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 0
+            },
+            {
+              "t": 1790258400000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 0
+            },
+            {
+              "t": 1790262000000,
+              "cumPctSupply": 0.003607,
+              "netUsd": 0
+            },
+            {
+              "t": 1790265600000,
+              "cumPctSupply": 0.003759,
+              "netUsd": 8890
+            },
+            {
+              "t": 1790269200000,
+              "cumPctSupply": 0.003447,
+              "netUsd": -17843
+            },
+            {
+              "t": 1790272800000,
+              "cumPctSupply": 0.003447,
+              "netUsd": 0
+            },
+            {
+              "t": 1790276400000,
+              "cumPctSupply": 0.003447,
+              "netUsd": 0
+            },
+            {
+              "t": 1790280000000,
+              "cumPctSupply": 0.003447,
+              "netUsd": 0
+            },
+            {
+              "t": 1790283600000,
+              "cumPctSupply": 0.003447,
+              "netUsd": 0
+            },
+            {
+              "t": 1790287200000,
+              "cumPctSupply": 0.003447,
+              "netUsd": 0
+            },
+            {
+              "t": 1790290800000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 11823
+            },
+            {
+              "t": 1790294400000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790298000000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790301600000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790305200000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790308800000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790312400000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790316000000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790319600000,
+              "cumPctSupply": 0.003656,
+              "netUsd": 0
+            },
+            {
+              "t": 1790323200000,
+              "cumPctSupply": 0.004177,
+              "netUsd": 28215
+            },
+            {
+              "t": 1790326800000,
+              "cumPctSupply": 0.004177,
+              "netUsd": 0
+            },
+            {
+              "t": 1790330400000,
+              "cumPctSupply": 0.004595,
+              "netUsd": 23128
+            },
+            {
+              "t": 1790334000000,
+              "cumPctSupply": 0.004519,
+              "netUsd": -4186
+            },
+            {
+              "t": 1790337600000,
+              "cumPctSupply": 0.004519,
+              "netUsd": 0
+            },
+            {
+              "t": 1790341200000,
+              "cumPctSupply": 0.005117,
+              "netUsd": 32817
+            },
+            {
+              "t": 1790344800000,
+              "cumPctSupply": 0.005117,
+              "netUsd": 0
+            },
+            {
+              "t": 1790348400000,
+              "cumPctSupply": 0.005117,
+              "netUsd": 0
+            },
+            {
+              "t": 1790352000000,
+              "cumPctSupply": 0.00541,
+              "netUsd": 16477
+            },
+            {
+              "t": 1790355600000,
+              "cumPctSupply": 0.00541,
+              "netUsd": 0
+            },
+            {
+              "t": 1790359200000,
+              "cumPctSupply": 0.004889,
+              "netUsd": -29466
+            },
+            {
+              "t": 1790362800000,
+              "cumPctSupply": 0.004696,
+              "netUsd": -11049
+            },
+            {
+              "t": 1790366400000,
+              "cumPctSupply": 0.004696,
+              "netUsd": 0
+            },
+            {
+              "t": 1790370000000,
+              "cumPctSupply": 0.004696,
+              "netUsd": 0
+            },
+            {
+              "t": 1790373600000,
+              "cumPctSupply": 0.004696,
+              "netUsd": 0
+            },
+            {
+              "t": 1790377200000,
+              "cumPctSupply": 0.004857,
+              "netUsd": 9680
+            },
+            {
+              "t": 1790380800000,
+              "cumPctSupply": 0.004857,
+              "netUsd": 0
+            },
+            {
+              "t": 1790384400000,
+              "cumPctSupply": 0.004857,
+              "netUsd": 0
+            },
+            {
+              "t": 1790388000000,
+              "cumPctSupply": 0.004857,
+              "netUsd": 0
+            },
+            {
+              "t": 1790391600000,
+              "cumPctSupply": 0.00499,
+              "netUsd": 7779
+            },
+            {
+              "t": 1790395200000,
+              "cumPctSupply": 0.00499,
+              "netUsd": 0
+            },
+            {
+              "t": 1790398800000,
+              "cumPctSupply": 0.00499,
+              "netUsd": 0
+            },
+            {
+              "t": 1790402400000,
+              "cumPctSupply": 0.00499,
+              "netUsd": 0
+            },
+            {
+              "t": 1790406000000,
+              "cumPctSupply": 0.005477,
+              "netUsd": 29288
+            },
+            {
+              "t": 1790409600000,
+              "cumPctSupply": 0.005477,
+              "netUsd": 0
+            },
+            {
+              "t": 1790413200000,
+              "cumPctSupply": 0.006077,
+              "netUsd": 36410
+            },
+            {
+              "t": 1790416800000,
+              "cumPctSupply": 0.006077,
+              "netUsd": 0
+            },
+            {
+              "t": 1790420400000,
+              "cumPctSupply": 0.008,
+              "netUsd": 118359
+            },
+            {
+              "t": 1790424000000,
+              "cumPctSupply": 0.008,
+              "netUsd": 0
+            },
+            {
+              "t": 1790427600000,
+              "cumPctSupply": 0.008,
+              "netUsd": 0
+            },
+            {
+              "t": 1790431200000,
+              "cumPctSupply": 0.008,
+              "netUsd": 0
+            }
+          ]
+        }
+      ],
+      "daily": [
+        {
+          "day": "2026-09-20",
+          "informedUsd": 211910,
+          "freshUsd": null,
+          "exchangeUsd": 30079
+        },
+        {
+          "day": "2026-09-21",
+          "informedUsd": 104215,
+          "freshUsd": null,
+          "exchangeUsd": 19030
+        },
+        {
+          "day": "2026-09-22",
+          "informedUsd": -149968,
+          "freshUsd": null,
+          "exchangeUsd": -15118
+        },
+        {
+          "day": "2026-09-23",
+          "informedUsd": -403107,
+          "freshUsd": null,
+          "exchangeUsd": 74074
+        },
+        {
+          "day": "2026-09-24",
+          "informedUsd": -511795,
+          "freshUsd": null,
+          "exchangeUsd": 150579
+        },
+        {
+          "day": "2026-09-25",
+          "informedUsd": -1085280,
+          "freshUsd": null,
+          "exchangeUsd": 82844
+        },
+        {
+          "day": "2026-09-26",
+          "informedUsd": -165975,
+          "freshUsd": 410000,
+          "exchangeUsd": 177478
+        }
+      ],
+      "verdict": "distributing",
+      "lead": {
+        "t": 1790042400000,
+        "text": "Informed money started selling 19h before the price peaked."
+      }
+    },
+    "walls": {
+      "status": "ok",
+      "method": "cost_basis",
+      "holdersAnalyzed": 74,
+      "analyzedSupplyShare": 0.71,
+      "underwaterShare": 0.203,
+      "walls": [
+        {
+          "price": 0.0445,
+          "movePct": 0.0801,
+          "tokens": 28179775,
+          "supplyShare": 0.01922,
+          "wallToLiquidity": 0.66,
+          "alreadyTrimming": 0.12,
+          "holders": 9
+        },
+        {
+          "price": 0.0503,
+          "movePct": 0.2209,
+          "tokens": 87256461,
+          "supplyShare": 0.0595,
+          "wallToLiquidity": 2.31,
+          "alreadyTrimming": 0.34,
+          "holders": 23
+        },
+        {
+          "price": 0.061,
+          "movePct": 0.4806,
+          "tokens": 50459016,
+          "supplyShare": 0.03441,
+          "wallToLiquidity": 1.62,
+          "alreadyTrimming": 0.58,
+          "holders": 11
+        }
+      ],
+      "ladder": [
+        {
+          "lo": 0.018,
+          "hi": 0.0189,
+          "tokens": 7620659,
+          "supplyShare": 0.005196
+        },
+        {
+          "lo": 0.0189,
+          "hi": 0.019845,
+          "tokens": 6423868,
+          "supplyShare": 0.00438
+        },
+        {
+          "lo": 0.019845,
+          "hi": 0.020837,
+          "tokens": 6443180,
+          "supplyShare": 0.004394
+        },
+        {
+          "lo": 0.020837,
+          "hi": 0.021879,
+          "tokens": 15494364,
+          "supplyShare": 0.010566
+        },
+        {
+          "lo": 0.021879,
+          "hi": 0.022973,
+          "tokens": 13105997,
+          "supplyShare": 0.008937
+        },
+        {
+          "lo": 0.022973,
+          "hi": 0.024122,
+          "tokens": 13048240,
+          "supplyShare": 0.008898
+        },
+        {
+          "lo": 0.024122,
+          "hi": 0.025328,
+          "tokens": 5683597,
+          "supplyShare": 0.003876
+        },
+        {
+          "lo": 0.025328,
+          "hi": 0.026594,
+          "tokens": 4293544,
+          "supplyShare": 0.002928
+        },
+        {
+          "lo": 0.026594,
+          "hi": 0.027924,
+          "tokens": 31319807,
+          "supplyShare": 0.021357
+        },
+        {
+          "lo": 0.027924,
+          "hi": 0.02932,
+          "tokens": 40505102,
+          "supplyShare": 0.02762
+        },
+        {
+          "lo": 0.02932,
+          "hi": 0.030786,
+          "tokens": 33561576,
+          "supplyShare": 0.022885
+        },
+        {
+          "lo": 0.030786,
+          "hi": 0.032325,
+          "tokens": 40383615,
+          "supplyShare": 0.027537
+        },
+        {
+          "lo": 0.032325,
+          "hi": 0.033942,
+          "tokens": 4254327,
+          "supplyShare": 0.002901
+        },
+        {
+          "lo": 0.033942,
+          "hi": 0.035639,
+          "tokens": 34576068,
+          "supplyShare": 0.023577
+        },
+        {
+          "lo": 0.035639,
+          "hi": 0.037421,
+          "tokens": 27896832,
+          "supplyShare": 0.019023
+        },
+        {
+          "lo": 0.037421,
+          "hi": 0.039292,
+          "tokens": 5018313,
+          "supplyShare": 0.003422
+        },
+        {
+          "lo": 0.039292,
+          "hi": 0.041256,
+          "tokens": 6961145,
+          "supplyShare": 0.004747
+        },
+        {
+          "lo": 0.041256,
+          "hi": 0.043319,
+          "tokens": 5789711,
+          "supplyShare": 0.003948
+        },
+        {
+          "lo": 0.043319,
+          "hi": 0.045485,
+          "tokens": 28179775,
+          "supplyShare": 0.019216
+        },
+        {
+          "lo": 0.045485,
+          "hi": 0.047759,
+          "tokens": 4318075,
+          "supplyShare": 0.002944
+        },
+        {
+          "lo": 0.047759,
+          "hi": 0.050147,
+          "tokens": 40048868,
+          "supplyShare": 0.027309
+        },
+        {
+          "lo": 0.050147,
+          "hi": 0.052655,
+          "tokens": 47207593,
+          "supplyShare": 0.032191
+        },
+        {
+          "lo": 0.052655,
+          "hi": 0.055287,
+          "tokens": 7042258,
+          "supplyShare": 0.004802
+        },
+        {
+          "lo": 0.055287,
+          "hi": 0.058052,
+          "tokens": 8129667,
+          "supplyShare": 0.005544
+        },
+        {
+          "lo": 0.058052,
+          "hi": 0.060954,
+          "tokens": 26203143,
+          "supplyShare": 0.017868
+        },
+        {
+          "lo": 0.060954,
+          "hi": 0.064002,
+          "tokens": 24255873,
+          "supplyShare": 0.01654
+        },
+        {
+          "lo": 0.064002,
+          "hi": 0.067202,
+          "tokens": 7450654,
+          "supplyShare": 0.005081
+        },
+        {
+          "lo": 0.067202,
+          "hi": 0.070562,
+          "tokens": 6818646,
+          "supplyShare": 0.00465
+        },
+        {
+          "lo": 0.070562,
+          "hi": 0.07409,
+          "tokens": 6175544,
+          "supplyShare": 0.004211
+        }
+      ],
+      "ceiling": "heavy"
+    },
+    "smart": {
+      "status": "ok",
+      "windowDays": 30,
+      "avgEntry": 0.02985,
+      "pnlPct": 0.3802,
+      "wallets": 14,
+      "boughtUsd": 1900000,
+      "soldUsd": 2900000,
+      "netUsd": -1000000,
+      "stance": "trimming",
+      "state": "profit"
+    }
+  },
+  "diagnosis": {
+    "code": "distribution",
+    "rule": 2,
+    "sentence": "Smart money is selling to the crowd.",
+    "confidence": "high",
+    "lights": {
+      "flow": "red",
+      "crowd": "amber",
+      "ceiling": "red"
+    },
+    "footnotes": [
+      "buyers",
+      "flow",
+      "smart"
+    ]
+  },
+  "calls": [
+    {
+      "endpoint": "tgm/token-ohlcv",
+      "status": 200,
+      "credits": 1,
+      "ms": 192,
+      "cached": false,
+      "at": 212,
+      "finding": "context"
+    },
+    {
+      "endpoint": "tgm/flow-intelligence",
+      "status": 200,
+      "credits": 1,
+      "ms": 267,
+      "cached": false,
+      "at": 287,
+      "finding": "context"
+    },
+    {
+      "endpoint": "tgm/token-information",
+      "status": 200,
+      "credits": 1,
+      "ms": 289,
+      "cached": false,
+      "at": 309,
+      "finding": "context"
+    },
+    {
+      "endpoint": "tgm/token-information",
+      "status": 200,
+      "credits": 1,
+      "ms": 321,
+      "cached": false,
+      "at": 341,
+      "finding": "context"
+    },
+    {
+      "endpoint": "tgm/flow-intelligence",
+      "status": 200,
+      "credits": 1,
+      "ms": 359,
+      "cached": false,
+      "at": 379,
+      "finding": "context"
+    },
+    {
+      "endpoint": "tgm/who-bought-sold",
+      "status": 200,
+      "credits": 1,
+      "ms": 522,
+      "cached": false,
+      "at": 917,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "tgm/dex-trades",
+      "status": 200,
+      "credits": 1,
+      "ms": 397,
+      "cached": false,
+      "at": 1322,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "tgm/dex-trades",
+      "status": 200,
+      "credits": 1,
+      "ms": 449,
+      "cached": false,
+      "at": 1374,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 210,
+      "cached": false,
+      "at": 1599,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 222,
+      "cached": false,
+      "at": 1611,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 247,
+      "cached": false,
+      "at": 1636,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 282,
+      "cached": false,
+      "at": 1671,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 286,
+      "cached": false,
+      "at": 1675,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 315,
+      "cached": false,
+      "at": 1704,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 158,
+      "cached": false,
+      "at": 1774,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 190,
+      "cached": false,
+      "at": 1792,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 177,
+      "cached": false,
+      "at": 1911,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 262,
+      "cached": false,
+      "at": 2211,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 271,
+      "cached": false,
+      "at": 2434,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 248,
+      "cached": false,
+      "at": 2625,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 0,
+      "ms": 4,
+      "cached": true,
+      "at": 2632,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 244,
+      "cached": false,
+      "at": 2835,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 293,
+      "cached": false,
+      "at": 3099,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 237,
+      "cached": false,
+      "at": 3257,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 164,
+      "cached": false,
+      "at": 3398,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 255,
+      "cached": false,
+      "at": 3704,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 275,
+      "cached": false,
+      "at": 3938,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 182,
+      "cached": false,
+      "at": 4059,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 157,
+      "cached": false,
+      "at": 4248,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 206,
+      "cached": false,
+      "at": 4512,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 259,
+      "cached": false,
+      "at": 4779,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 212,
+      "cached": false,
+      "at": 4946,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 221,
+      "cached": false,
+      "at": 5170,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 260,
+      "cached": false,
+      "at": 5423,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 182,
+      "cached": false,
+      "at": 5559,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 148,
+      "cached": false,
+      "at": 5739,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 310,
+      "cached": false,
+      "at": 6116,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 210,
+      "cached": false,
+      "at": 6230,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 225,
+      "cached": false,
+      "at": 6459,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 187,
+      "cached": false,
+      "at": 6636,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 183,
+      "cached": false,
+      "at": 6846,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 226,
+      "cached": false,
+      "at": 7103,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 162,
+      "cached": false,
+      "at": 7253,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 200,
+      "cached": false,
+      "at": 7506,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 314,
+      "cached": false,
+      "at": 7834,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 212,
+      "cached": false,
+      "at": 7946,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 318,
+      "cached": false,
+      "at": 8267,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 268,
+      "cached": false,
+      "at": 8431,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 272,
+      "cached": false,
+      "at": 8649,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 170,
+      "cached": false,
+      "at": 8761,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 290,
+      "cached": false,
+      "at": 9096,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 216,
+      "cached": false,
+      "at": 9236,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 244,
+      "cached": false,
+      "at": 9478,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 277,
+      "cached": false,
+      "at": 9726,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 313,
+      "cached": false,
+      "at": 9976,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 179,
+      "cached": false,
+      "at": 10056,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 140,
+      "cached": false,
+      "at": 10231,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 180,
+      "cached": false,
+      "at": 10486,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 237,
+      "cached": false,
+      "at": 10757,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 231,
+      "cached": false,
+      "at": 10965,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 210,
+      "cached": false,
+      "at": 11159,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 212,
+      "cached": false,
+      "at": 11375,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 140,
+      "cached": false,
+      "at": 11517,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 218,
+      "cached": false,
+      "at": 11809,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 182,
+      "cached": false,
+      "at": 11988,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 265,
+      "cached": false,
+      "at": 12285,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 246,
+      "cached": false,
+      "at": 12480,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 309,
+      "cached": false,
+      "at": 12758,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 298,
+      "cached": false,
+      "at": 12961,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 242,
+      "cached": false,
+      "at": 13119,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 189,
+      "cached": false,
+      "at": 13280,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 267,
+      "cached": false,
+      "at": 13573,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 165,
+      "cached": false,
+      "at": 13685,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 198,
+      "cached": false,
+      "at": 13932,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 295,
+      "cached": false,
+      "at": 14244,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 159,
+      "cached": false,
+      "at": 14322,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 188,
+      "cached": false,
+      "at": 14565,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 229,
+      "cached": false,
+      "at": 14820,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 307,
+      "cached": false,
+      "at": 15113,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 190,
+      "cached": false,
+      "at": 15210,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 172,
+      "cached": false,
+      "at": 15406,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 257,
+      "cached": false,
+      "at": 15706,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 307,
+      "cached": false,
+      "at": 15970,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 186,
+      "cached": false,
+      "at": 16063,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 278,
+      "cached": false,
+      "at": 16369,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 229,
+      "cached": false,
+      "at": 16535,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 265,
+      "cached": false,
+      "at": 16785,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 314,
+      "cached": false,
+      "at": 17048,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 260,
+      "cached": false,
+      "at": 17320,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 182,
+      "cached": false,
+      "at": 17345,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 244,
+      "cached": false,
+      "at": 17621,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 216,
+      "cached": false,
+      "at": 17807,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 242,
+      "cached": false,
+      "at": 18048,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 258,
+      "cached": false,
+      "at": 18278,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 298,
+      "cached": false,
+      "at": 18532,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 144,
+      "cached": false,
+      "at": 18593,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 265,
+      "cached": false,
+      "at": 18928,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 313,
+      "cached": false,
+      "at": 19190,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 188,
+      "cached": false,
+      "at": 19279,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 230,
+      "cached": false,
+      "at": 19536,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 262,
+      "cached": false,
+      "at": 19782,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 203,
+      "cached": false,
+      "at": 19937,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 239,
+      "cached": false,
+      "at": 20188,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 164,
+      "cached": false,
+      "at": 20327,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 159,
+      "cached": false,
+      "at": 20536,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 160,
+      "cached": false,
+      "at": 20751,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 267,
+      "cached": false,
+      "at": 21073,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 209,
+      "cached": false,
+      "at": 21229,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 225,
+      "cached": false,
+      "at": 21459,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 142,
+      "cached": false,
+      "at": 21591,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 231,
+      "cached": false,
+      "at": 21894,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 227,
+      "cached": false,
+      "at": 22104,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 204,
+      "cached": false,
+      "at": 22295,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 173,
+      "cached": false,
+      "at": 22479,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 147,
+      "cached": false,
+      "at": 22667,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 314,
+      "cached": false,
+      "at": 23048,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 299,
+      "cached": false,
+      "at": 23248,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 246,
+      "cached": false,
+      "at": 23409,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 290,
+      "cached": false,
+      "at": 23667,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 159,
+      "cached": false,
+      "at": 23750,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 141,
+      "cached": false,
+      "at": 23947,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 196,
+      "cached": false,
+      "at": 24216,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 152,
+      "cached": false,
+      "at": 24386,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 305,
+      "cached": false,
+      "at": 24754,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 287,
+      "cached": false,
+      "at": 24950,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 222,
+      "cached": false,
+      "at": 25099,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 193,
+      "cached": false,
+      "at": 25284,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 298,
+      "cached": false,
+      "at": 25604,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 315,
+      "cached": false,
+      "at": 25835,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 228,
+      "cached": false,
+      "at": 25962,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 151,
+      "cached": false,
+      "at": 26100,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 169,
+      "cached": false,
+      "at": 26332,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 229,
+      "cached": false,
+      "at": 26606,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 261,
+      "cached": false,
+      "at": 26852,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 265,
+      "cached": false,
+      "at": 27071,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 142,
+      "cached": false,
+      "at": 27162,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 305,
+      "cached": false,
+      "at": 27539,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 163,
+      "cached": false,
+      "at": 27612,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 192,
+      "cached": false,
+      "at": 27855,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 247,
+      "cached": false,
+      "at": 28124,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 171,
+      "cached": false,
+      "at": 28262,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 236,
+      "cached": false,
+      "at": 28542,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 168,
+      "cached": false,
+      "at": 28688,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 161,
+      "cached": false,
+      "at": 28895,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 272,
+      "cached": false,
+      "at": 29221,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 167,
+      "cached": false,
+      "at": 29330,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 261,
+      "cached": false,
+      "at": 29638,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 317,
+      "cached": false,
+      "at": 29908,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 145,
+      "cached": false,
+      "at": 29951,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "profiler/address/first-funder",
+      "status": 200,
+      "credits": 1,
+      "ms": 185,
+      "cached": false,
+      "at": 30205,
+      "finding": "buyers"
+    },
+    {
+      "endpoint": "tgm/flows",
+      "status": 200,
+      "credits": 1,
+      "ms": 290,
+      "cached": false,
+      "at": 30524,
+      "finding": "flow"
+    },
+    {
+      "endpoint": "tgm/flows",
+      "status": 200,
+      "credits": 1,
+      "ms": 314,
+      "cached": false,
+      "at": 30763,
+      "finding": "flow"
+    },
+    {
+      "endpoint": "tgm/flows",
+      "status": 200,
+      "credits": 1,
+      "ms": 429,
+      "cached": false,
+      "at": 31092,
+      "finding": "flow"
+    },
+    {
+      "endpoint": "tgm/flows",
+      "status": 200,
+      "credits": 1,
+      "ms": 436,
+      "cached": false,
+      "at": 31313,
+      "finding": "flow"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 759,
+      "cached": false,
+      "at": 32084,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 846,
+      "cached": false,
+      "at": 32171,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 860,
+      "cached": false,
+      "at": 32380,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 676,
+      "cached": false,
+      "at": 32410,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 842,
+      "cached": false,
+      "at": 32791,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/who-bought-sold",
+      "status": 200,
+      "credits": 1,
+      "ms": 620,
+      "cached": false,
+      "at": 32997,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/who-bought-sold",
+      "status": 200,
+      "credits": 1,
+      "ms": 425,
+      "cached": false,
+      "at": 33016,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/holders",
+      "status": 200,
+      "credits": 5,
+      "ms": 875,
+      "cached": false,
+      "at": 33038,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 179,
+      "cached": false,
+      "at": 33225,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 260,
+      "cached": false,
+      "at": 33306,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 146,
+      "cached": false,
+      "at": 33380,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 311,
+      "cached": false,
+      "at": 33760,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 321,
+      "cached": false,
+      "at": 33984,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 347,
+      "cached": false,
+      "at": 34224,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 173,
+      "cached": false,
+      "at": 34479,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 414,
+      "cached": false,
+      "at": 34505,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 238,
+      "cached": false,
+      "at": 34758,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 190,
+      "cached": false,
+      "at": 34924,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 150,
+      "cached": false,
+      "at": 35099,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 306,
+      "cached": false,
+      "at": 35469,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 397,
+      "cached": false,
+      "at": 35774,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 200,
+      "cached": false,
+      "at": 35791,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 288,
+      "cached": false,
+      "at": 36094,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 120,
+      "cached": false,
+      "at": 36140,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 191,
+      "cached": false,
+      "at": 36425,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 320,
+      "cached": false,
+      "at": 36769,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 120,
+      "cached": false,
+      "at": 36783,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 355,
+      "cached": false,
+      "at": 37232,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 349,
+      "cached": false,
+      "at": 37440,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 202,
+      "cached": false,
+      "at": 37508,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 371,
+      "cached": false,
+      "at": 37891,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 207,
+      "cached": false,
+      "at": 37941,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 266,
+      "cached": false,
+      "at": 38215,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 418,
+      "cached": false,
+      "at": 38581,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 210,
+      "cached": false,
+      "at": 38587,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 416,
+      "cached": false,
+      "at": 39007,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 250,
+      "cached": false,
+      "at": 39056,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 364,
+      "cached": false,
+      "at": 39384,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 282,
+      "cached": false,
+      "at": 39516,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 268,
+      "cached": false,
+      "at": 39717,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 351,
+      "cached": false,
+      "at": 40014,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 234,
+      "cached": false,
+      "at": 40111,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 417,
+      "cached": false,
+      "at": 40508,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 322,
+      "cached": false,
+      "at": 40628,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 226,
+      "cached": false,
+      "at": 40746,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 286,
+      "cached": false,
+      "at": 41020,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 302,
+      "cached": false,
+      "at": 41251,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 322,
+      "cached": false,
+      "at": 41485,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 165,
+      "cached": false,
+      "at": 41542,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 293,
+      "cached": false,
+      "at": 41884,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 361,
+      "cached": false,
+      "at": 42167,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 252,
+      "cached": false,
+      "at": 42272,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 372,
+      "cached": false,
+      "at": 42606,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 333,
+      "cached": false,
+      "at": 42782,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 294,
+      "cached": false,
+      "at": 42957,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 263,
+      "cached": false,
+      "at": 43140,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 245,
+      "cached": false,
+      "at": 43336,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 159,
+      "cached": false,
+      "at": 43465,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 263,
+      "cached": false,
+      "at": 43783,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 129,
+      "cached": false,
+      "at": 44078,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 393,
+      "cached": false,
+      "at": 44127,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 161,
+      "cached": false,
+      "at": 44324,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 415,
+      "cached": false,
+      "at": 44792,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 323,
+      "cached": false,
+      "at": 44914,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 395,
+      "cached": false,
+      "at": 45201,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 320,
+      "cached": false,
+      "at": 45340,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 280,
+      "cached": false,
+      "at": 45514,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 317,
+      "cached": false,
+      "at": 45766,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 390,
+      "cached": false,
+      "at": 46053,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 199,
+      "cached": false,
+      "at": 46076,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 132,
+      "cached": false,
+      "at": 46223,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 246,
+      "cached": false,
+      "at": 46552,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 397,
+      "cached": false,
+      "at": 46917,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 297,
+      "cached": false,
+      "at": 47031,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 230,
+      "cached": false,
+      "at": 47179,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 174,
+      "cached": false,
+      "at": 47337,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 348,
+      "cached": false,
+      "at": 47725,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 379,
+      "cached": false,
+      "at": 47970,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 194,
+      "cached": false,
+      "at": 48000,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 338,
+      "cached": false,
+      "at": 48358,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 199,
+      "cached": false,
+      "at": 48433,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 257,
+      "cached": false,
+      "at": 48706,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 121,
+      "cached": false,
+      "at": 48784,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 158,
+      "cached": false,
+      "at": 49035,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 272,
+      "cached": false,
+      "at": 49363,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 226,
+      "cached": false,
+      "at": 49532,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 249,
+      "cached": false,
+      "at": 49769,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 287,
+      "cached": false,
+      "at": 50021,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 350,
+      "cached": false,
+      "at": 50299,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 127,
+      "cached": false,
+      "at": 50504,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 366,
+      "cached": false,
+      "at": 50529,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "profiler/address/pnl",
+      "status": 200,
+      "credits": 1,
+      "ms": 161,
+      "cached": false,
+      "at": 50752,
+      "finding": "walls"
+    },
+    {
+      "endpoint": "tgm/who-bought-sold",
+      "status": 200,
+      "credits": 1,
+      "ms": 529,
+      "cached": false,
+      "at": 51335,
+      "finding": "smart"
+    },
+    {
+      "endpoint": "tgm/who-bought-sold",
+      "status": 200,
+      "credits": 1,
+      "ms": 598,
+      "cached": false,
+      "at": 51618,
+      "finding": "smart"
+    }
+  ],
+  "totals": {
+    "calls": 248,
+    "networkCalls": 247,
+    "credits": 271,
+    "cacheHits": 1,
+    "durationMs": 51677
+  },
+  "synthetic": true
+}
