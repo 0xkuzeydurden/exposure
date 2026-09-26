@@ -42,11 +42,15 @@ cd /opt/exposure && docker compose up -d --build
 ```
 
 Without a domain the site is served over HTTP on the server's IP. With a domain, point its DNS at the
-server and start Caddy with the domain so it fetches a certificate:
+server and put the Caddy settings in `/opt/exposure/.env` (read by Docker Compose, never committed), then
+restart so Caddy fetches a certificate:
 
 ```bash
-SITE_ADDRESS=exposure.example docker compose up -d
+echo 'SITE_ADDRESS="exposure.example, www.exposure.example"' > /opt/exposure/.env
+docker compose up -d
 ```
+
+`www.` redirects to the bare domain.
 
 Behind Cloudflare's proxy, also pass Cloudflare's IP ranges
 (https://www.cloudflare.com/ips/) as `TRUSTED_PROXIES` (space separated) so the per-visitor limits see the

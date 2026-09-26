@@ -7,6 +7,10 @@
 }
 
 {$SITE_ADDRESS} {
+	# www.<domain> redirects to the bare domain (never matches when serving the plain IP).
+	@www header_regexp www Host ^www\.(.+)$
+	redir @www https://{re.www.1}{uri} permanent
+
 	encode zstd gzip
 
 	# Visitors must not choose their own IP for the per-visitor credit limits: drop the headers the

@@ -29,7 +29,7 @@ const jetbrains = JetBrains_Mono({
 const TAGLINE = "Every chart shows you the price. EXPOSURE shows who's behind it.";
 const DESCRIPTION = `${TAGLINE} Paste a token and EXPOSURE takes an x-ray: who really bought it, who is selling to whom, where sellers are waiting and whether smart money is in profit. Powered by Nansen API.`;
 
-/** Absolute base for Open Graph URLs: SITE_URL, else the Vercel deployment URL, else localhost. */
+/** Absolute base for Open Graph URLs: SITE_URL, else the Vercel deployment URL, else the public site in production and localhost in development. */
 function siteUrl(): URL {
   const explicit = process.env.SITE_URL?.trim();
   if (explicit) {
@@ -40,7 +40,8 @@ function siteUrl(): URL {
     }
   }
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
-  return new URL(vercel ? `https://${vercel}` : "http://localhost:3000");
+  if (vercel) return new URL(`https://${vercel}`);
+  return new URL(process.env.NODE_ENV === "production" ? "https://exposure.clinic" : "http://localhost:3000");
 }
 
 export const metadata: Metadata = {
