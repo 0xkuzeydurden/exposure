@@ -10,10 +10,7 @@ sellers are waiting and whether smart money is in profit. A typed radiology repo
 findings and one plain-English diagnosis, and every number on it traces back to a listed Nansen API
 call.
 
-<!-- TODO(demo): record docs/demo.gif (see "Recording mode") and uncomment the next line. -->
-<!-- ![EXPOSURE taking an x-ray of GSTOCK on BNB Chain](docs/demo.gif) -->
-
-**Live:** [exposure.clinic](https://exposure.clinic) · **Demo video (60 s):** TODO: link to the X post · **Run it yourself:** three commands, no API key, below.
+**Live:** [exposure.clinic](https://exposure.clinic) · **Demo video (60 s):** [on X](https://x.com/exposurexray/status/2103934180379730050) · **Run it yourself:** three commands, no API key, below.
 
 Built for the **Nansen Meridian Buildathon** (September 2026). Data: [Nansen API](https://www.nansen.ai).
 Not financial advice.
