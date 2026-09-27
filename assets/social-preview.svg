@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">EXPOSURE — project cover</title>
+  <desc id="desc">An x-ray for token activity. Explainable reports. Recorded replays. An abstract project cover by 0xkuzeydurden, not an application screenshot.</desc>
+  <defs>
+    <radialGradient id="glow" cx="82%" cy="44%" r="74%"><stop offset="0" stop-color="#16483F" stop-opacity=".72"/><stop offset=".75" stop-color="#080E18" stop-opacity="0"/></radialGradient>
+    <linearGradient id="rule"><stop stop-color="#79F0DA" stop-opacity=".75"/><stop offset="1" stop-color="#79F0DA" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1280" height="640" fill="#080E18"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+  <g stroke="#D1E2FF" stroke-width="1" opacity=".035"><path d="M0 0V640"/><path d="M80 0V640"/><path d="M160 0V640"/><path d="M240 0V640"/><path d="M320 0V640"/><path d="M400 0V640"/><path d="M480 0V640"/><path d="M560 0V640"/><path d="M640 0V640"/><path d="M720 0V640"/><path d="M800 0V640"/><path d="M880 0V640"/><path d="M960 0V640"/><path d="M1040 0V640"/><path d="M1120 0V640"/><path d="M1200 0V640"/><path d="M1280 0V640"/><path d="M0 0H1280"/><path d="M0 80H1280"/><path d="M0 160H1280"/><path d="M0 240H1280"/><path d="M0 320H1280"/><path d="M0 400H1280"/><path d="M0 480H1280"/><path d="M0 560H1280"/><path d="M0 640H1280"/></g>
+  <path d="M810 120V483" stroke="#79F0DA" stroke-width="1" opacity=".13"/>
+  <rect x="82" y="118" width="90" height="3" rx="1.5" fill="#79F0DA"/>
+  <g font-family="DejaVu Sans, Arial, sans-serif" fill="#F5F8FD">
+    <text x="82" y="79" font-size="19" font-weight="600" letter-spacing=".1">0xkuzeydurden</text>
+    <text x="1200" y="79" text-anchor="end" font-size="13" font-weight="600" letter-spacing="2.4" fill="#79F0DA">ONCHAIN ANALYTICS</text>
+    <text x="78" y="286" font-size="98" font-weight="700" letter-spacing="-5">EXPOSURE</text>
+    <text x="82" y="394" font-size="25" fill="#CBD5E1">An x-ray for token activity.</text><text x="82" y="433" font-size="25" fill="#CBD5E1">Explainable reports. Recorded replays.</text>
+    <text x="82" y="482" font-size="12" font-weight="600" letter-spacing="1.55" fill="#79F0DA">NANSEN DATA  /  TOKEN RESEARCH</text>
+    <path d="M82 529H1200" stroke="url(#rule)" stroke-width="1"/>
+    <text x="82" y="578" font-size="17" font-weight="600" fill="#E1E8F0">exposure</text>
+    <text x="1200" y="578" text-anchor="end" font-size="12" letter-spacing="1.7" fill="#8392A5">PROJECT COVER</text>
+  </g>
+  <g transform="translate(1010 286)" fill="none" stroke="#79F0DA" stroke-linecap="round" stroke-linejoin="round"><circle r="114" stroke-width="1.5" opacity=".28"/>
+        <circle r="82" stroke-width="2" opacity=".45"/>
+        <circle r="49" stroke-width="2.5"/><circle r="12" fill="#79F0DA" stroke="none"/>
+        <path d="M-135 0H-23M23 0H135M0-135V-23M0 23V135" stroke-width="2" opacity=".75"/>
+        <path d="M-92-92L-75-75M75-75L92-92M-92 92L-75 75M75 75L92 92" stroke-width="2"/>
+        <path d="M-116-64A132 132 0 0 1 64-116" stroke-width="5"/>
+        <path d="M116 64A132 132 0 0 1-64 116" stroke-width="5"/>
+        <rect x="-158" y="-9" width="316" height="18" fill="#79F0DA" stroke="none" opacity=".045"/></g>
+</svg>

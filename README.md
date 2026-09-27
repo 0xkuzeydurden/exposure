@@ -1,6 +1,10 @@
 # EXPOSURE
 
+[![CI](https://github.com/0xkuzeydurden/exposure/actions/workflows/ci.yml/badge.svg)](https://github.com/0xkuzeydurden/exposure/actions/workflows/ci.yml)
+
 ### An x-ray for any token.
+
+Nansen-powered token analytics with explainable reports and recorded demos that replay without an API key.
 
 **Every chart shows you the price. EXPOSURE shows who's behind it.**
 
@@ -11,6 +15,8 @@ findings and one plain-English diagnosis, and every number on it traces back to 
 call.
 
 **Live:** [exposure.clinic](https://exposure.clinic) · **Demo video (60 s):** [on X](https://x.com/exposurexray/status/2103934180379730050) · **Run it yourself:** three commands, no API key, below.
+
+![EXPOSURE recorded token scan with a price film and analytics report](assets/preview.jpg)
 
 Built for the **Nansen Meridian Buildathon** (September 2026). Data: [Nansen API](https://www.nansen.ai).
 Not financial advice.
